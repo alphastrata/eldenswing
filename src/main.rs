@@ -1,53 +1,28 @@
-mod ingame;
+use gilrs::{Button, Event, Gilrs};
 
-use chrono::prelude::*;
-use ingame::quit_from_game;
-use std::thread;
-use std::time::Duration;
-use winput::message_loop::{self, EventReceiver};
-use winput::{Action, Vk};
-
-fn read_inputs_from_os(receiver: &EventReceiver) -> Vk {
-    loop {
-        match receiver.next_event() {
-            message_loop::Event::Keyboard {
-                vk,
-                action: Action::Press,
-                ..
-            } => {
-                if vk == Vk::Escape {
-                    println!("Escape pressed");
-                } else {
-                    return vk;
-                }
-            }
-            _ => (),
-        }
-    }
-}
-
+/// This example is used to read dualshock4 data after playstation firmaware update 5.50
 fn main() {
-    let receiver = message_loop::start().unwrap();
-    thread::sleep(Duration::from_secs(3));
-    // let _ = quit_from_game();
-    // let _ = quit_from_main_menu();
-    println!("START: {:?}", Utc::now());
-    let mut q_count = 0;
+    let mut gilrs = Gilrs::new().unwrap();
+
+    // Iterate over all connected gamepads
+    for (_id, gamepad) in gilrs.gamepads() {
+        println!("{} is {:?}", gamepad.name(), gamepad.power_info());
+    }
+
+    let mut active_gamepad = None;
 
     loop {
-        let vk = read_inputs_from_os(&receiver);
-        if vk == winput::Vk::Q {
-            q_count += 1;
-            println!("Q count is {:?}", q_count);
-        } else {
-            println!("KEY: {:?}", vk);
+        // Examine new events
+        while let Some(Event { id, event, time }) = gilrs.next_event() {
+            println!("{:?} New event from {}: {:?}", time, id, event);
+            active_gamepad = Some(id);
         }
-        if q_count == 3 {
-            println!("Quitting from game");
-            quit_from_game();
-            println!("QUIT : {:?}", Utc::now());
 
-            break;
+        // You can also use cached gamepad state
+        if let Some(gamepad) = active_gamepad.map(|id| gilrs.gamepad(id)) {
+            if gamepad.is_pressed(Button::South) {
+                println!("Button South is pressed (XBox - A, PS - X)");
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 enigo = "0.0.14"
-inputbot = "0.5.1"
-winput = "0.*"
 chrono = "*"
+hidapi = "0.4.1"
+dualshock4 = "0.1.0"
+gilrs = "0.8.2"
