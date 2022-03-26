@@ -1,4 +1,5 @@
 mod ingame;
+mod os_reader;
 
 use enigo::*;
 use std::time::Duration;
@@ -43,23 +44,12 @@ fn turn(d: CompassDegree, lr: LR) {
     println!("Turning 90s{:?}", rotation);
     ingame::walk_fwd(2);
 }
+// +=====+======+ MAIN +=====+======+
 fn main() {
     println!("Hello, world!");
-    std::thread::sleep(Duration::from_secs(2)); // NOTE to get into position.
+    std::thread::sleep(Duration::from_secs(2)); // allow alt-tab time...
     let mut quit_counter = 0;
-    loop {
-        std::thread::sleep(Duration::from_millis(20)); // NOTE to get into position.
-        if ingame::check_quit_call() {
-            quit_counter += 1;
-            if quit_counter == 3 {
-                println!("Quit call");
-                ingame::quit_from_game();
-                break;
-            }
-        } else {
-            quit_counter = 0;
-        }
-    }
+    os_reader::check_quit_call(); // this runs its own loop....
 }
 fn test_square_walk() {
     // walk in a square...
