@@ -46,21 +46,23 @@ fn turn(d: CompassDegree, lr: LR) {
 }
 // +=====+======+ MAIN +=====+======+
 fn main() {
-    println!("Hello, world!");
-    std::thread::sleep(Duration::from_secs(2)); // allow alt-tab time...
-    let mut quit_counter = 0;
-    os_reader::check_quit_call(); // this runs its own loop....
-}
-fn test_square_walk() {
-    // walk in a square...
-    for i in 0..4 {
-        ingame::reset_camera();
-        // walk forward by 100
-        ingame::walk_fwd(80);
-        // turn right by 90
-        turn(CompassDegree::ninety, LR::Right);
+    loop {
+        println!("Hello, world!");
+        os_reader::check_quit_call(true); // this runs its own loop....
+        std::thread::sleep(Duration::from_secs(8));
     }
 }
+//
+// fn test_square_walk() {
+//     // walk in a square...
+//     for i in 0..4 {
+//         ingame::reset_camera();
+//         // walk forward by 100
+//         ingame::walk_fwd(80);
+//         // turn right by 90
+//         turn(CompassDegree::ninety, LR::Right);
+//     }
+// }
 
 //     //standing -1 from West
 //     ingame::reset_camera();
