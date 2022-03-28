@@ -1,10 +1,14 @@
 mod ingame;
 mod os_reader;
 
+use anyhow::{anyhow, Result};
+use chrono::prelude::*;
 use enigo::*;
 use std::time::Duration;
 
+use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
+const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
 
 #[derive(Debug)]
 enum CompassDegree {
@@ -46,12 +50,24 @@ fn turn(d: CompassDegree, lr: LR) {
 }
 //
 // +=====+======+ MAIN +=====+======+
-fn main() {
+fn main() -> Result<()> {
+    println!("Hello, world!");
+
+    let receiver = message_loop::start().expect("unable to read OS events...");
+
     os_reader::check_monitors();
-    // os_reader::screenshot();
+
+    let mut q_count = 0;
+
     loop {
-        println!("Hello, world!");
-        os_reader::check_quit_call(true); // this runs its own loop....
-        std::thread::sleep(Duration::from_secs(8)); // let you get back into game before re-running..
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE));
+        q_count = os_reader::check_quit_call(&receiver, true, &mut q_count)?;
+        let screenshot = os_reader::check_screenshot(&receiver)?;
+        if os_reader::file_exists(&screenshot) {
+            println!("{:?}\tScreenshot found.", Utc::now());
+        }
     }
+
+    #[allow(unreachable_code)]
+    Ok(())
 }

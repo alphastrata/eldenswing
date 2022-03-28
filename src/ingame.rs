@@ -139,6 +139,7 @@ pub fn quit_from_game() -> bool {
     yes.move_to(refrate);
     yes.enter(refrate);
 
+    thread::sleep(Duration::from_secs(3)); // this menu takes a while
     true
 }
 fn quit_from_main_menu() -> bool {
