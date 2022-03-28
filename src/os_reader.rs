@@ -1,4 +1,10 @@
 use chrono::prelude::*;
+use enigo::*;
+use scrap::{Capturer, Display};
+use std::fs::File;
+use std::io::ErrorKind::WouldBlock;
+use std::thread;
+use std::time::Duration;
 use winput::message_loop::{self, EventReceiver};
 use winput::{Action, Vk};
 
@@ -38,6 +44,98 @@ pub fn check_quit_call(verbose: bool) {
             println!("{:?}\tQuitcall.", Utc::now());
             crate::ingame::quit_from_game();
             println!("{:?}\tQuit.", Utc::now());
+            break;
+        }
+    }
+}
+
+pub fn check_sysreq(verbose: bool) {
+    println!("{:?}\tChecking for printscreen.", Utc::now());
+    let receiver = message_loop::start().unwrap();
+    let mut q_count = 0;
+    let mut enigo = Enigo::new();
+
+    loop {
+        let vk = read_inputs_from_os(&receiver, verbose);
+        if vk == winput::Vk::J {
+            q_count += 1;
+            println!("Q count is {:?}", q_count);
+        } else {
+            println!("KEY: {:?}", vk);
+        }
+        if q_count == 3 {
+            println!("{:?}\tprintcall.", Utc::now());
+            enigo.key_down(Key::Meta);
+            enigo.key_click(Key::Raw(44));
+            enigo.key_up(Key::Meta);
+            println!("{:?}\tsaved.", Utc::now());
+            break;
+        }
+    }
+}
+
+pub fn check_monitors() {
+    let displays = Display::all().expect("Unable to index displays");
+
+    for (i, display) in displays.iter().enumerate() {
+        println!(
+            "Display {} [{}x{}]",
+            i + 1,
+            display.width(),
+            display.height()
+        );
+    }
+}
+
+pub fn screenshot() {
+    let one_second = Duration::new(1, 0);
+    let one_frame = one_second / 60;
+
+    let display = Display::primary().expect("Couldn't find primary display.");
+    let mut capturer = Capturer::new(display).expect("Couldn't begin capture.");
+    let (w, h) = (capturer.width(), capturer.height());
+
+    let mut max_shots = 0;
+    loop {
+        // Wait until there's a frame.
+        while max_shots < 5 {
+            let buffer = match capturer.frame() {
+                Ok(buffer) => buffer,
+                Err(error) => {
+                    if error.kind() == WouldBlock {
+                        // Keep spinning.
+                        thread::sleep(one_frame);
+                        continue;
+                    } else {
+                        panic!("Error: {}", error);
+                    }
+                }
+            };
+            //
+            // Flip the ARGB image into a BGRA image.
+            let mut bitflipped = Vec::with_capacity(w * h * 4);
+            let stride = buffer.len() / h;
+
+            for y in 0..h {
+                for x in 0..w {
+                    let i = stride * y + 4 * x;
+                    bitflipped.extend_from_slice(&[buffer[i + 2], buffer[i + 1], buffer[i], 255]);
+                }
+            }
+
+            // Save the image.
+            let filename = format!("screenshot_{}.png", Utc::now().timestamp());
+
+            repng::encode(
+                File::create(filename).unwrap(),
+                w as u32,
+                h as u32,
+                &bitflipped,
+            )
+            .unwrap();
+
+            println!("Image saved ");
+            max_shots += 1;
             break;
         }
     }
