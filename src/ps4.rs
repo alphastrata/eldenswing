@@ -1,3 +1,4 @@
+// NOTE: this only works on Linux for the moment...
 use gilrs::{Button, Event, Gilrs};
 
 fn read_ps4_output() {

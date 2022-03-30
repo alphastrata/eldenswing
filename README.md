@@ -36,7 +36,7 @@ cargo build --release
   - Comparison calls' results imgA.png and imgB.png are ~80% match
   - Errors
 
-- []
+- [] Try ps4 remote read/injection with bevy (gilrs not working on windows)
 - []
 - []
 - []
@@ -46,5 +46,16 @@ cargo build --release
 - A speed quit tool, press `j` three times consequitvely to quit faster than is humanly possible (by spamming the UI in game) therefore, _NOT_ making that FromSoftware BS warning about quitting with the task-mngr from popping up.
 
 - Moog-run, a tool to automate Moog runs, using the Golden Wave Weapon Art.
+
+* THE PROCESS: ~~60k/full run...
+
+1. Moghyn port (map, triangle x, leftarrow, x)
+2. Walk to ROCKONE
+3. L2
+4. Walk to ROCKTWO
+5. L2
+6. Walk to ravine bot
+7. L2
+   REPEAT
 
 - Gear Swap...
