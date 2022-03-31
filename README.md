@@ -13,6 +13,16 @@ cargo build --release
 
 ```
 
+Keybindings:
+
+```
+j -- hit 3 times to speedquit
+o -- hit once to speedrun Mog
+i -- hit once to walk a Mog run
+m -- hit once to stop EldenSwing
+x -- emergency quit
+```
+
 - Whilst running it'll quit you out of the actual game into the main menu if you tripple tap 'j'.
 
 # TODO:
@@ -22,11 +32,14 @@ cargo build --release
 - [] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV
 - [] if you do get a %match, what does that mean?
 - [] Can you match a grace, then orient towards it to make it centre screen?
-- [] Ask Pavel for some ideas
+- [x] Ask Pavel for some ideas
 - [] Get a trimmer working (i.e crop a specific region of screen, like the compass)
 - [] Computer vision to recognise soul count?
-- [] Sort out Dir Structure: [Screengrabs] [Logs]
-- [] Get monitor resolution, make all magic consts relative to it
+- [] Take footage of a manual and automated run, whip up a quick script to take frames from them
+- [] Pavel suggested taking the avg of the target from say 100 images then match on that.
+- [] get the Akaze thing working and get some numbers around how much of a match things are... what's acceptable?
+- [] Sort out Dir Structure: [Screengrabs] [Logs] [Config] [Assets] [Other]
+- [x] Get monitor resolution, [-]make all magic consts relative to it
 - [] Error handling you scum
 - [] Get some logging going:
 
@@ -36,7 +49,7 @@ cargo build --release
   - Comparison calls' results imgA.png and imgB.png are ~80% match
   - Errors
 
-- [] Try ps4 remote read/injection with bevy (gilrs not working on windows)
+- [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
 - []
 - []
 - []
