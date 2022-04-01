@@ -82,6 +82,15 @@ impl PlayerController {
         enigo.key_up(enigo::Key::Layout('w'));
     }
 
+    // TODO: make a walk_fwd based on frames
+    pub fn walk_by_frames(&self, f: usize, enigo: &mut Enigo) {
+        for _ in 0..f as usize {
+            std::thread::sleep(Duration::from_millis(REFRESH_RATE))
+            enigo.key_click(enigo::Key::Layout('w'));
+        }
+        enigo.key_up(enigo::Key::Layout('w'));
+    }
+    // DEPRICATED
     pub fn run_fwd(&self, t: u64, enigo: &mut Enigo) {
         enigo.key_down(enigo::Key::Space);
         enigo.key_down(enigo::Key::Layout('w'));
