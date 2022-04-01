@@ -78,8 +78,15 @@ impl PlayerController {
     }
     // Try to turn over a time-period of frames, ideally combine it with a walk so that
     // you can walk in something other than straight lines...
-    pub fn turn_by_frames(&self, enigo: &mut Enigo, d1: CompassDegree, d2: CompassDegree, f: usize, lr: LR) {
-    todo!();
+    pub fn turn_by_frames(
+        &self,
+        enigo: &mut Enigo,
+        d1: CompassDegree,
+        d2: CompassDegree,
+        f: usize,
+        lr: LR,
+    ) {
+        todo!();
     }
     pub fn walk_fwd(&self, t: usize, enigo: &mut Enigo) {
         for _ in 0..t as usize {
@@ -91,7 +98,7 @@ impl PlayerController {
     // TODO: make a walk_fwd based on frames
     pub fn walk_by_frames(&self, f: usize, enigo: &mut Enigo) {
         for _ in 0..f as usize {
-            std::thread::sleep(Duration::from_millis(REFRESH_RATE))
+            std::thread::sleep(Duration::from_millis(REFRESH_RATE));
             enigo.key_click(enigo::Key::Layout('w'));
         }
         enigo.key_up(enigo::Key::Layout('w'));
@@ -198,7 +205,7 @@ impl MogRun {
                                                                  // player.l2(enigo);
         player.walk_fwd(t2, enigo);
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7300));
+        std::thread::sleep(Duration::from_millis(7500));
         self.teleport(enigo, player);
     }
     // Identical to the above, but with 'space' held down -- so your player should RUN

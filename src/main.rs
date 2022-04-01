@@ -48,29 +48,30 @@ fn main() -> Result<()> {
 
     let mut count = 0;
     let total_time = Utc::now();
+    let w1 = 98;
+    let w2 = 80;
 
     loop {
         let runstart = Utc::now();
         println!("RUN: {} {:^40}", count, runstart.format("%H:%M:%S"));
+
+        // the actual run
         enigo.key_down(Key::Space);
-        mogrun.run(&mut enigo, &player, 100, 110);
+        mogrun.run(&mut enigo, &player, w1, w2);
         enigo.key_up(Key::Space);
-        std::thread::sleep(Duration::from_millis(5100));
+        std::thread::sleep(Duration::from_millis(4900));
         count += 1;
         let runfinish = Utc::now();
 
+        // timers for user feedback etc
         println!("END: {} {:^40}", count, runfinish.format("%H:%M:%S"));
-        println!("\tSPLIT: {}", runstart - runfinish);
         println!(
-            "RUNTIME: {}",
-            Utc::now().signed_duration_since(total_time).num_seconds()
+            "\tSPLIT: {} \t *in seconds.",
+            (runfinish - runstart).num_seconds()
         );
-
-        let elapsed = Utc::now() - total_time;
-        println!("{} RUNS completed in :{}", RUNS, elapsed);
         println!(
-            "AVG SECONDS / RUN: {}",
-            (RUNS as i64 / elapsed.num_seconds()) as f64
+            "RUNTIME: {} \t*in minutes.",
+            Utc::now().signed_duration_since(total_time).num_minutes()
         );
     }
 
