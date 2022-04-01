@@ -45,7 +45,7 @@ pub enum LR {
 // simple struct to simplify player control
 pub struct PlayerController {}
 impl PlayerController {
-    pub fn centre_joypad(enigo: &mut Enigo) {
+    pub fn centre_joypad(&self, enigo: &mut Enigo) {
         enigo.mouse_move_to(1280, 720);
     }
     pub fn interact(&self, enigo: &mut Enigo, refrate: u64) {
@@ -79,14 +79,21 @@ impl PlayerController {
         for _ in 0..t as usize {
             enigo.key_click(enigo::Key::Layout('w'));
         }
+        enigo.key_up(enigo::Key::Layout('w'));
     }
 
-    pub fn run_fwd(&self, t: usize, enigo: &mut Enigo) {
+    pub fn run_fwd(&self, t: u64, enigo: &mut Enigo) {
         enigo.key_down(enigo::Key::Space);
-        for _ in 0..t as usize {
-            enigo.key_click(enigo::Key::Layout('w'));
-        }
-        // enigo.key_up(enigo::Key::Space);
+        enigo.key_down(enigo::Key::Layout('w'));
+        println!("running");
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
+
+        std::thread::sleep(Duration::from_millis(t));
+
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
+        enigo.key_up(enigo::Key::Space);
+        enigo.key_up(enigo::Key::Layout('w'));
+        println!("Keys up..");
     }
     pub fn l2(&self, enigo: &mut Enigo) {
         enigo.key_click(enigo::Key::Layout('p'));
@@ -169,24 +176,45 @@ impl MogRun {
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
-    pub fn run(&self, enigo: &mut Enigo, player: &PlayerController) {
-        player.walk_fwd(190, enigo);
+    pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, t1: usize, t2: usize) {
+        println!("RUN CALLED");
+        player.walk_fwd(t1, enigo);
         player.turn(enigo, CompassDegree::fourtyfive, LR::Left); //left?
+                                                                 // player.l2(enigo);
+        player.walk_fwd(t2, enigo);
         player.l2(enigo);
-        player.walk_fwd(420, enigo);
-        player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(6189));
+        std::thread::sleep(Duration::from_millis(7300));
         self.teleport(enigo, player);
     }
     // Identical to the above, but with 'space' held down -- so your player should RUN
-    pub fn speedrun(&self, enigo: &mut Enigo, player: &PlayerController) {
-        player.run_fwd(80, enigo);
-        player.turn(enigo, CompassDegree::fourtyfive, LR::Left); //left?
-        player.l2(enigo);
-        player.run_fwd(300, enigo);
-        player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(6200));
-        enigo.key_up(Key::Space);
-        self.teleport(enigo, player);
+    pub fn speedrun(&self, enigo: &mut Enigo, player: &PlayerController, RUNS: usize) {
+        println!("SPEEDRUN CALLED");
+        let total_time = Utc::now();
+        std::thread::sleep(Duration::from_millis(3000));
+
+        let runstart = Utc::now();
+        for r in 0..RUNS {
+            enigo.key_down(Key::Space);
+            self.run(enigo, player, 140, 320);
+            println!("RUN: {} {:^40}", r, runstart.format("%H:%M:%S"));
+
+            let runfinish = Utc::now();
+            enigo.key_up(Key::Space);
+            self.teleport(enigo, player);
+
+            println!("END: {} {:^40}", r, runfinish.format("%H:%M:%S"));
+            println!("SPLIT: {}", runfinish - runstart);
+            println!(
+                "RUNTIME: {}",
+                Utc::now().signed_duration_since(total_time).num_seconds()
+            );
+
+            let elapsed = Utc::now() - total_time;
+            println!("{} RUNS completed in :{}", RUNS, elapsed);
+            println!(
+                "AVG SECONDS / RUN: {}",
+                (elapsed.num_seconds() / RUNS as i64)
+            );
+        }
     }
 }

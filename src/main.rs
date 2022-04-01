@@ -7,12 +7,14 @@ use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
 use enigo::*;
 use gamepad::*;
 use gilrs::{Button, Event, Gilrs};
+use std::thread::JoinHandle;
 use std::time::Duration;
 use winput::Vk;
 
 use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
+const RUNS: usize = 2;
 
 //
 // +=====+======+ MAIN +=====+======+
@@ -20,61 +22,87 @@ fn main() -> Result<()> {
     println!("Hello, world!");
     os_reader::check_monitors();
 
+    // keyboard and event reader stuff
     let receiver = message_loop::start().expect("unable to read OS events...");
-    let vk = os_reader::read_inputs_from_os(&receiver, true);
     let mut enigo = Enigo::new();
 
+    // ingame constants
     let one_second = Duration::from_millis(1000);
     let one_frame = one_second / 60;
 
+    // construct hepler structs to make gameplay easier to control
     let gamemenu = controller::GameMenus::new();
     let player = controller::PlayerController::new();
     let mogrun = controller::MogRun::new();
 
     let mut q_count = 0;
-    // let mut count = 0;
 
     // start at Mog
+    println!("App running.");
+    println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     std::thread::sleep(Duration::from_secs(5));
-    println!("GO");
     mogrun.teleport(&mut enigo, &player);
-    std::thread::sleep(Duration::from_secs(7));
+    std::thread::sleep(Duration::from_secs(5));
 
-    // while count < 570 {
-    //     println!("Loop {}", count);
-    //     mogrun.run(&mut enigo, &player);
-    //     std::thread::sleep(Duration::from_millis(5100));
-    //     count += 1;
-    // }
+    // let mut handles: Vec<JoinHandle<()>> = Vec::new();
+
+    let mut count = 0;
+    let total_time = Utc::now();
 
     loop {
-        // limit the loop rate to 60fps
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE));
+        let runstart = Utc::now();
+        println!("RUN: {} {:^40}", count, runstart.format("%H:%M:%S"));
+        enigo.key_down(Key::Space);
+        mogrun.run(&mut enigo, &player, 100, 110);
+        enigo.key_up(Key::Space);
+        std::thread::sleep(Duration::from_millis(5100));
+        count += 1;
+        let runfinish = Utc::now();
 
-        // Match on keyboard events
-        match os_reader::read_inputs_from_os(&receiver, true) {
-            Vk::J => {
-                //Ingame quit
-                if q_count >= 3 {
-                    println!("{:?}\tQuit called.", Utc::now());
-                    gamemenu.quit_from_game(&mut enigo);
-                } else {
-                    q_count += 1;
-                    println!("Q count is {:?}", q_count);
-                }
-            }
-            Vk::O => mogrun.speedrun(&mut enigo, &player),
-            Vk::I => mogrun.run(&mut enigo, &player),
-            Vk::M => mogrun.teleport(&mut enigo, &player),
-            //Emergency panic on k
-            Vk::K => break,
+        println!("END: {} {:^40}", count, runfinish.format("%H:%M:%S"));
+        println!("\tSPLIT: {}", runstart - runfinish);
+        println!(
+            "RUNTIME: {}",
+            Utc::now().signed_duration_since(total_time).num_seconds()
+        );
 
-            //Screengrab
-            Vk::L => os_reader::take_screenshot(&one_frame.clone()).unwrap(),
-            _ => (),
-        }
+        let elapsed = Utc::now() - total_time;
+        println!("{} RUNS completed in :{}", RUNS, elapsed);
+        println!(
+            "AVG SECONDS / RUN: {}",
+            (RUNS as i64 / elapsed.num_seconds()) as f64
+        );
     }
 
+    // loop {
+    //     // limit the loop rate to 60fps
+    //     std::thread::sleep(Duration::from_millis(REFRESH_RATE / 22));
+
+    //     // Match on keyboard events
+    //     match os_reader::read_inputs_from_os(&receiver, true) {
+    //         Vk::J => {
+    //             //Ingame quit
+    //             if q_count >= 3 {
+    //                 println!("QUIT_CALL{:^40?}.", Utc::now().format("%H:%M:%S"));
+    //                 gamemenu.quit_from_game(&mut enigo);
+    //             } else {
+    //                 q_count += 1;
+    //                 println!("Q_COUNT: {:?}", q_count);
+    //             }
+    //         }
+    //         Vk::O => mogrun.speedrun(&mut enigo, &player, RUNS),
+    //         Vk::I => mogrun.run(&mut enigo, &player, 190, 420),
+    //         Vk::M => mogrun.teleport(&mut enigo, &player),
+    //         //Emergency panic on k
+    //         Vk::K => panic!(),
+
+    //         //Screengrab
+    //         Vk::L => os_reader::take_screenshot(&one_frame.clone()).unwrap(),
+    //         _ => (),
+    //     }
+    // }
+
     println!("see ya tarnished!");
+    println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     Ok(())
 }
