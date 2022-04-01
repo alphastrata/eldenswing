@@ -56,6 +56,7 @@ impl PlayerController {
         PlayerController {}
     }
     // The compas is broken down into 16 segments, on a 2560x1440 screen that's 382px per segment
+    // 1degree should be ~= to 16.993px
     // NOTE: camera will be reset within this call
     pub fn turn(&self, enigo: &mut Enigo, d: CompassDegree, lr: LR) {
         let rotation = match { d } {
@@ -74,6 +75,11 @@ impl PlayerController {
         std::thread::sleep(Duration::from_millis(REFRESH_RATE));
         enigo.mouse_move_relative(rotation, 0);
         self.walk_fwd(2, enigo); // forces ingame camera to right
+    }
+    // Try to turn over a time-period of frames, ideally combine it with a walk so that
+    // you can walk in something other than straight lines...
+    pub fn turn_by_frames(&self, enigo: &mut Enigo, d1: CompassDegree, d2: CompassDegree, f: usize, lr: LR) {
+    todo!();
     }
     pub fn walk_fwd(&self, t: usize, enigo: &mut Enigo) {
         for _ in 0..t as usize {
