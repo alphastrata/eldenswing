@@ -1,4 +1,6 @@
 mod controller;
+mod cv_utils;
+mod data_utils;
 mod os_reader;
 
 use anyhow::{anyhow, Result};
