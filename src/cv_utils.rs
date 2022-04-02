@@ -45,7 +45,7 @@ impl GameWindow {
     // filename - the file where the screen capture will be saved
     // format - Bmp,Emf,Exif,Gif,Icon,Jpeg,Png,Tiff and are supported - default is bmp
     // WindowTitle - instead of capturing the whole screen will capture the only a window with the given title if there's such
-    pub fn screenshot(filename: String, format: String, window_title: String) -> Result<()> {
+    pub fn screengrab(filename: String, format: String, window_title: String) -> Result<()> {
         Command::new("screenCapture.exe")
             .arg(format!("screenshots/{}", filename))
             .arg(window_title)
@@ -53,26 +53,26 @@ impl GameWindow {
             .expect("ls command failed to start");
         Ok(())
     }
-    pub fn read_souls_counter(img: PathBuf) -> Result<usize> {
-        // fn strip_non_digits(s: &str) -> String {
-        //     let t = s.chars().filter(|c| c.is_ascii_digit()).collect::<String>();
-        //     t
-        // }
-        // fn read_text(p: String) {
-        //     let mut lt = leptess::LepTess::new(None, "eng").unwrap();
-        //     lt.set_image(&p[..]);
-        //     let mut text = lt.get_utf8_text().unwrap();
-        //     println!("{}", strip_non_digits(&text));
-        // }
-        todo!()
-    }
+    // // read the souls counter with Leptess (wrapping the C API of Tesseract)
+    // pub fn read_souls_counter(p: PathBuf) -> Result<usize> {
+    //     // NOTE: leptess supports set from memory https://houqp.github.io/leptess/leptess/struct.LepTess.html#method.set_image_from_mem
+    //     // NOTE: leptess supports focusing the OCR on a specific rectangle, which would aleviate the requirement for us making one with cropping
+    //     // earlier on. https://houqp.github.io/leptess/leptess/struct.LepTess.html#method.set_rectangle using leptess::capi::Box
+    //     let mut lt = leptess::LepTess::new(None, "eng")?;
+    //     lt.set_image(p.into());
+    //     let mut text = lt.get_utf8_text()?;
+    //     let t = text
+    //         .chars()
+    //         .filter(|c| c.is_ascii_digit())
+    //         .collect::<String>();
+    //     let t = t.parse::<usize>()?;
+    //     Ok(t);
+    //     unimplemented!()
+    // }
     pub fn target_delta(img1: PathBuf, img2: PathBuf) -> Result<Confidence> {
         todo!()
     }
     pub fn fullscreengrab(savepath: PathBuf) {
-        todo!()
-    }
-    pub fn screengrab() -> PathBuf {
         todo!()
     }
     // Use opencv to write images
@@ -122,7 +122,7 @@ impl GameWindow {
         let mut img = image::open(p.as_path()).unwrap();
         // let cropped = img.crop_imm(x, y, width, height); // NOTE: This is going to be the new one from .24
         let cropped = img.crop(x, y, width, height);
-        let filename = "cropped_souls_counter.png";
+        let filename = stringify!("souls_counter.png",);
         cropped.save(filename).unwrap();
         Ok(PathBuf::from(filename))
         // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?

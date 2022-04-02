@@ -45,6 +45,7 @@ fn main() -> Result<()> {
     // these are for mostly for data collection
     let mut mogrun = controller::MogRun::new();
 
+    // NOTE: this is out for the mo because I cannot work out the Copy impl thing...
     // data.playerhistory = &history;
     // we set the ammount to walk/turn etc as history because it will become so, and will be logged for data science later..
 
@@ -58,16 +59,14 @@ fn main() -> Result<()> {
         data.session_start.format("%H:%M:%S %D%m%Y")
     );
 
-    let _ = GameWindow::crop_souls_counter(PathBuf::from(
-        "10mill.png",
-        // "C:\\Users\\jer\\Documents\\GitHub\\eldenswing\\assets\\10mill.png",
-    ));
-
     // allow the user some alt-tab time
     std::thread::sleep(Duration::from_secs(5));
     mogrun.teleport(&mut enigo, &player);
     // TODO:
-    // update mogrun.starting_souls
+    let screengrab = GameWindow::screengrab("starting_souls".into(), ".png".into(), "".into())?;
+    let souls_count_crop = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
+    //mogrun.starting_souls = GameWindow::read_souls_counter(souls_count_crop);
+    // update mogrun.starting_souls with the value that souls_counter_img is processed to be
 
     // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
     std::thread::sleep(Duration::from_secs(5));
