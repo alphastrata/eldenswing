@@ -30,6 +30,14 @@ impl GameWindow {
     pub fn new() -> GameWindow {
         GameWindow {}
     }
+    pub fn crop_souls_counter(filename: PathBuf) -> Result<PathBuf> {
+        let x = 2280;
+        let y = 1362;
+        let width = 202;
+        let height = 38;
+        let cropped_img = GameWindow::crop_from_screengrab(filename, x, y, width, height);
+        cropped_img
+    }
     // Run's an external syscall to ../screenCapture.exe
     // screenCapture- captures the screen or the active window and saves it to a file
     // Usage:
@@ -109,11 +117,14 @@ impl GameWindow {
         y: u32,
         width: u32,
         height: u32,
-    ) -> Result<DynamicImage> {
-        let mut img = image::open(p)?;
+        // ) -> Result<DynamicImage> {
+    ) -> Result<PathBuf> {
+        let mut img = image::open(p.as_path()).unwrap();
         // let cropped = img.crop_imm(x, y, width, height); // NOTE: This is going to be the new one from .24
         let cropped = img.crop(x, y, width, height);
-        Ok(cropped)
+        let filename = "cropped_souls_counter.png";
+        cropped.save(filename).unwrap();
+        Ok(PathBuf::from(filename))
         // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?
     }
 

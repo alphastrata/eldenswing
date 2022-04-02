@@ -6,9 +6,11 @@ mod os_reader;
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
+use cv_utils::{Confidence, GameWindow};
 use data_utils::Data;
 use data_utils::PlayerHistory;
 use enigo::*;
+use std::path::PathBuf;
 // use gamepad::*;
 // use gilrs::{Button, Event, Gilrs};
 // use std::thread::JoinHandle;
@@ -55,6 +57,11 @@ fn main() -> Result<()> {
         "START_TIME: {:^40}",
         data.session_start.format("%H:%M:%S %D%m%Y")
     );
+
+    let _ = GameWindow::crop_souls_counter(PathBuf::from(
+        "10mill.png",
+        // "C:\\Users\\jer\\Documents\\GitHub\\eldenswing\\assets\\10mill.png",
+    ));
 
     // allow the user some alt-tab time
     std::thread::sleep(Duration::from_secs(5));
