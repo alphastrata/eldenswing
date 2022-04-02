@@ -1,3 +1,4 @@
+use crate::data_utils::PlayerHistory;
 use chrono::prelude::*;
 use enigo::*;
 use std::thread;
@@ -74,7 +75,7 @@ impl PlayerController {
         };
         std::thread::sleep(Duration::from_millis(REFRESH_RATE));
         enigo.mouse_move_relative(rotation, 0);
-        self.walk_fwd(2, enigo); // forces ingame camera to right
+        self.walk_fwd(&2, enigo); // forces ingame camera to right
     }
     // Try to turn over a time-period of frames, ideally combine it with a walk so that
     // you can walk in something other than straight lines...
@@ -88,8 +89,8 @@ impl PlayerController {
     ) {
         todo!();
     }
-    pub fn walk_fwd(&self, t: usize, enigo: &mut Enigo) {
-        for _ in 0..t as usize {
+    pub fn walk_fwd(&self, t: &usize, enigo: &mut Enigo) {
+        for _ in 0..t.clone() {
             enigo.key_click(enigo::Key::Layout('w'));
         }
         enigo.key_up(enigo::Key::Layout('w'));
@@ -176,12 +177,46 @@ impl GameMenus {
     }
 }
 
-pub struct MogRun {}
+pub struct MogRun {
+    pub start_time: DateTime<Utc>,
+    pub current_run_starttime: DateTime<Utc>,
+    pub current_run_endtime: DateTime<Utc>,
+    pub num_runs: u64, // representing the total number of runs to be done
+    pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done
+    pub current_run: u64, // representing the current run's number
+    pub runs_completed: u64, // give a sense of progress
+    pub starting_souls: u64, // they may start a run with some souls on the counter
+    pub souls_earned: u64, // running total of all souls earned in session
+    pub prev_run: u64, // used to calculate deltas
+}
 
 // helpers to facilitate a Moghywn run
 impl MogRun {
     pub fn new() -> MogRun {
-        MogRun {}
+        MogRun {
+            start_time: Utc::now(),
+            num_runs: 0,
+            est_endtime: Utc::now(), // going to be overwritten later..
+            current_run_starttime: Utc::now(),
+            current_run_endtime: Utc::now(),
+            current_run: 0,
+            runs_completed: 0,
+            starting_souls: 0,
+            souls_earned: 0,
+            prev_run: 0,
+        }
+    }
+    // returns the avg time per run, in ms, so, multiply it out by 1000 for seconds
+    pub fn avg_time_per_run(&self) -> f64 {
+        // sum(total_time in ms or s / num_runs)
+        // time delta = self.start_time - self.current_run_endtime
+        // time delta / self.num_runs
+        let time_delta = self.start_time - self.current_run_endtime;
+        time_delta.num_milliseconds() as f64 / self.num_runs as f64
+    }
+    // returns the avg number of souls per run
+    pub fn avg_souls_per_run(&self) -> u64 {
+        (self.souls_earned - self.starting_souls) / self.num_runs
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
@@ -198,45 +233,43 @@ impl MogRun {
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
-    pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, t1: usize, t2: usize) {
-        println!("RUN CALLED");
-        player.walk_fwd(t1, enigo);
+    pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, history: PlayerHistory) {
+        player.walk_fwd(&history.walk1, enigo);
         player.turn(enigo, CompassDegree::fourtyfive, LR::Left); //left?
                                                                  // player.l2(enigo);
-        player.walk_fwd(t2, enigo);
+        player.walk_fwd(&history.walk2, enigo);
         player.l2(enigo);
         std::thread::sleep(Duration::from_millis(7500));
         self.teleport(enigo, player);
     }
-    // Identical to the above, but with 'space' held down -- so your player should RUN
-    pub fn speedrun(&self, enigo: &mut Enigo, player: &PlayerController, RUNS: usize) {
-        println!("SPEEDRUN CALLED");
-        let total_time = Utc::now();
-        std::thread::sleep(Duration::from_millis(3000));
+    // pub fn speedrun(&self, enigo: &mut Enigo, player: &PlayerController, RUNS: usize) {
+    //     println!("SPEEDRUN CALLED");
+    //     let total_time = Utc::now();
+    //     std::thread::sleep(Duration::from_millis(3000));
 
-        let runstart = Utc::now();
-        for r in 0..RUNS {
-            enigo.key_down(Key::Space);
-            self.run(enigo, player, 140, 320);
-            println!("RUN: {} {:^40}", r, runstart.format("%H:%M:%S"));
+    //     let runstart = Utc::now();
+    //     for r in 0..RUNS {
+    //         enigo.key_down(Key::Space);
+    //         self.run(enigo, player, &140, &320);
+    //         println!("RUN: {} {:^40}", r, runstart.format("%H:%M:%S"));
 
-            let runfinish = Utc::now();
-            enigo.key_up(Key::Space);
-            self.teleport(enigo, player);
+    //         let runfinish = Utc::now();
+    //         enigo.key_up(Key::Space);
+    //         self.teleport(enigo, player);
 
-            println!("END: {} {:^40}", r, runfinish.format("%H:%M:%S"));
-            println!("SPLIT: {}", runfinish - runstart);
-            println!(
-                "RUNTIME: {}",
-                Utc::now().signed_duration_since(total_time).num_seconds()
-            );
+    //         println!("END: {} {:^40}", r, runfinish.format("%H:%M:%S"));
+    //         println!("SPLIT: {}", runfinish - runstart);
+    //         println!(
+    //             "RUNTIME: {}",
+    //             Utc::now().signed_duration_since(total_time).num_seconds()
+    //         );
 
-            let elapsed = Utc::now() - total_time;
-            println!("{} RUNS completed in :{}", RUNS, elapsed);
-            println!(
-                "AVG SECONDS / RUN: {}",
-                (elapsed.num_seconds() / RUNS as i64)
-            );
-        }
-    }
+    //         let elapsed = Utc::now() - total_time;
+    //         println!("{} RUNS completed in :{}", RUNS, elapsed);
+    //         println!(
+    //             "AVG SECONDS / RUN: {}",
+    //             (elapsed.num_seconds() / RUNS as i64)
+    //         );
+    //     }
+    // }
 }

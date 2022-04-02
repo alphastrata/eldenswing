@@ -4,6 +4,7 @@ use anyhow::{anyhow, Result};
 
 use image::imageops::FilterType;
 use image::ImageFormat;
+use image::{DynamicImage, GenericImage, GenericImageView};
 use opencv::core::Vector;
 use opencv::prelude;
 use opencv::types;
@@ -98,6 +99,22 @@ impl GameWindow {
         //         Ok(());
         //     }
         todo!()
+    }
+    // Used to crop the souls counter from screengrab
+    // NOTE: could be used for other things...
+    fn crop_from_screengrab(
+        // img: dyn GenericImageView,
+        p: PathBuf,
+        x: u32,
+        y: u32,
+        width: u32,
+        height: u32,
+    ) -> Result<DynamicImage> {
+        let mut img = image::open(p)?;
+        // let cropped = img.crop_imm(x, y, width, height); // NOTE: This is going to be the new one from .24
+        let cropped = img.crop(x, y, width, height);
+        Ok(cropped)
+        // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?
     }
 
     pub fn rename(img: PathBuf) -> bool {

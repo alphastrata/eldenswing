@@ -6,104 +6,93 @@ mod os_reader;
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
+use data_utils::Data;
+use data_utils::PlayerHistory;
 use enigo::*;
-use gamepad::*;
-use gilrs::{Button, Event, Gilrs};
-use std::thread::JoinHandle;
+// use gamepad::*;
+// use gilrs::{Button, Event, Gilrs};
+// use std::thread::JoinHandle;
 use std::time::Duration;
-use winput::Vk;
+// use winput::Vk;
 
 use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
-const RUNS: usize = 2;
 
 //
 // +=====+======+ MAIN +=====+======+
 fn main() -> Result<()> {
-    println!("Hello, world!");
-    os_reader::check_monitors();
+    // os_reader::check_monitors(); // TODO: not useful?
 
     // keyboard and event reader stuff
-    let receiver = message_loop::start().expect("unable to read OS events...");
+    // let receiver = message_loop::start().expect("unable to read OS events...");
     let mut enigo = Enigo::new();
 
     // ingame constants
-    let one_second = Duration::from_millis(1000);
-    let one_frame = one_second / 60;
+    // let one_second = Duration::from_millis(1000);
+    // let one_frame = one_second / 60;
+
+    // it may look as though the data collection has unnessecary duplication, but this is to potentially allow for extensibility later on (for non Mog runs for example)
+    let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
+    let mut data = data_utils::Data::new(history);
 
     // construct hepler structs to make gameplay easier to control
-    let gamemenu = controller::GameMenus::new();
     let player = controller::PlayerController::new();
-    let mogrun = controller::MogRun::new();
+    // let gamemenu = controller::GameMenus::new();
 
-    let mut q_count = 0;
+    // these are for mostly for data collection
+    let mut mogrun = controller::MogRun::new();
+
+    // data.playerhistory = &history;
+    // we set the ammount to walk/turn etc as history because it will become so, and will be logged for data science later..
 
     // start at Mog
     println!("App running.");
-    println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    mogrun.start_time = Utc::now();
+    data.session_start = mogrun.start_time;
+
+    println!(
+        "START_TIME: {:^40}",
+        data.session_start.format("%H:%M:%S %D%m%Y")
+    );
+
+    // allow the user some alt-tab time
     std::thread::sleep(Duration::from_secs(5));
     mogrun.teleport(&mut enigo, &player);
+    // TODO:
+    // update mogrun.starting_souls
+
+    // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
     std::thread::sleep(Duration::from_secs(5));
 
-    // let mut handles: Vec<JoinHandle<()>> = Vec::new();
+    // ----------------- MAIN LOOP ------------------
+    // How many runs do you wanna do?
+    mogrun.num_runs = 10;
+    for n in 0..mogrun.num_runs {
+        //NOTE: replace this with table
+        println!(
+            "RUN: {} {:^70}", //TODO: how do i pin this left...
+            mogrun.runs_completed,
+            mogrun.start_time.format("%H:%M:%S")
+        );
 
-    let mut count = 0;
-    let total_time = Utc::now();
-    let w1 = 98;
-    let w2 = 80;
-
-    loop {
-        let runstart = Utc::now();
-        println!("RUN: {} {:^40}", count, runstart.format("%H:%M:%S"));
-
+        // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
+        let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
+        // let history = *data.playerhistory.clone();
         // the actual run
         enigo.key_down(Key::Space);
-        mogrun.run(&mut enigo, &player, w1, w2);
+        mogrun.run(&mut enigo, &player, history);
         enigo.key_up(Key::Space);
         std::thread::sleep(Duration::from_millis(4900));
-        count += 1;
-        let runfinish = Utc::now();
 
-        // timers for user feedback etc
-        println!("END: {} {:^40}", count, runfinish.format("%H:%M:%S"));
-        println!(
-            "\tSPLIT: {} \t *in seconds.",
-            (runfinish - runstart).num_seconds()
-        );
-        println!(
-            "RUNTIME: {} \t*in minutes.",
-            Utc::now().signed_duration_since(total_time).num_minutes()
-        );
+        mogrun.runs_completed += 1;
+        data.run_number = n as usize;
+        mogrun.current_run_endtime = Utc::now();
+        data.timestamp = mogrun.current_run_endtime;
+        // TODO:
+        // update data.soulscount // this is grand total the char has on them
+        // update mogrun.souls_earned
     }
-
-    // loop {
-    //     // limit the loop rate to 60fps
-    //     std::thread::sleep(Duration::from_millis(REFRESH_RATE / 22));
-
-    //     // Match on keyboard events
-    //     match os_reader::read_inputs_from_os(&receiver, true) {
-    //         Vk::J => {
-    //             //Ingame quit
-    //             if q_count >= 3 {
-    //                 println!("QUIT_CALL{:^40?}.", Utc::now().format("%H:%M:%S"));
-    //                 gamemenu.quit_from_game(&mut enigo);
-    //             } else {
-    //                 q_count += 1;
-    //                 println!("Q_COUNT: {:?}", q_count);
-    //             }
-    //         }
-    //         Vk::O => mogrun.speedrun(&mut enigo, &player, RUNS),
-    //         Vk::I => mogrun.run(&mut enigo, &player, 190, 420),
-    //         Vk::M => mogrun.teleport(&mut enigo, &player),
-    //         //Emergency panic on k
-    //         Vk::K => panic!(),
-
-    //         //Screengrab
-    //         Vk::L => os_reader::take_screenshot(&one_frame.clone()).unwrap(),
-    //         _ => (),
-    //     }
-    // }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));

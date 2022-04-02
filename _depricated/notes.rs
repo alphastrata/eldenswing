@@ -1,4 +1,31 @@
 //
+// loop {
+//     // limit the loop rate to 60fps
+//     std::thread::sleep(Duration::from_millis(REFRESH_RATE / 22));
+
+//     // Match on keyboard events
+//     match os_reader::read_inputs_from_os(&receiver, true) {
+//         Vk::J => {
+//             //Ingame quit
+//             if q_count >= 3 {
+//                 println!("QUIT_CALL{:^40?}.", Utc::now().format("%H:%M:%S"));
+//                 gamemenu.quit_from_game(&mut enigo);
+//             } else {
+//                 q_count += 1;
+//                 println!("Q_COUNT: {:?}", q_count);
+//             }
+//         }
+//         Vk::O => mogrun.speedrun(&mut enigo, &player, RUNS),
+//         Vk::I => mogrun.run(&mut enigo, &player, 190, 420),
+//         Vk::M => mogrun.teleport(&mut enigo, &player),
+//         //Emergency panic on k
+//         Vk::K => panic!(),
+
+//         //Screengrab
+//         Vk::L => os_reader::take_screenshot(&one_frame.clone()).unwrap(),
+//         _ => (),
+//     }
+// }
 // fn test_square_walk() {
 //     // walk in a square...
 //     for i in 0..4 {

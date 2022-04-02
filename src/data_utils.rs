@@ -1,4 +1,5 @@
 use crate::cv_utils::*; // Note: this feature is working in the OCR dir, but not building on windows.. investigate
+use chrono::prelude::*;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 
@@ -6,26 +7,68 @@ use prettytable::format;
 use prettytable::{Cell, Row, Table};
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-struct PlayerHistory {
-    walk1: u32, // value dictating the ammount of time/frames that the player walks from at spawn
-    turn_angle: u32, // value dictating the degrees a player turns
-    walk2: u32, // value dictating the ammount of time/frames that the player walks the second time
-    wave_wait: f64, // frames or secs?
-    grace_wait: f64, // frames or secs?
-    _player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
+#[derive(Debug, Clone)]
+pub struct PlayerHistory {
+    pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
+    pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
+    pub walk2: usize, // value dictating the ammount of time/frames that the player walks the second time
+    pub wave_wait: f64, // frames or secs?
+    pub grace_wait: f64, // frames or secs?
+    pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
+}
+impl PlayerHistory {
+    pub fn new() -> PlayerHistory {
+        PlayerHistory {
+            walk1: 0,
+            turn_angle: 0,
+            walk2: 0,
+            wave_wait: 0.0,
+            grace_wait: 0.0,
+            player_lvl: 0,
+        }
+    }
+    pub fn new_from(
+        walk1: usize,
+        walk2: usize,
+        turn_angle: usize,
+        wave_wait: f64,
+        grace_wait: f64,
+        player_lvl: u32,
+    ) -> PlayerHistory {
+        PlayerHistory {
+            walk1,
+            turn_angle,
+            walk2,
+            wave_wait,
+            grace_wait,
+            player_lvl,
+        }
+    }
 }
 
 // representing all data we wish to capture from the game and interact with/present
-struct Data {
-    session_start: u32, // will actually be a timestamp
-    soulscount: u32,    // get this from Tesseract with OCR
-    timestamp: String,  // will actually be a Utc::Datetime
-    run_number: u32,    // count this even if infinite
-    playerhistory: PlayerHistory,
-    session_end: u32,    // will actually be a timestamp
-    prev_run_yeild: u32, // soul yield previous run
+#[derive(Debug, Clone)]
+pub struct Data {
+    pub session_start: DateTime<Utc>, // will actually be a timestamp
+    pub soulscount: u32,              // get this from Tesseract with OCR
+    pub timestamp: DateTime<Utc>, // representing the UPDATE time this data was last updated will actually be a Utc::Datetime
+    pub run_number: usize,        // count this even if infinite
+    pub playerhistory: PlayerHistory, // See comments above struct decleration
+    pub session_end: u32,         // will actually be a timestamp
+    pub prev_run_yeild: u32,      // soul yield previous run
 }
 impl Data {
+    pub fn new(history: PlayerHistory) -> Data {
+        Data {
+            session_start: Utc::now(),
+            soulscount: 0,
+            timestamp: Utc::now(),
+            run_number: 0,
+            playerhistory: history,
+            session_end: 0,
+            prev_run_yeild: 0,
+        }
+    }
     // save all data to disk
     fn write_run_data() {
         // let out = File::create("output_csv.txt")?; // apparently possible with prettytable
