@@ -1,7 +1,13 @@
 mod controller;
 mod cv_utils;
 mod data_utils;
-mod os_reader;
+// mod os_reader;
+mod ui;
+
+#[macro_use]
+extern crate prettytable;
+use prettytable::Table;
+use ui::{setup_table, update_table};
 
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
@@ -11,13 +17,9 @@ use data_utils::Data;
 use data_utils::PlayerHistory;
 use enigo::*;
 use std::path::PathBuf;
-// use gamepad::*;
-// use gilrs::{Button, Event, Gilrs};
-// use std::thread::JoinHandle;
 use std::time::Duration;
-// use winput::Vk;
 
-use winput::message_loop::{self, EventReceiver};
+// use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
 
@@ -75,21 +77,14 @@ fn main() -> Result<()> {
         GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
 
+    let mut table = ui::setup_table(mogrun);
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
-    mogrun.num_runs = 10;
+    mogrun.num_runs = 8;
     for n in 0..mogrun.num_runs {
         cleanup_tmp_png();
         //NOTE: replace this with table
         //NOTE: replace this with table
-        println!(
-            "RUN: {}/{}\t{}\n\tStarting Souls:{}\n\tTotal Yeild:{}", //TODO: how do i pin this left...
-            mogrun.runs_completed,
-            mogrun.num_runs,
-            mogrun.start_time.format("%H:%M:%S"),
-            mogrun.starting_souls,
-            mogrun.souls_earned
-        );
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
@@ -104,20 +99,27 @@ fn main() -> Result<()> {
         data.run_number = n as usize;
         mogrun.current_run_endtime = Utc::now();
         data.timestamp = mogrun.current_run_endtime;
+
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-        let newest_reading = GameWindow::external_tesseract_call(
+        mogrun.newest_reading = GameWindow::external_tesseract_call(
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
         )?;
-        mogrun.souls_earned = newest_reading - mogrun.starting_souls;
+        mogrun.souls_earned = mogrun.newest_reading - &mogrun.starting_souls;
 
+        update_table(mogrun, &mut table);
         // clear the screen on std out
-        print!("\x1b[2J\x1b[1;1H");
+        table.printstd();
+        mogrun.prev_run = mogrun.newest_reading;
+        mogrun.yield_total += mogrun.newest_reading;
     }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    println!("--------------------------------------------------------------");
+    println!("{:#?}", mogrun);
+    println!("--------------------------------------------------------------");
     Ok(())
 }
 
@@ -130,8 +132,8 @@ fn cleanup_tmp_png() {
         let file_name = file.file_name();
         let file_name = file_name.to_str().unwrap();
         if file_name.ends_with(".png") {
-            println!("REMOVING: {}", file_name);
-            // std::fs::remove_file(file.path()).unwrap();
+            // println!("REMOVING: {}", file_name);
+            std::fs::remove_file(file.path()).unwrap();
         }
     }
 }

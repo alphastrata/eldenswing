@@ -177,6 +177,7 @@ impl GameMenus {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
 pub struct MogRun {
     pub start_time: DateTime<Utc>,
     pub current_run_starttime: DateTime<Utc>,
@@ -187,7 +188,9 @@ pub struct MogRun {
     pub runs_completed: usize, // give a sense of progress
     pub starting_souls: usize, // they may start a run with some souls on the counter
     pub souls_earned: usize, // running total of all souls earned in session
-    pub prev_run: usize, // used to calculate deltas
+    pub prev_run: usize, // rouls earned from previous run (comes from newest_reading)
+    pub newest_reading: usize, // the most recent soul_yield
+    pub yield_total: usize,
 }
 
 // helpers to facilitate a Moghywn run
@@ -199,11 +202,13 @@ impl MogRun {
             est_endtime: Utc::now(), // going to be overwritten later..
             current_run_starttime: Utc::now(),
             current_run_endtime: Utc::now(),
-            current_run: 0,
+            current_run: 1, // always start at 1
             runs_completed: 0,
             starting_souls: 0,
             souls_earned: 0,
             prev_run: 0,
+            newest_reading: 0,
+            yield_total: 0,
         }
     }
     // returns the avg time per run, in ms, so, multiply it out by 1000 for seconds
@@ -215,8 +220,8 @@ impl MogRun {
         time_delta.num_milliseconds() as f64 / self.num_runs as f64
     }
     // returns the avg number of souls per run
-    pub fn avg_souls_per_run(&self) -> usize {
-        (self.souls_earned - self.starting_souls) / self.num_runs
+    pub fn avg_souls_per_run(&self) -> f64 {
+        (self.souls_earned - self.starting_souls) as f64 / self.num_runs as f64
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
@@ -242,34 +247,4 @@ impl MogRun {
         std::thread::sleep(Duration::from_millis(7500));
         self.teleport(enigo, player);
     }
-    // pub fn speedrun(&self, enigo: &mut Enigo, player: &PlayerController, RUNS: usize) {
-    //     println!("SPEEDRUN CALLED");
-    //     let total_time = Utc::now();
-    //     std::thread::sleep(Duration::from_millis(3000));
-
-    //     let runstart = Utc::now();
-    //     for r in 0..RUNS {
-    //         enigo.key_down(Key::Space);
-    //         self.run(enigo, player, &140, &320);
-    //         println!("RUN: {} {:^40}", r, runstart.format("%H:%M:%S"));
-
-    //         let runfinish = Utc::now();
-    //         enigo.key_up(Key::Space);
-    //         self.teleport(enigo, player);
-
-    //         println!("END: {} {:^40}", r, runfinish.format("%H:%M:%S"));
-    //         println!("SPLIT: {}", runfinish - runstart);
-    //         println!(
-    //             "RUNTIME: {}",
-    //             Utc::now().signed_duration_since(total_time).num_seconds()
-    //         );
-
-    //         let elapsed = Utc::now() - total_time;
-    //         println!("{} RUNS completed in :{}", RUNS, elapsed);
-    //         println!(
-    //             "AVG SECONDS / RUN: {}",
-    //             (elapsed.num_seconds() / RUNS as i64)
-    //         );
-    //     }
-    // }
 }
