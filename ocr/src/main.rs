@@ -48,17 +48,7 @@ fn main() {
         read_text(p.into(), souls_box);
     }
 
-    // read_text("frames/f0355.jpg".into(), souls_box); // should be 19315185
-    // read_text("frames/f0860.jpg".into(), souls_box); // should be 19324292
-
-
-
-
-    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
-    // read_text("souls_counter.png".into(), souls_box); 
-
-    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
-    // read_text("souls_counter.png".into(), souls_box); 
+   
 
 
     println!("RUN_LEN {}", paths.len());
@@ -112,7 +102,17 @@ fn read_text(p: String, souls_box: (i32, i32, i32, i32)) {
 
 
 
+ // read_text("frames/f0355.jpg".into(), souls_box); // should be 19315185
+    // read_text("frames/f0860.jpg".into(), souls_box); // should be 19324292
 
+
+
+
+    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
+    // read_text("souls_counter.png".into(), souls_box); 
+
+    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
+    // read_text("souls_counter.png".into(), souls_box); 
 
 // let x = 2280; 89.06% of 2560
 // let y = 1362; 0.94% of 1440
