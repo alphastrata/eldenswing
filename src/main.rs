@@ -58,32 +58,41 @@ fn main() -> Result<()> {
         "START_TIME: {:^40}",
         data.session_start.format("%H:%M:%S %D%m%Y")
     );
+    // get our initial ingame screengrab
+    let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
 
-    // allow the user some alt-tab time
+    // crop it
+    let _ = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
+
     std::thread::sleep(Duration::from_secs(5));
+    // allow the user some alt-tab time
     mogrun.teleport(&mut enigo, &player);
-    // TODO:
-    let screengrab = GameWindow::screengrab("starting_souls".into(), ".png".into(), "".into())?;
-    let souls_count_crop = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
-    //mogrun.starting_souls = GameWindow::read_souls_counter(souls_count_crop);
-    // update mogrun.starting_souls with the value that souls_counter_img is processed to be
-
     // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
     std::thread::sleep(Duration::from_secs(5));
+
+    // read it
+    mogrun.starting_souls =
+        GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
+    println!("{:#?} starting_souls", mogrun.starting_souls);
 
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.num_runs = 10;
     for n in 0..mogrun.num_runs {
+        cleanup_tmp_png();
+        //NOTE: replace this with table
         //NOTE: replace this with table
         println!(
-            "RUN: {} {:^70}", //TODO: how do i pin this left...
+            "RUN: {}/{}\t{}\n\tStarting Souls:{}\n\tTotal Yeild:{}", //TODO: how do i pin this left...
             mogrun.runs_completed,
-            mogrun.start_time.format("%H:%M:%S")
+            mogrun.num_runs,
+            mogrun.start_time.format("%H:%M:%S"),
+            mogrun.starting_souls,
+            mogrun.souls_earned
         );
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
+        let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
         // let history = *data.playerhistory.clone();
         // the actual run
         enigo.key_down(Key::Space);
@@ -95,12 +104,34 @@ fn main() -> Result<()> {
         data.run_number = n as usize;
         mogrun.current_run_endtime = Utc::now();
         data.timestamp = mogrun.current_run_endtime;
-        // TODO:
-        // update data.soulscount // this is grand total the char has on them
-        // update mogrun.souls_earned
+        let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
+        let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
+        let newest_reading = GameWindow::external_tesseract_call(
+            "current_souls_cropped.png".to_string(),
+            "eng".to_string(),
+        )?;
+        mogrun.souls_earned = newest_reading - mogrun.starting_souls;
+
+        // clear the screen on std out
+        print!("\x1b[2J\x1b[1;1H");
     }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     Ok(())
+}
+
+fn cleanup_tmp_png() {
+    // remove all png files in dir
+    let path = PathBuf::from("./");
+    let files = std::fs::read_dir(path).unwrap();
+    for file in files {
+        let file = file.unwrap();
+        let file_name = file.file_name();
+        let file_name = file_name.to_str().unwrap();
+        if file_name.ends_with(".png") {
+            println!("REMOVING: {}", file_name);
+            // std::fs::remove_file(file.path()).unwrap();
+        }
+    }
 }

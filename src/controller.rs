@@ -181,13 +181,13 @@ pub struct MogRun {
     pub start_time: DateTime<Utc>,
     pub current_run_starttime: DateTime<Utc>,
     pub current_run_endtime: DateTime<Utc>,
-    pub num_runs: u64, // representing the total number of runs to be done
+    pub num_runs: usize, // representing the total number of runs to be done
     pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done
-    pub current_run: u64, // representing the current run's number
-    pub runs_completed: u64, // give a sense of progress
-    pub starting_souls: u64, // they may start a run with some souls on the counter
-    pub souls_earned: u64, // running total of all souls earned in session
-    pub prev_run: u64, // used to calculate deltas
+    pub current_run: usize, // representing the current run's number
+    pub runs_completed: usize, // give a sense of progress
+    pub starting_souls: usize, // they may start a run with some souls on the counter
+    pub souls_earned: usize, // running total of all souls earned in session
+    pub prev_run: usize, // used to calculate deltas
 }
 
 // helpers to facilitate a Moghywn run
@@ -215,7 +215,7 @@ impl MogRun {
         time_delta.num_milliseconds() as f64 / self.num_runs as f64
     }
     // returns the avg number of souls per run
-    pub fn avg_souls_per_run(&self) -> u64 {
+    pub fn avg_souls_per_run(&self) -> usize {
         (self.souls_earned - self.starting_souls) / self.num_runs
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
