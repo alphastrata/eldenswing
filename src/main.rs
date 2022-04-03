@@ -1,12 +1,12 @@
 mod controller;
 mod cv_utils;
 mod data_utils;
-mod os_reader;
+// mod os_reader;
 
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
-use cv_utils::{Confidence, GameWindow};
+use cv_utils::{Confidence, GameWindow, Os};
 use data_utils::Data;
 use data_utils::PlayerHistory;
 use enigo::*;
@@ -17,7 +17,7 @@ use std::path::PathBuf;
 use std::time::Duration;
 // use winput::Vk;
 
-use winput::message_loop::{self, EventReceiver};
+// use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
 
@@ -62,11 +62,13 @@ fn main() -> Result<()> {
     // allow the user some alt-tab time
     std::thread::sleep(Duration::from_secs(5));
     mogrun.teleport(&mut enigo, &player);
+
     // TODO:
-    let screengrab = GameWindow::screengrab("starting_souls".into(), ".png".into(), "".into())?;
+    let _ = GameWindow::screengrab(Os::Linux, "starting_souls".into(), ".png".into(), "".into())?;
     let souls_count_crop = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
-    //mogrun.starting_souls = GameWindow::read_souls_counter(souls_count_crop);
-    // update mogrun.starting_souls with the value that souls_counter_img is processed to be
+    mogrun.starting_souls =
+        GameWindow::read_souls_counter(PathBuf::from("souls_counter_cropped.png"))?;
+    //  update mogrun.starting_souls with the value that souls_counter_img is processed to be
 
     // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
     std::thread::sleep(Duration::from_secs(5));
@@ -77,27 +79,33 @@ fn main() -> Result<()> {
     for n in 0..mogrun.num_runs {
         //NOTE: replace this with table
         println!(
-            "RUN: {} {:^70}", //TODO: how do i pin this left...
+            "RUN: {} {:^70}\nStarting Souls:{}\nTotal Souls:{}", //TODO: how do i pin this left...
             mogrun.runs_completed,
-            mogrun.start_time.format("%H:%M:%S")
+            mogrun.start_time.format("%H:%M:%S"),
+            mogrun.starting_souls,
+            mogrun.souls_earned
         );
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
         // let history = *data.playerhistory.clone();
+
         // the actual run
         enigo.key_down(Key::Space);
         mogrun.run(&mut enigo, &player, history);
         enigo.key_up(Key::Space);
         std::thread::sleep(Duration::from_millis(4900));
 
+        // update data points
         mogrun.runs_completed += 1;
         data.run_number = n as usize;
         mogrun.current_run_endtime = Utc::now();
         data.timestamp = mogrun.current_run_endtime;
-        // TODO:
-        // update data.soulscount // this is grand total the char has on them
-        // update mogrun.souls_earned
+        let _ =
+            GameWindow::screengrab(Os::Linux, "starting_souls".into(), ".png".into(), "".into())?;
+        let souls_count_crop = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
+        mogrun.souls_earned =
+            GameWindow::read_souls_counter(souls_count_crop)? - mogrun.starting_souls;
     }
 
     println!("see ya tarnished!");

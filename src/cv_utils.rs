@@ -1,26 +1,35 @@
-use anyhow::{anyhow, Result};
-// use leptess::*;
+// use opencv::core::Vector;
+// use opencv::prelude;
+// use opencv::types;
+// use opencv::{
+//     core::{self},
+//     imgcodecs,
+//     prelude::*,
+// };
 // use tesseract::{Result as TessResult, Tesseract};
 
-use image::imageops::FilterType;
-use image::ImageFormat;
-use image::{DynamicImage, GenericImage, GenericImageView};
-use opencv::core::Vector;
-use opencv::prelude;
-use opencv::types;
-use opencv::{
-    core::{self},
-    imgcodecs,
-    prelude::*,
-};
-use std::process::Command;
-
+use anyhow::Result;
+// use chrono::prelude::Utc;
+// use image::imageops::FilterType;
+// use image::io::Reader;
+// use image::ImageFormat;
+// use image::{DynamicImage, GenericImage, GenericImageView};
+use leptess::LepTess;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::fs::File;
+use std::io::Read;
+use std::path::PathBuf;
+use std::process::Command;
+use std::sync::Arc;
 
 // To indicate the confidence in a value returned by Tesseract.
 pub struct Confidence {
     value: f64,
+}
+pub enum Os {
+    Win,
+    Mac,
+    Linux,
 }
 
 // Helper struct to more easily interact with the concept of the Game's screen
@@ -31,10 +40,10 @@ impl GameWindow {
         GameWindow {}
     }
     pub fn crop_souls_counter(filename: PathBuf) -> Result<PathBuf> {
-        let x = 2280;
+        let x = 2275;
         let y = 1362;
-        let width = 202;
-        let height = 38;
+        let width = 218;
+        let height = 39;
         let cropped_img = GameWindow::crop_from_screengrab(filename, x, y, width, height);
         cropped_img
     }
@@ -45,68 +54,74 @@ impl GameWindow {
     // filename - the file where the screen capture will be saved
     // format - Bmp,Emf,Exif,Gif,Icon,Jpeg,Png,Tiff and are supported - default is bmp
     // WindowTitle - instead of capturing the whole screen will capture the only a window with the given title if there's such
-    pub fn screengrab(filename: String, format: String, window_title: String) -> Result<()> {
-        Command::new("screenCapture.exe")
-            .arg(format!("screenshots/{}", filename))
-            .arg(window_title)
-            .spawn()
-            .expect("ls command failed to start");
-        Ok(())
+    pub fn screengrab(
+        os: Os,
+        filename: String,
+        format: String,
+        window_title: String, //NOTE: currently unused...
+    ) -> Result<()> {
+        match os {
+            Os::Win => {
+                Command::new("screenCapture.exe")
+                    .arg(format!("screenshots/{}", filename))
+                    .arg(window_title)
+                    .spawn()
+                    .expect("ls command failed to start");
+                Ok(())
+            }
+            // NOTE: fill this in for whatever macs use...
+            Os::Mac => {
+                Command::new("screenCapture.exe")
+                    .arg(format!("{}", filename))
+                    .arg(window_title)
+                    .spawn()
+                    .expect("ls command failed to start");
+                Ok(())
+            }
+            Os::Linux => {
+                Command::new("gnome-screenshot")
+                    .arg("-f")
+                    // .arg(stringify!(
+                    //     "~Documents/rust/eldenswing/{}.{}",
+                    //     filename,
+                    //     format
+                    // ))
+                    .arg("souls_counter.png")
+                    // command.arg("-w"); // maybe -w will work if the game is the active window..
+                    .spawn()
+                    .expect("gnome-sceenshot failed");
+                Ok(())
+            }
+        }
     }
     // // read the souls counter with Leptess (wrapping the C API of Tesseract)
-    // pub fn read_souls_counter(p: PathBuf) -> Result<usize> {
-    //     // NOTE: leptess supports set from memory https://houqp.github.io/leptess/leptess/struct.LepTess.html#method.set_image_from_mem
-    //     // NOTE: leptess supports focusing the OCR on a specific rectangle, which would aleviate the requirement for us making one with cropping
-    //     // earlier on. https://houqp.github.io/leptess/leptess/struct.LepTess.html#method.set_rectangle using leptess::capi::Box
-    //     let mut lt = leptess::LepTess::new(None, "eng")?;
-    //     lt.set_image(p.into());
-    //     let mut text = lt.get_utf8_text()?;
-    //     let t = text
-    //         .chars()
-    //         .filter(|c| c.is_ascii_digit())
-    //         .collect::<String>();
-    //     let t = t.parse::<usize>()?;
-    //     Ok(t);
-    //     unimplemented!()
-    // }
-    pub fn target_delta(img1: PathBuf, img2: PathBuf) -> Result<Confidence> {
-        todo!()
+    pub fn read_souls_counter(p: PathBuf) -> Result<u64> {
+        let mut lt = LepTess::new(None, "eng")?;
+        lt.set_image("/home/jer/Documents/rust/eldenswing/souls_counter_cropped.png");
+        let mut text = lt.get_utf8_text()?;
+        let t = text
+            .chars()
+            .filter(|c| c.is_ascii_digit())
+            .collect::<String>();
+        println!("DEBUG read_from_souls() :{}", t);
+        let t = t.parse::<u64>().unwrap();
+        println!("DEBUG read_from_souls() :{}", t);
+
+        Ok(t)
     }
-    pub fn fullscreengrab(savepath: PathBuf) {
-        todo!()
+
+    fn get_file_as_byte_vec(filename: String) -> Vec<u8> {
+        let mut f = File::open(&filename).expect("no file found");
+        let metadata = fs::metadata(&filename).expect("unable to read metadata");
+        let mut buffer = vec![0; metadata.len() as usize];
+        f.read(&mut buffer).expect("buffer overflow");
+
+        buffer
     }
-    // Use opencv to write images
-    pub fn save_png(m: &core::Mat, p: &str) -> Result<()> {
-        let _ = imgcodecs::imwrite(p, &m, &types::VectorOfi32::new()).unwrap();
-        Ok(())
-        // todo!();
-    }
-    pub fn compress_png(img: PathBuf) -> bool {
-        todo!()
-    }
-    pub fn resize_png(&mut self, p: PathBuf, width: i32, height: i32) -> Result<()> {
-        // let img = image::open(p)?;
-        // let resized = img.resize(width as u32, height as u32, FilterType::Lanczos3);
-        // let p = self.p.to_str().unwrap().replace(".png", ".jpg");
-        // // let _ = resized.save(&p);
-        // let _ = resized.save_with_format(&p, ImageFormat::Jpeg)?;
-        // let p: PathBuf = PathBuf::from(p);
-        // self.path = fs::canonicalize(p)?;
-        Ok(())
-    }
-    pub fn greyscale(img: PathBuf) -> bool {
-        //fn greyscale(&self) -> Result<DynamicImage, ImageError> {
-        //         Ok(image::open(self.get_path().await)?.grayscale());
-        //}
-        //
-        //fn cv_greyscale(&self) -> Result<()> {
-        //         let mat = imgcodecs::imread(self.path_as_str(), imgcodecs::IMREAD_COLOR)?;
-        //         let img = mat.get_umat(ACCESS_READ, UMatUsageFlags::USAGE_DEFAULT)?;
-        //         let mut gray = UMat::new(UMatUsageFlags::USAGE_DEFAULT);
-        //         imgproc::cvt_color(&img, &mut gray, imgproc::COLOR_BGR2GRAY, 0)?;
-        //         Ok(());
-        //     }
-        todo!()
+    fn read_from_memory(img: &[u8]) {
+        let mut lt = leptess::LepTess::new(None, "eng").unwrap();
+        lt.set_image_from_mem(img);
+        println!("{}", lt.get_utf8_text().unwrap());
     }
     // Used to crop the souls counter from screengrab
     // NOTE: could be used for other things...
@@ -119,12 +134,15 @@ impl GameWindow {
         height: u32,
         // ) -> Result<DynamicImage> {
     ) -> Result<PathBuf> {
-        let mut img = image::open(p.as_path()).unwrap();
+        let mut img = image::open("/home/jer/Documents/rust/eldenswing/souls_counter.png").unwrap();
         // let cropped = img.crop_imm(x, y, width, height); // NOTE: This is going to be the new one from .24
         let cropped = img.crop(x, y, width, height);
-        let filename = stringify!("souls_counter.png",);
-        cropped.save(filename).unwrap();
-        Ok(PathBuf::from(filename))
+        cropped
+            .save("/home/jer/Documents/rust/eldenswing/souls_counter_cropped.png")
+            .unwrap();
+        Ok(PathBuf::from(
+            "/home/jer/Documents/rust/eldenswing/souls_counter_cropped.png",
+        ))
         // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?
     }
 
@@ -138,18 +156,3 @@ impl GameWindow {
         todo!()
     }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     #[test]
-//     fn read_ten_million() {
-//         let tess = Tesseract::new();
-//         let imgpath = Path::new("assets/10mill.png");
-//         let tess_img = tess.set_image(impath);
-//         let res = tess.get_text().unwrap();
-//         assert_eq!(res, "10,802,577");
-//         // should read 10802577 from assets/10mill.png
-//         // soulscounter is at 2200 to 2500 on the x
-//         // 1330-1410 on the y
-//     }
-// }

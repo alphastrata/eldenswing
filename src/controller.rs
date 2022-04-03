@@ -223,13 +223,13 @@ impl MogRun {
     pub fn teleport(&self, enigo: &mut Enigo, player: &PlayerController) {
         //TODO: buttons into an array and loop
         player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(100));
+        std::thread::sleep(Duration::from_millis(400));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(200));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(200));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(200));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
