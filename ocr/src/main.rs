@@ -3,7 +3,8 @@ use image::io::Reader;
 use std::fs;
 use std::path::Path;
 use chrono::prelude::Utc;
-
+use std::fs::File;
+use std::io::Read;
 
 #[allow(dead_code)]
 fn crop_from_screengrab(
@@ -37,6 +38,16 @@ fn run(p: String) -> Vec<String> {
         .collect::<Vec<String>>();
     names
 }
+
+
+fn get_file_as_byte_vec(filename: String) -> Vec<u8> {
+    let mut f = File::open(&filename).expect("no file found");
+    let metadata = fs::metadata(&filename).expect("unable to read metadata");
+    let mut buffer = vec![0; metadata.len() as usize];
+    f.read(&mut buffer).expect("buffer overflow");
+
+    buffer
+}
 fn main() {
     println!("Hello, world!");
     let start = Utc::now();
@@ -59,11 +70,9 @@ fn main() {
     println!("Total Imgs {}", paths.len());
     println!("Total time {}ms", (Utc::now() - start).num_milliseconds());
     
-    let img_in_memory = Reader::new(Cursor::new("assets/1336.png"))
-    .with_guessed_format()
-    .expect("Cursor io never fails");  
-    let image = img_in_memory.decode().unwrap();
-    read_from_memory(image.as_bytes());  
+    //NOTE: You left off here, trying to get the in-memory working.
+    let img_in_memory = get_file_as_byte_vec("assets/1336.png".to_string());
+    read_from_memory(&img_in_memory);  
 
 }
 
