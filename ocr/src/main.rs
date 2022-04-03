@@ -1,6 +1,9 @@
+use std::io::Cursor;
+use image::io::Reader;
 use std::fs;
 use std::path::Path;
-// use image::*;
+use chrono::prelude::Utc;
+
 
 #[allow(dead_code)]
 fn crop_from_screengrab(
@@ -15,8 +18,8 @@ fn crop_from_screengrab(
             souls_box.2.try_into().unwrap(),
             souls_box.3.try_into().unwrap(),
             ); 
-        // let filename = stringify!("souls_counter.png");
-        cropped.save("souls_counter.png").unwrap();
+        // cropped.save("souls_counter.png").unwrap(); //NOTE: This is going to continually replace the only file...
+        cropped.save("souls_counter.jpg").unwrap(); //NOTE: This is going to continually replace the only file...
     }
 
 fn run(p: String) -> Vec<String> {
@@ -36,22 +39,31 @@ fn run(p: String) -> Vec<String> {
 }
 fn main() {
     println!("Hello, world!");
+    let start = Utc::now();
 
     let paths = run("assets".into());
-    let souls_box = make_box(1280, 720);
+    let souls_box = make_box(1920, 1080);
 
     for p in paths.iter() {
-        println!("{}", p);
-        let p = format!("{}{}", "assets/", p);
+        let current = Utc::now();
+        let p = format!("{}{}", "assets/", p.clone());
         // crop_from_screengrab(p, souls_box);
         // read_text("souls_counter.png".into(), souls_box);
         read_text(p.into(), souls_box);
+        let end = Utc::now() - current;
+        println!("\tTime Taken:{}ms\n", end.num_milliseconds());
     }
+    // crop_from_screengrab("assets/t4.png".into(),souls_box); //NOTE: something funny about the way imgs come outta the image crate -- leptess doesn't see them as valid images.
+    // read_text("souls_counter.jpg".into(),souls_box);
 
-   
-
-
-    println!("RUN_LEN {}", paths.len());
+    println!("Total Imgs {}", paths.len());
+    println!("Total time {}ms", (Utc::now() - start).num_milliseconds());
+    
+    let img_in_memory = Reader::new(Cursor::new("assets/1336.png"))
+    .with_guessed_format()
+    .expect("Cursor io never fails");  
+    let image = img_in_memory.decode().unwrap();
+    read_from_memory(image.as_bytes());  
 
 }
 
@@ -60,17 +72,35 @@ fn strip_non_digits(s: &str) -> String {
     t
 }
 
+// Make a box to cover the souls counter as a % of screen resolution (x and y)
 fn make_box(x: u32, y: u32)-> (i32, i32, i32, i32){
-    let x = (x as f64 * 0.89) as i32;
-    let y = (y as f64 * 0.94) as i32;
-    let w = (x as f64  * 0.0789) as i32;
-    let h = (y as f64  * 0.0264) as i32;
+    // let x = (x as f64 * 0.89).round() as i32;
+    let x = (x as f64 * 0.98).round() as i32;
+    let y = (y as f64 * 0.94).round() as i32;
+    let w = (x as f64  * 0.0789).round() as i32;
+    let h = (y as f64  * 0.0264).round() as i32;
+
+    println!("BOX:\n{:#?}", (x, y, w, h));
 
     (x,y,w,h)
 
 }
+// // NOTE: Kinda works, but it returns memory addresses for every component that the matcher matches on...
+// fn get_bounding_boxes(p: String) {
+//     let mut lt = leptess::LepTess::new(None, "eng").unwrap();
+//     lt.set_image(p);
+//     let boxes = lt.get_component_boxes(
+//         leptess::capi::TessPageIteratorLevel_RIL_WORD,
+//         true,
+//     ).unwrap();
 
-fn read_text(p: String, souls_box: (i32, i32, i32, i32)) {
+//     for b in boxes.into_iter() {
+//        println!("{:?}", b);
+// }
+// }
+
+// Read text using leptess/tesseract, souls_box should be the output of make_box.
+fn read_text(p: String, _souls_box: (i32, i32, i32, i32)) {
     let mut lt = leptess::LepTess::new(None, "eng").unwrap();
     lt.set_image(&p[..]);
 
@@ -78,10 +108,15 @@ fn read_text(p: String, souls_box: (i32, i32, i32, i32)) {
     //     &leptess::leptonica::Box::new(souls_box.0, souls_box.2, souls_box.2, souls_box.3).unwrap(),
     // );
 
-    #[allow(unused_must_use)]
-    // lt.set_image(&p[..]);
     let text = lt.get_utf8_text().unwrap();
-    println!("{}", strip_non_digits(&text));
+    println!("{} = {}", p, strip_non_digits(&text));
+}
+
+
+fn read_from_memory(img: &[u8]){
+    let mut lt = leptess::LepTess::new(None, "eng").unwrap();
+    lt.set_image_from_mem(img);
+    println!("{}", lt.get_utf8_text().unwrap());
 }
 
 
@@ -96,36 +131,3 @@ fn read_text(p: String, souls_box: (i32, i32, i32, i32)) {
 
 
 
-
-
-
-
-
-
- // read_text("frames/f0355.jpg".into(), souls_box); // should be 19315185
-    // read_text("frames/f0860.jpg".into(), souls_box); // should be 19324292
-
-
-
-
-    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
-    // read_text("souls_counter.png".into(), souls_box); 
-
-    // crop_from_screengrab("frames/f0355.jpg".into(), souls_box); 
-    // read_text("souls_counter.png".into(), souls_box); 
-
-// let x = 2280; 89.06% of 2560
-// let y = 1362; 0.94% of 1440
-// let width = 202; 0.0789% of 2560
-// let height = 38; 0.0264% of 1440
-
-// read_text("assets/19292901.png".to_string()); // 19292901
-// read_text("assets/19324292.png".to_string()); // 19324292
-// read_text("assets/19352740.png".to_string()); // 19352740
-
-// //WRONG!!!
-// read_text("assets/112072.png".to_string()); // 1120727 << This one is wrong for some reason...
-//                                             //
-
-// read_text("assets/112669.png".to_string()); // 112669
-// read_text("assets/62896.png".to_string()); // 62896
