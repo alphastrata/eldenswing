@@ -55,6 +55,7 @@ fn main() -> Result<()> {
     println!("App running.");
     mogrun.time_app_spartup_utc = Utc::now();
     data.session_start = mogrun.time_app_spartup_utc;
+    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
 
     // get our initial ingame screengrab
     let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
@@ -62,8 +63,7 @@ fn main() -> Result<()> {
     // crop it
     let _ = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
 
-    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
-                                                // allow the user some alt-tab time
+    // allow the user some alt-tab time
     mogrun.teleport(&mut enigo, &player);
     // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
     std::thread::sleep(Duration::from_secs(3));
@@ -73,21 +73,20 @@ fn main() -> Result<()> {
         GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-    let mut souls_total_all_runs = vec![1];
+    // let mut souls_total_all_runs = vec![1];
 
-    let mut table = ui::setup_table(mogrun);
-    //
+    // let mut table = ui::setup_table(mogrun);
+    let mut best = 0;
+    let mut worst = 999999;
+
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
     for n in 1..mogrun.run_count_total_absolute {
+        let starttime = Utc::now();
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
 
-        println!(
-            "START_TIME: {:^40}",
-            data.session_start.format("%H:%M:%S %D%m%Y")
-        );
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
         // let history = *data.playerhistory.clone();
@@ -101,20 +100,38 @@ fn main() -> Result<()> {
         mogrun.current_run_end_utc = Utc::now();
 
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-        mogrun.souls_this_run = GameWindow::external_tesseract_call(
+        mogrun.souls_this_run = (GameWindow::external_tesseract_call(
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
-        )?
-        .try_into()?;
-        mogrun.souls_last_run = mogrun.souls_this_run;
-        souls_total_all_runs.push(mogrun.souls_this_run - mogrun.souls_last_run);
+        )?) as i64;
+
         let _ = cleanup_tmp_png(n);
+        let delta = mogrun.souls_this_run - mogrun.souls_last_run;
 
-        update_table(mogrun, &mut table, n, souls_total_all_runs.clone());
         std::thread::sleep(Duration::from_millis(4500));
+        if delta > best {
+            best = delta;
+        }
 
-        // table.printstd();
+        if delta < worst {
+            worst = delta;
+        }
+
+        println!("--------------------------------------------------------------");
+        println!("Starting Souls: {:^12}", mogrun.starting_souls);
+        println!(
+            "Souls from bot: {:^12}",
+            mogrun.souls_this_run - mogrun.starting_souls as i64
+        );
+        println!("Souls vs last : {:^12}", delta);
+        println!("Run# :{}/{}", n, mogrun.run_count_total_absolute);
+        println!("Best run : {:^6}", best);
+        println!("Worst run: {:^6}", worst);
+        println!("--------------------------------------------------------------");
         println!("{:#?}", mogrun);
+
+        mogrun.souls_last_run = mogrun.souls_this_run;
+        mogrun.souls_this_run = 0;
     }
 
     println!("see ya tarnished!");
