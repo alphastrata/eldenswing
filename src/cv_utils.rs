@@ -54,7 +54,7 @@ impl GameWindow {
                 .output()
                 .expect("ls command failed to start");
 
-        // write output to log.txt
+        // append output to log.txt
         let mut file = fs::File::create("screengrab_log.txt")?;
         file.write_all(output.stdout.as_slice())?;
 
@@ -73,13 +73,13 @@ impl GameWindow {
 
         // read the res.txt file's contents into a string and return it
         let contents: String = fs::read_to_string("res.txt")?;
-        let contents: usize = contents.trim().parse()?;
-
-        // write output to log.txt
-        let mut file = fs::File::create("tesseract_log.txt")?;
-        file.write_all(output.stdout.as_slice())?;
-
-        Ok(contents)
+        if contents.len() > 0 {
+            let contents = contents.trim().parse()?;
+            // write output to log.txt
+            return Ok(contents);
+        } else {
+            Ok(GameWindow::external_tesseract_call("res.txt".into(), lang)?)
+        }
     }
     // Used to crop the souls counter from screengrab
     // NOTE: could be used for other things...

@@ -16,3 +16,4 @@ Cargo.lock
 .DS_*
 screenCapture.bat
 *.ps1
+screenshots/*

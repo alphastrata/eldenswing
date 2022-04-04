@@ -1,3 +1,4 @@
+use crate::cv_utils::GameWindow;
 use crate::data_utils::PlayerHistory;
 use chrono::prelude::*;
 use enigo::*;
@@ -177,19 +178,33 @@ impl GameMenus {
     }
 }
 
+// #[derive(Debug, Clone, Copy)]
 #[derive(Debug, Clone, Copy)]
 pub struct MogRun {
-    pub start_time: DateTime<Utc>,
-    pub current_run_starttime: DateTime<Utc>,
-    pub current_run_endtime: DateTime<Utc>,
-    pub num_runs: usize, // representing the total number of runs to be done
-    pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done
-    pub current_run: usize, // representing the current run's number
-    pub runs_completed: usize, // give a sense of progress
+    pub current_run_end_utc: DateTime<Utc>,
+    pub current_run_number: usize,
+    pub current_run_start_utc: DateTime<Utc>,
+    // pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done //calculate this
+    pub est_goldeye_spawns: usize,
+    pub est_time_remaining: Duration,
+    pub run_count_total_thusfar: usize,
+    pub run_count_total_absolute: usize, // num of runs controlling the range of the loop
+    // pub runs_per_minute: f64, // calculate this
+    pub souls_avg_per_run: usize,
+    pub souls_best_thusfar: usize,
+    pub souls_last_run: i64,
+    pub souls_this_run: i64,
+    // pub souls_total_all_runs: Vec<i64>,
+    // pub souls_vs_last_run: usize, calculate this...
+    pub souls_worst_thusfar: usize,
     pub starting_souls: usize, // they may start a run with some souls on the counter
-    pub souls_earned: usize, // running total of all souls earned in session
-    pub prev_run: usize, // rouls earned from previous run (comes from newest_reading)
-    pub newest_reading: usize, // the most recent soul_yield
+    pub time_app_spartup_utc: DateTime<Utc>,
+    // pub time_avg_per_run: Duration, // calculate this
+    pub time_best_thusfar: Duration,
+    pub time_worst_thusfar: Duration,
+    pub turn_angle: f64,
+    pub walk_one: f64,
+    pub walk_two: f64,
     pub yield_total: usize,
 }
 
@@ -197,44 +212,45 @@ pub struct MogRun {
 impl MogRun {
     pub fn new() -> MogRun {
         MogRun {
-            start_time: Utc::now(),
-            num_runs: 0,
-            est_endtime: Utc::now(), // going to be overwritten later..
-            current_run_starttime: Utc::now(),
-            current_run_endtime: Utc::now(),
-            current_run: 1, // always start at 1
-            runs_completed: 0,
-            starting_souls: 0,
-            souls_earned: 0,
-            prev_run: 0,
-            newest_reading: 0,
+            current_run_end_utc: Utc::now(),
+            current_run_number: 1,
+            current_run_start_utc: Utc::now(),
+            // est_endtime: Utc::now(),
+            est_goldeye_spawns: 1,
+            est_time_remaining: Duration::from_secs(0),
+            run_count_total_thusfar: 1,
+            run_count_total_absolute: 1,
+            // runs_per_minute: 0.0,
+            souls_avg_per_run: 1,
+            souls_best_thusfar: 1,
+            souls_last_run: 1,
+            souls_this_run: 1,
+            // souls_total_all_runs: vec![],
+            // souls_vs_last_run: 0,
+            souls_worst_thusfar: 1,
+            starting_souls: 1,
+            time_app_spartup_utc: Utc::now(),
+            // time_avg_per_run: Duration::from_secs(0),
+            time_best_thusfar: Duration::from_secs(0),
+            time_worst_thusfar: Duration::from_secs(0),
+            turn_angle: 0.0,
+            walk_one: 0.0,
+            walk_two: 0.0,
             yield_total: 0,
         }
-    }
-    // returns the avg time per run, in ms, so, multiply it out by 1000 for seconds
-    pub fn avg_time_per_run(&self) -> f64 {
-        // sum(total_time in ms or s / num_runs)
-        // time delta = self.start_time - self.current_run_endtime
-        // time delta / self.num_runs
-        let time_delta = self.start_time - self.current_run_endtime;
-        time_delta.num_milliseconds() as f64 / self.num_runs as f64
-    }
-    // returns the avg number of souls per run
-    pub fn avg_souls_per_run(&self) -> f64 {
-        (self.souls_earned - self.starting_souls) as f64 / self.num_runs as f64
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
     pub fn teleport(&self, enigo: &mut Enigo, player: &PlayerController) {
         //TODO: buttons into an array and loop
-        player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(100));
+        // player.reset_camera(enigo);
+        std::thread::sleep(Duration::from_millis(40));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(40));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(40));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(90));
+        std::thread::sleep(Duration::from_millis(40));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
@@ -243,8 +259,13 @@ impl MogRun {
         player.turn(enigo, CompassDegree::fourtyfive, LR::Left); //left?
                                                                  // player.l2(enigo);
         player.walk_fwd(&history.walk2, enigo);
+        // screengrab logic must go here...
+
+        let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())
+            .expect("unable to screengrab");
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7500));
+        std::thread::sleep(Duration::from_millis(7400));
         self.teleport(enigo, player);
     }
 }

@@ -53,66 +53,68 @@ fn main() -> Result<()> {
 
     // start at Mog
     println!("App running.");
-    mogrun.start_time = Utc::now();
-    data.session_start = mogrun.start_time;
+    mogrun.time_app_spartup_utc = Utc::now();
+    data.session_start = mogrun.time_app_spartup_utc;
 
-    println!(
-        "START_TIME: {:^40}",
-        data.session_start.format("%H:%M:%S %D%m%Y")
-    );
     // get our initial ingame screengrab
     let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
 
     // crop it
     let _ = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
 
-    std::thread::sleep(Duration::from_secs(5));
-    // allow the user some alt-tab time
+    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
+                                                // allow the user some alt-tab time
     mogrun.teleport(&mut enigo, &player);
     // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
-    std::thread::sleep(Duration::from_secs(5));
+    std::thread::sleep(Duration::from_secs(3));
 
     // read it
     mogrun.starting_souls =
         GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
+    let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
+    let mut souls_total_all_runs = vec![1];
 
     let mut table = ui::setup_table(mogrun);
+    //
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
-    mogrun.num_runs = 8;
-    for n in 0..mogrun.num_runs {
-        cleanup_tmp_png();
-        //NOTE: replace this with table
-        //NOTE: replace this with table
+    mogrun.run_count_total_absolute = 101;
+    for n in 1..mogrun.run_count_total_absolute {
+        data.run_number = n as usize;
+        mogrun.current_run_number = n as usize;
 
+        println!(
+            "START_TIME: {:^40}",
+            data.session_start.format("%H:%M:%S %D%m%Y")
+        );
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
         // let history = *data.playerhistory.clone();
+
         // the actual run
         enigo.key_down(Key::Space);
+        mogrun.run_count_total_thusfar += 1;
         mogrun.run(&mut enigo, &player, history);
         enigo.key_up(Key::Space);
-        std::thread::sleep(Duration::from_millis(4900));
 
-        mogrun.runs_completed += 1;
-        data.run_number = n as usize;
-        mogrun.current_run_endtime = Utc::now();
-        data.timestamp = mogrun.current_run_endtime;
+        mogrun.current_run_end_utc = Utc::now();
 
-        let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-        mogrun.newest_reading = GameWindow::external_tesseract_call(
+        mogrun.souls_this_run = GameWindow::external_tesseract_call(
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
-        )?;
-        mogrun.souls_earned = mogrun.newest_reading - &mogrun.starting_souls;
+        )?
+        .try_into()?;
+        mogrun.souls_last_run = mogrun.souls_this_run;
+        souls_total_all_runs.push(mogrun.souls_this_run - mogrun.souls_last_run);
+        let _ = cleanup_tmp_png(n);
 
-        update_table(mogrun, &mut table);
-        // clear the screen on std out
-        table.printstd();
-        mogrun.prev_run = mogrun.newest_reading;
-        mogrun.yield_total += mogrun.newest_reading;
+        update_table(mogrun, &mut table, n, souls_total_all_runs.clone());
+        std::thread::sleep(Duration::from_millis(4500));
+
+        // table.printstd();
+        println!("{:#?}", mogrun);
     }
 
     println!("see ya tarnished!");
@@ -123,17 +125,21 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn cleanup_tmp_png() {
+fn cleanup_tmp_png(run_number: usize) -> Result<()> {
     // remove all png files in dir
     let path = PathBuf::from("./");
-    let files = std::fs::read_dir(path).unwrap();
+    let files = std::fs::read_dir(path)?;
     for file in files {
-        let file = file.unwrap();
+        let file = file?;
         let file_name = file.file_name();
-        let file_name = file_name.to_str().unwrap();
+        let file_name = file_name.to_str().expect("unable to stringify file_name");
         if file_name.ends_with(".png") {
-            // println!("REMOVING: {}", file_name);
-            std::fs::remove_file(file.path()).unwrap();
+            // let timestamp = Utc::now().format("%H%M%S%D%m%Y");
+            let output = format!("./screenshots/{}_{}", run_number, file_name);
+            println!("{}", output);
+            std::fs::rename(file.path(), output)?;
+            std::fs::remove_file(file.path())?;
         }
     }
+    Ok(())
 }
