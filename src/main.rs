@@ -83,7 +83,6 @@ fn main() -> Result<()> {
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
     for n in 1..mogrun.run_count_total_absolute {
-        let starttime = Utc::now();
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
 
@@ -109,7 +108,7 @@ fn main() -> Result<()> {
         let delta = mogrun.souls_this_run - mogrun.souls_last_run;
 
         std::thread::sleep(Duration::from_millis(4500));
-        if delta > best {
+        if delta > best && delta < 99999 {
             best = delta;
         }
 

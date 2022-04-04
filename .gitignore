@@ -17,3 +17,4 @@ Cargo.lock
 screenCapture.bat
 *.ps1
 screenshots/*
+res.txt
