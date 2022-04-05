@@ -20,7 +20,7 @@ screenshots/*
 res.txt
 **/.tmpdriveupload
 **/target/
-_depricated/*
+_depricated/
 screenshots/*
 ocr/
 *.txt
