@@ -1,28 +1,128 @@
 use anyhow::Result;
+use chrono::prelude::*;
+use image::DynamicImage;
+use image::GrayImage;
+use image::RgbImage;
+use image::{open, GenericImage, Luma, Rgb};
+use imageproc::definitions::Image;
+use imageproc::definitions::Score;
+use imageproc::drawing::draw_hollow_rect_mut;
+use imageproc::map::map_colors;
+use imageproc::rect::Rect;
+use imageproc::template_matching::{match_template, MatchTemplateMethod};
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-// To indicate the confdence in a value returned by Tesseract.
-pub struct _Confidence {
+pub struct Confidence {
     value: f64,
 }
+pub fn run_match_template(input_img: PathBuf) -> Result<RgbImage> {
+    // Match the template and convert to u8 depth to display
+    let template_w = 101;
+    let template_x = 0;
+    let template_y = 0;
+    let template_h = 123;
 
+    // let input_img: PathBuf = PathBuf::from("./assets/template.png");
+
+    let image = open(input_img.clone())?.to_luma8();
+
+    let template = open("wave_sword.png")?.to_luma8();
+
+    let method = MatchTemplateMethod::SumOfSquaredErrors;
+    // let method = MatchTemplateMethod::CrossCorrelation;
+    // let method = MatchTemplateMethod::CrossCorrelation;
+
+    let result = match_template(&image, &template, method);
+    let result_scaled = convert_to_gray_image(&result);
+
+    // Pad the result to the same size as the input image, to make them easier to compare
+    let mut result_padded = GrayImage::new(image.width(), image.height());
+    result_padded
+        .copy_from(&result_scaled, template_w / 2, template_h / 2)
+        .unwrap();
+
+    // Show location the template was extracted from
+    let roi = Rect::at(template_x as i32, template_y as i32).of_size(template_w, template_h);
+
+    Ok(draw_green_rect(&result_padded, roi))
+}
+fn convert_to_gray_image(image: &Image<Luma<f32>>) -> GrayImage {
+    let mut lo = f32::INFINITY;
+    let mut hi = f32::NEG_INFINITY;
+
+    for p in image.iter() {
+        lo = if *p < lo { *p } else { lo };
+        hi = if *p > hi { *p } else { hi };
+    }
+
+    let range = hi - lo;
+    let scale = |x| (255.0 * (x - lo) / range) as u8;
+    map_colors(image, |p| Luma([scale(p[0])]))
+}
 // Helper struct to more easily interact with the concept of the Game's screen
 pub struct GameWindow {}
+pub struct RoiBox {
+    x: u32,
+    y: u32,
+    w: u32,
+    h: u32,
+}
 
 impl GameWindow {
     pub fn _new() -> GameWindow {
         GameWindow {}
     }
     pub fn crop_souls_counter(filename: PathBuf) -> Result<PathBuf> {
-        let x: u32 = 2280;
-        let y: u32 = 1362;
-        let width: u32 = 202;
-        let height: u32 = 38;
-        let cropped_img = GameWindow::crop_from_screengrab(filename, (x, y, width, height));
+        let roi_box: RoiBox = RoiBox {
+            //NOTE: this if calibrated to a 1440p display
+            x: 2280,
+            y: 1362,
+            w: 202,
+            h: 38,
+        };
+        let output_filename: PathBuf = PathBuf::from("current_souls_cropped.png");
+        let cropped_img = GameWindow::crop_from_screengrab(
+            filename,
+            (roi_box.x, roi_box.y, roi_box.w, roi_box.h),
+            output_filename,
+        );
         cropped_img
+    }
+    pub fn crop_rh_weapon(filename: PathBuf) -> Result<PathBuf> {
+        let roi_box: RoiBox = RoiBox {
+            //NOTE: this if calibrated to a 1440p display
+            x: 325,
+            y: 1150,
+            w: 101,
+            h: 123,
+        };
+        let output_filename: PathBuf = PathBuf::from(format!(
+            "assets/current_weapon_{}.png",
+            Utc::now().timestamp()
+        ));
+        let cropped_img = GameWindow::crop_from_screengrab(
+            filename,
+            (roi_box.x, roi_box.y, roi_box.w, roi_box.h),
+            output_filename,
+        );
+        cropped_img
+    }
+    // Used to crop the souls counter from screengrab
+    // NOTE: could be used for other things...
+    fn crop_from_screengrab(
+        // img: dyn GenericImageView,
+        p: PathBuf,
+        roi_box: (u32, u32, u32, u32),
+        output_filename: PathBuf,
+    ) -> Result<PathBuf> {
+        let mut img = image::open(&p)?;
+        let cropped = img.crop(roi_box.0, roi_box.1, roi_box.2, roi_box.3);
+        cropped.save(&output_filename)?;
+        Ok(output_filename)
+        // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?
     }
     // Run's an external syscall to ../screenCapture.exe
     // screenCapture- captures the screen or the active window and saves it to a file
@@ -69,21 +169,6 @@ impl GameWindow {
         }
     }
 
-    // Used to crop the souls counter from screengrab
-    // NOTE: could be used for other things...
-    fn crop_from_screengrab(
-        // img: dyn GenericImageView,
-        p: PathBuf,
-        roi_box: (u32, u32, u32, u32),
-    ) -> Result<PathBuf> {
-        let mut img = image::open("starting_souls.png")?; // it will actually ALWAYS take in starting_souls.png
-        let cropped = img.crop(roi_box.0, roi_box.1, roi_box.2, roi_box.3);
-
-        let current_souls_cropped = PathBuf::from("current_souls_cropped.png");
-        cropped.save(current_souls_cropped.as_path()).unwrap();
-        Ok(current_souls_cropped)
-        // NOTE: return a path or the actual img... can the actual img be passed (in memeory) to tesseract..?
-    }
     // Make a box to cover the souls counter as a % of screen resolution (x and y)
     // or.. other region of interest
     fn _make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
@@ -97,4 +182,10 @@ impl GameWindow {
 
         (x, y, w, h)
     }
+}
+
+pub fn draw_green_rect(image: &GrayImage, rect: Rect) -> RgbImage {
+    let mut color_image = map_colors(image, |p| Rgb([p[0], p[0], p[0]]));
+    draw_hollow_rect_mut(&mut color_image, rect, Rgb([0, 255, 0]));
+    color_image
 }

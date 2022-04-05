@@ -21,6 +21,9 @@ n/a
 
 # TODO:
 
+- [] add a check to make sure char has the correct weapon equipped
+- [] add a check to make sure souls != 0, if it does, log a death and quit out of game?
+- [] bring back the runtime commands with the key matching
 - [x] Get OpenCV working ><
 - [x] Get a snapshotter working (on 'l' key take a screengrab from game)
 - [x] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV

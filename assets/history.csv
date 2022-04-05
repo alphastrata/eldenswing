@@ -40,3 +40,15 @@ run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,time
 20,7058501,-7058501,0,62784,26487,1649129914,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:29.734027500 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
 run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
 21,7058501,-7058501,0,62784,26487,1649129931,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:46.354746700 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+1,195205,-195205,0,0,195204,1649163943,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:05:38.450217800 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+2,195205,-195205,0,0,0,1649163958,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:05:53.723819700 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+3,195205,-195205,0,0,0,1649163973,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:06:08.974754300 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+4,195205,-195205,0,40712,0,1649163988,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:06:24.175974 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+1,282515,-282515,0,0,282510,1649164036,2022-04-05 13:06:52.162766800 UTC,2022-04-05 13:07:11.605938200 UTC,2022-04-05 13:06:52.162604400 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+2,282515,-282515,0,4,4,1649164051,2022-04-05 13:06:52.162766800 UTC,2022-04-05 13:07:26.809870100 UTC,2022-04-05 13:06:52.162604400 UTC,0.0,0.0,0.0,0.0,0.0
