@@ -2,32 +2,26 @@ mod controller;
 
 mod cv_utils;
 mod data_utils;
-// mod os_reader;
 mod ui;
 
-// #[macro_use]
-// extern crate prettytable;
-// use prettytable::Table;
-// use ui::{setup_table, update_table};
-
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use chrono::prelude::*;
-use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
+use controller::MogRun;
 use csv::*;
-use cv_utils::{Confidence, GameWindow};
-// use data_utils::Data;
+use cv_utils::GameWindow;
 use data_utils::PlayerHistory;
 use enigo::*;
 use serde::Serialize;
-// use std::fs::File;
 use std::fs::OpenOptions;
-// use std::io::BufWriter;
 use std::path::PathBuf;
 use std::time::Duration;
 
 // use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
+                              // ingame constants if required...
+                              // let one_second = Duration::from_millis(1000);
+                              // let one_frame = one_second / 60;
 
 //
 // +=====+======+ MAIN +=====+======+
@@ -37,10 +31,6 @@ fn main() -> Result<()> {
     // keyboard and event reader stuff
     // let receiver = message_loop::start().expect("unable to read OS events...");
     let mut enigo = Enigo::new();
-
-    // ingame constants
-    // let one_second = Duration::from_millis(1000);
-    // let one_frame = one_second / 60;
 
     // it may look as though the data collection has unnessecary duplication, but this is to potentially allow for extensibility later on (for non Mog runs for example)
     let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
@@ -122,6 +112,7 @@ fn main() -> Result<()> {
             worst = delta;
         }
 
+        // STDOUT for user feedback...
         println!("--------------------------------------------------------------");
         println!("Starting Souls: {:^12}", mogrun.starting_souls);
         println!(
@@ -133,7 +124,6 @@ fn main() -> Result<()> {
         println!("Best run : {:^6}", best);
         println!("Worst run: {:^6}", worst);
         println!("--------------------------------------------------------------");
-        // println!("{:#?}", mogrun);
 
         mogrun.souls_last_run = mogrun.souls_this_run;
         mogrun.souls_this_run = 0;
@@ -148,6 +138,7 @@ fn main() -> Result<()> {
     Ok(())
 }
 
+// TODO: Move these somewhere else
 fn cleanup_tmp_png(run_number: usize) -> Result<()> {
     // remove all png files in dir
     let path = PathBuf::from("./");
@@ -188,7 +179,7 @@ fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<(
     let file = OpenOptions::new()
         .create(true)
         .append(true)
-        .open(format!("history.csv"))
+        .open(format!("assets/history.csv"))
         .unwrap();
 
     let avg_souls_per_second = (m.souls_this_run as f64
@@ -215,15 +206,3 @@ fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<(
     })?;
     Ok(())
 }
-
-// let mut wtr = WriterBuilder::new().from_writer(file);
-// Problem: Unable to get this working without CONSTANTLY reappending the headers....
-// wtr.serialize(Row {
-//     run_number,
-//     starting_souls: m.starting_souls,
-//     souls_this_run: m.souls_this_run,
-//     delta: m.souls_this_run - m.starting_souls as i64,
-//     best_run: best,
-//     worst_run: worst,
-//     timestamp: Utc::now().timestamp().to_string(),
-// })?;

@@ -1,10 +1,5 @@
-use crate::cv_utils::*; // Note: this feature is working in the OCR dir, but not building on windows.. investigate
 use chrono::prelude::*;
-use std::fs::File;
 use std::path::{Path, PathBuf};
-
-use prettytable::format;
-use prettytable::{Cell, Row, Table};
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
 #[derive(Debug, Clone)]
@@ -133,14 +128,14 @@ impl Data {
     }
 }
 
-pub struct SoulsCounter {}
-impl SoulsCounter {
-    fn new() -> SoulsCounter {
-        SoulsCounter {}
-    }
-    // uses the cv_utils.rs which uses OCR via tesseract to read the soul counter from an ingame screengrab
-    pub fn read_counter(img: PathBuf) -> u32 {
-        // crate::cv_utils::read_souls_counter();
-        todo!()
-    }
-}
+// pub struct SoulsCounter {}
+// impl SoulsCounter {
+//     fn new() -> SoulsCounter {
+//         SoulsCounter {}
+//     }
+//     // uses the cv_utils.rs which uses OCR via tesseract to read the soul counter from an ingame screengrab
+//     pub fn read_counter(img: PathBuf) -> u32 {
+//         // crate::cv_utils::read_souls_counter();
+//         todo!()
+//     }
+// }

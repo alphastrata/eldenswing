@@ -215,22 +215,17 @@ impl MogRun {
             current_run_end_utc: Utc::now(),
             current_run_number: 1,
             current_run_start_utc: Utc::now(),
-            // est_endtime: Utc::now(),
             est_goldeye_spawns: 1,
             est_time_remaining: Duration::from_secs(0),
             run_count_total_thusfar: 1,
             run_count_total_absolute: 1,
-            // runs_per_minute: 0.0,
             souls_avg_per_run: 1,
             souls_best_thusfar: 1,
             souls_last_run: 1,
             souls_this_run: 1,
-            // souls_total_all_runs: vec![],
-            // souls_vs_last_run: 0,
             souls_worst_thusfar: 1,
             starting_souls: 1,
             time_app_spartup_utc: Utc::now(),
-            // time_avg_per_run: Duration::from_secs(0),
             time_best_thusfar: Duration::from_secs(0),
             time_worst_thusfar: Duration::from_secs(0),
             turn_angle: 0.0,
@@ -256,10 +251,8 @@ impl MogRun {
     // Perform a Moghywn run
     pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, history: PlayerHistory) {
         player.walk_fwd(&history.walk1, enigo);
-        player.turn(enigo, CompassDegree::fourtyfive, LR::Left); //left?
-                                                                 // player.l2(enigo);
+        player.turn(enigo, CompassDegree::fourtyfive, LR::Left);
         player.walk_fwd(&history.walk2, enigo);
-        // screengrab logic must go here...
 
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())
             .expect("unable to screengrab");

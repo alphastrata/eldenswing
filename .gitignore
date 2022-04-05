@@ -18,3 +18,9 @@ screenCapture.bat
 *.ps1
 screenshots/*
 res.txt
+**/.tmpdriveupload
+**/target/
+_depricated/*
+screenshots/*
+ocr/
+res.txt

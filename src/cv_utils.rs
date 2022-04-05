@@ -1,24 +1,11 @@
 use anyhow::Result;
-use std::process::Command;
-
-// use image::imageops::FilterType;
-// use image::ImageFormat;
-use image::{DynamicImage, GenericImage, GenericImageView};
-// use opencv::core::Vector;
-// use opencv::prelude;
-// use opencv::types;
-// use opencv::{
-//     core::{self},
-//     imgcodecs,
-//     prelude::*,
-// };
-
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 
-// To indicate the confidence in a value returned by Tesseract.
-pub struct Confidence {
+// To indicate the confdence in a value returned by Tesseract.
+pub struct _Confidence {
     value: f64,
 }
 
@@ -26,7 +13,7 @@ pub struct Confidence {
 pub struct GameWindow {}
 
 impl GameWindow {
-    pub fn new() -> GameWindow {
+    pub fn _new() -> GameWindow {
         GameWindow {}
     }
     pub fn crop_souls_counter(filename: PathBuf) -> Result<PathBuf> {
@@ -44,7 +31,7 @@ impl GameWindow {
     // filename - the file where the screen capture will be saved
     // format - Bmp,Emf,Exif,Gif,Icon,Jpeg,Png,Tiff and are supported - default is bmp
     // WindowTitle - instead of capturing the whole screen will capture the only a window with the given title if there's such
-    pub fn screengrab(filename: String, format: String, window_title: String) -> Result<()> {
+    pub fn screengrab(filename: String, format: String, _window_title: String) -> Result<()> {
         let output =
             Command::new("C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe")
                 // TODO: fix above to be like below...
@@ -63,7 +50,7 @@ impl GameWindow {
     // uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
     pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> {
         // make the call
-        let output = Command::new("tesseract.exe")
+        let _output = Command::new("tesseract.exe")
             .arg(filename)
             .arg("res")
             .arg("-l")
@@ -81,6 +68,7 @@ impl GameWindow {
             Ok(GameWindow::external_tesseract_call("res.txt".into(), lang)?)
         }
     }
+
     // Used to crop the souls counter from screengrab
     // NOTE: could be used for other things...
     fn crop_from_screengrab(
@@ -88,7 +76,6 @@ impl GameWindow {
         p: PathBuf,
         roi_box: (u32, u32, u32, u32),
     ) -> Result<PathBuf> {
-        // let mut img = image::open(p.as_path()).unwrap(); // it will actually ALWAYS take in starting_souls.png
         let mut img = image::open("starting_souls.png")?; // it will actually ALWAYS take in starting_souls.png
         let cropped = img.crop(roi_box.0, roi_box.1, roi_box.2, roi_box.3);
 
@@ -99,7 +86,7 @@ impl GameWindow {
     }
     // Make a box to cover the souls counter as a % of screen resolution (x and y)
     // or.. other region of interest
-    fn make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
+    fn _make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
         // let x = (x as f64 * 0.89).round() as i32;
         let x = (x as f64 * 0.98).round() as i32;
         let y = (y as f64 * 0.94).round() as i32;

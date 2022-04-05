@@ -1,10 +1,8 @@
 use crate::controller::MogRun;
-use prettytable::format::Alignment;
 use prettytable::*;
-use std::iter::Sum;
 
 // from the controller::MogRun struct, print everything using prettytable
-pub fn setup_table(m: MogRun) -> Table {
+pub fn _setup_table(m: MogRun) -> Table {
     let mut table = Table::new();
     let format = format::FormatBuilder::new()
         .column_separator('|')
@@ -25,16 +23,9 @@ pub fn setup_table(m: MogRun) -> Table {
         "runs/sec",
         "souls/sec",
     ]);
-    // table.set_titles(Row::new(vec![Cell::new_align(
-    //     &m.time_app_spartup_utc
-    //         .format("%Y-%m-%d %H:%M:%S")
-    //         .to_string()[..],
-    //     Alignment::CENTER,
-    // )
-    // .with_hspan(6)]));
     table
 }
-pub fn update_table(
+pub fn _update_table(
     m: MogRun,
     table: &mut Table,
     run_number: usize,
