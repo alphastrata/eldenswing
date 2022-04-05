@@ -170,11 +170,20 @@ struct Row {
     run_number: usize,
     starting_souls: usize,
     souls_this_run: i64,
-    delta: i64,
+    app_yield_total: usize,
     best_run: i64,
     worst_run: i64,
     timestamp: String,
+    app_startup: String,
+    current_run_end_utc: String,
+    current_run_start_utc: String,
+    walk_one: f64,
+    walk_two: f64,
+    turn_angle: f64,
+    avg_souls_per_run: f64,
+    avg_souls_per_second: f64,
 }
+
 fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<()> {
     let file = OpenOptions::new()
         .create(true)
@@ -182,20 +191,28 @@ fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<(
         .open(format!("history.csv"))
         .unwrap();
 
-    let mut wtr = Writer::from_writer(file);
-    let timestamp = Utc::now().timestamp().to_string();
-    let starting_souls = m.starting_souls.to_string();
-    let souls_this_run = m.souls_this_run.to_string();
-    let delta = (m.souls_this_run - m.souls_last_run as i64).to_string();
-    wtr.write_record(&[
-        run_number.to_string(),
-        starting_souls,
-        souls_this_run,
-        delta,
-        best.to_string(),
-        worst.to_string(),
-        timestamp,
-    ])?;
+    let avg_souls_per_second = (m.souls_this_run as f64
+        / (m.current_run_end_utc.timestamp() - m.current_run_start_utc.timestamp()) as f64);
+    let avg_souls_per_run = (m.souls_this_run as f64 / m.run_count_total_thusfar as f64);
+
+    let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
+    wtr.serialize(Row {
+        app_startup: m.time_app_spartup_utc.to_string(),
+        run_number,
+        starting_souls: m.starting_souls,
+        souls_this_run: m.souls_this_run - m.starting_souls as i64,
+        best_run: best,
+        worst_run: worst,
+        timestamp: Utc::now().timestamp().to_string(),
+        app_yield_total: m.yield_total,
+        current_run_start_utc: m.current_run_start_utc.to_string(),
+        current_run_end_utc: m.current_run_end_utc.to_string(),
+        walk_one: m.walk_one,
+        walk_two: m.walk_two,
+        turn_angle: m.turn_angle,
+        avg_souls_per_run,
+        avg_souls_per_second,
+    })?;
     Ok(())
 }
 

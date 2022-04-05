@@ -1,1 +1,36 @@
 run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+1,6369865,0,-6369865,0,999999,1649128326
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+1,6395021,0,-6395021,0,999999,1649128363
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+2,6395021,0,-6395021,28939,28939,1649128380
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+3,6395021,0,-6395021,36786,28939,1649128396
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+4,6395021,0,-6395021,36786,28939,1649128413
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+5,6395021,0,-6395021,36786,28939,1649128430
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+6,6395021,0,-6395021,36786,28939,1649128446
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+7,6395021,0,-6395021,36786,28939,1649128463
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+8,6395021,0,-6395021,36786,28939,1649128479
+run_number,starting_souls,souls_this_run,delta,best_run,worst_run,timestamp
+9,6395021,0,-6395021,36786,28939,1649128496
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+1,6744593,-6744593,0,0,999999,1649129052,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:24:07.604302200 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+2,6744593,-6744593,0,23544,23544,1649129068,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:24:24.165396400 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+3,6744593,-6744593,0,36295,23544,1649129085,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:24:40.753630500 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+4,6744593,-6744593,0,36295,23544,1649129102,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:24:57.345601100 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+5,6744593,-6744593,0,36786,23544,1649129118,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:25:13.903550300 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+6,6744593,-6744593,0,36786,23544,1649129135,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:25:30.503662 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+7,6744593,-6744593,0,36786,23544,1649129151,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:25:47.063692300 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
+8,6744593,-6744593,0,36786,23544,1649129168,2022-04-05 03:23:46.751740700 UTC,2022-04-05 03:26:03.640915900 UTC,2022-04-05 03:23:46.751581100 UTC,0.0,0.0,0.0,0.0,0.0
