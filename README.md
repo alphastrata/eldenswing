@@ -7,23 +7,17 @@ Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
 _assuming you've cloned the repo and got all the above installed properly_
 
 ```
-cd <wherever you put rustwari>
+cd <wherever you put eldenr>
 cargo build --release
-./target/release/eldenswing
+./target/release/eldenr.exe
 
 ```
 
 Keybindings:
 
 ```
-j -- hit 3 times to speedquit
-o -- hit once to speedrun Mog
-i -- hit once to walk a Mog run
-m -- hit once to stop EldenSwing
-x -- emergency quit
+n/a
 ```
-
-- Whilst running it'll quit you out of the actual game into the main menu if you tripple tap 'j'.
 
 # TODO:
 
