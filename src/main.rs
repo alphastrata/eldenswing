@@ -1,21 +1,27 @@
 mod controller;
+
 mod cv_utils;
 mod data_utils;
 // mod os_reader;
 mod ui;
 
-#[macro_use]
-extern crate prettytable;
-use prettytable::Table;
-use ui::{setup_table, update_table};
+// #[macro_use]
+// extern crate prettytable;
+// use prettytable::Table;
+// use ui::{setup_table, update_table};
 
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
+use csv::*;
 use cv_utils::{Confidence, GameWindow};
-use data_utils::Data;
+// use data_utils::Data;
 use data_utils::PlayerHistory;
 use enigo::*;
+use serde::Serialize;
+// use std::fs::File;
+use std::fs::OpenOptions;
+// use std::io::BufWriter;
 use std::path::PathBuf;
 use std::time::Duration;
 
@@ -127,10 +133,11 @@ fn main() -> Result<()> {
         println!("Best run : {:^6}", best);
         println!("Worst run: {:^6}", worst);
         println!("--------------------------------------------------------------");
-        println!("{:#?}", mogrun);
+        // println!("{:#?}", mogrun);
 
         mogrun.souls_last_run = mogrun.souls_this_run;
         mogrun.souls_this_run = 0;
+        let _ = write_to_csv(mogrun, best, worst, n);
     }
 
     println!("see ya tarnished!");
@@ -150,12 +157,56 @@ fn cleanup_tmp_png(run_number: usize) -> Result<()> {
         let file_name = file.file_name();
         let file_name = file_name.to_str().expect("unable to stringify file_name");
         if file_name.ends_with(".png") {
-            // let timestamp = Utc::now().format("%H%M%S%D%m%Y");
             let output = format!("./screenshots/{}_{}", run_number, file_name);
-            println!("{}", output);
             std::fs::rename(file.path(), output)?;
             std::fs::remove_file(file.path())?;
         }
     }
     Ok(())
 }
+
+#[derive(Serialize)]
+struct Row {
+    run_number: usize,
+    starting_souls: usize,
+    souls_this_run: i64,
+    delta: i64,
+    best_run: i64,
+    worst_run: i64,
+    timestamp: String,
+}
+fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<()> {
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(format!("history.csv"))
+        .unwrap();
+
+    let mut wtr = Writer::from_writer(file);
+    let timestamp = Utc::now().timestamp().to_string();
+    let starting_souls = m.starting_souls.to_string();
+    let souls_this_run = m.souls_this_run.to_string();
+    let delta = (m.souls_this_run - m.souls_last_run as i64).to_string();
+    wtr.write_record(&[
+        run_number.to_string(),
+        starting_souls,
+        souls_this_run,
+        delta,
+        best.to_string(),
+        worst.to_string(),
+        timestamp,
+    ])?;
+    Ok(())
+}
+
+// let mut wtr = WriterBuilder::new().from_writer(file);
+// Problem: Unable to get this working without CONSTANTLY reappending the headers....
+// wtr.serialize(Row {
+//     run_number,
+//     starting_souls: m.starting_souls,
+//     souls_this_run: m.souls_this_run,
+//     delta: m.souls_this_run - m.starting_souls as i64,
+//     best_run: best,
+//     worst_run: worst,
+//     timestamp: Utc::now().timestamp().to_string(),
+// })?;
