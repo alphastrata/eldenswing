@@ -1,8 +1,12 @@
+use crate::controller::MogRun;
+use anyhow::Result;
 use chrono::prelude::*;
-use std::path::{Path, PathBuf};
+use csv::*;
+use serde::Serialize;
+use std::fs::OpenOptions;
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
@@ -72,16 +76,16 @@ impl Data {
     }
     // Helpers to get avg yield on runs
     // pass verbose as true to have them print to stdout
-    fn running_avg_by_run(verbose: bool, history: PlayerHistory, data: Data) -> u32 {
+    fn running_avg_by_run(_verbose: bool, _history: PlayerHistory, _data: Data) -> u32 {
         todo!()
     }
-    fn running_avg_by_h(verbose: bool) -> u32 {
+    fn running_avg_by_h(_verbose: bool) -> u32 {
         todo!()
     }
-    fn running_avg_by_m(verbose: bool) -> u32 {
+    fn running_avg_by_m(_verbose: bool) -> u32 {
         todo!()
     }
-    fn running_avg_by_s(verbose: bool) -> u32 {
+    fn running_avg_by_s(_verbose: bool) -> u32 {
         todo!()
     }
     pub fn data_to_stdout() {
@@ -128,7 +132,51 @@ impl Data {
     }
 }
 
-// pub struct SoulsCounter {}
+#[derive(Serialize)]
+struct Row {
+    timestamp: String,
+    starting_souls: usize,
+    souls_this_run: i64,
+    app_yield_total: usize,
+    best_run: i64,
+    worst_run: i64,
+    app_startup: String,
+    current_run_end_utc: String,
+    current_run_start_utc: String,
+    walk_one: usize,
+    walk_two: usize,
+    turn_angle: usize,
+}
+
+pub fn write_to_csv(m: MogRun, best: i64, worst: i64, p: PlayerHistory) -> Result<()> {
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(format!("assets/history.csv"))
+        .unwrap();
+
+    let w1 = p.walk1;
+    let w2 = p.walk2;
+    let turn_angle = p.turn_angle;
+
+    let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
+    wtr.serialize(Row {
+        app_startup: m.time_app_spartup_utc.to_string(),
+        timestamp: Utc::now().timestamp().to_string(), // This is the machine parsable one (well, easier..)
+        best_run: best,
+        worst_run: worst,
+        current_run_start_utc: m.current_run_start_utc.to_string(),
+        current_run_end_utc: m.current_run_end_utc.to_string(),
+        app_yield_total: m.run_count_total_thusfar,
+        starting_souls: m.starting_souls,
+        souls_this_run: m.starting_souls as i64 - m.souls_this_run,
+        walk_one: w1,
+        walk_two: w2,
+        turn_angle: turn_angle,
+    })?;
+    Ok(())
+}
+
 // impl SoulsCounter {
 //     fn new() -> SoulsCounter {
 //         SoulsCounter {}

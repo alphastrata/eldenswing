@@ -1,68 +1,15 @@
 use anyhow::Result;
 use chrono::prelude::*;
-use image::DynamicImage;
 use image::GrayImage;
 use image::RgbImage;
 use image::{open, GenericImage, Luma, Rgb};
-use imageproc::definitions::Image;
-use imageproc::definitions::Score;
 use imageproc::drawing::draw_hollow_rect_mut;
 use imageproc::map::map_colors;
 use imageproc::rect::Rect;
-use imageproc::template_matching::{match_template, MatchTemplateMethod};
 use std::fs;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process::Command;
-
-pub struct Confidence {
-    value: f64,
-}
-pub fn run_match_template(input_img: PathBuf) -> Result<RgbImage> {
-    // Match the template and convert to u8 depth to display
-    let template_w = 101;
-    let template_x = 0;
-    let template_y = 0;
-    let template_h = 123;
-
-    // let input_img: PathBuf = PathBuf::from("./assets/template.png");
-
-    let image = open(input_img.clone())?.to_luma8();
-
-    let template = open("wave_sword.png")?.to_luma8();
-
-    let method = MatchTemplateMethod::SumOfSquaredErrors;
-    // let method = MatchTemplateMethod::CrossCorrelation;
-    // let method = MatchTemplateMethod::CrossCorrelation;
-
-    let result = match_template(&image, &template, method);
-    let result_scaled = convert_to_gray_image(&result);
-
-    // Pad the result to the same size as the input image, to make them easier to compare
-    let mut result_padded = GrayImage::new(image.width(), image.height());
-    result_padded
-        .copy_from(&result_scaled, template_w / 2, template_h / 2)
-        .unwrap();
-
-    // Show location the template was extracted from
-    let roi = Rect::at(template_x as i32, template_y as i32).of_size(template_w, template_h);
-
-    Ok(draw_green_rect(&result_padded, roi))
-}
-fn convert_to_gray_image(image: &Image<Luma<f32>>) -> GrayImage {
-    let mut lo = f32::INFINITY;
-    let mut hi = f32::NEG_INFINITY;
-
-    for p in image.iter() {
-        lo = if *p < lo { *p } else { lo };
-        hi = if *p > hi { *p } else { hi };
-    }
-
-    let range = hi - lo;
-    let scale = |x| (255.0 * (x - lo) / range) as u8;
-    map_colors(image, |p| Luma([scale(p[0])]))
-}
-// Helper struct to more easily interact with the concept of the Game's screen
 pub struct GameWindow {}
 pub struct RoiBox {
     x: u32,
@@ -99,16 +46,14 @@ impl GameWindow {
             w: 101,
             h: 123,
         };
-        let output_filename: PathBuf = PathBuf::from(format!(
-            "assets/current_weapon_{}.png",
-            Utc::now().timestamp()
-        ));
+        let output_filename: PathBuf =
+            PathBuf::from(format!("current_weapon_{}.png", Utc::now().timestamp()));
         let cropped_img = GameWindow::crop_from_screengrab(
             filename,
             (roi_box.x, roi_box.y, roi_box.w, roi_box.h),
             output_filename,
         );
-        cropped_img
+        Ok(PathBuf::from(fs::canonicalize(cropped_img?.as_path())?))
     }
     // Used to crop the souls counter from screengrab
     // NOTE: could be used for other things...
@@ -147,26 +92,15 @@ impl GameWindow {
 
         Ok(())
     }
-    // uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
-    pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> {
-        // make the call
-        let _output = Command::new("tesseract.exe")
-            .arg(filename)
-            .arg("res")
-            .arg("-l")
-            .arg("eng")
-            .output()
-            .expect("ls command failed to start");
 
-        // read the res.txt file's contents into a string and return it
-        let contents: String = fs::read_to_string("res.txt")?;
-        if contents.len() > 0 {
-            let contents = contents.trim().parse()?;
-            // write output to log.txt
-            return Ok(contents);
-        } else {
-            Ok(GameWindow::external_tesseract_call("res.txt".into(), lang)?)
-        }
+    pub fn read_rh_weapon() -> Result<()> {
+        // TODO! Finish this, the crop and file part is sorted but not the recognition...
+        let date = Utc::now().timestamp();
+        let filename = format!("assets/{}_fullscreengrab", date);
+        let _ = GameWindow::screengrab(filename, "png".into(), "".into())?;
+        let filename = format!("assets/{}_fullscreengrab.png", date);
+        let _ = GameWindow::crop_rh_weapon(PathBuf::from(filename)).unwrap();
+        Ok(())
     }
 
     // Make a box to cover the souls counter as a % of screen resolution (x and y)
@@ -188,4 +122,39 @@ pub fn draw_green_rect(image: &GrayImage, rect: Rect) -> RgbImage {
     let mut color_image = map_colors(image, |p| Rgb([p[0], p[0], p[0]]));
     draw_hollow_rect_mut(&mut color_image, rect, Rgb([0, 255, 0]));
     color_image
+}
+
+/// NOTE: seems to require ABSOLUTE PATHS
+pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
+    // let img2 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\wave_sword.png");
+    // let img1 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\weapon_crop_1.png");
+
+    let attr = dssim::Dssim::new();
+    let orig = dssim::load_image(&attr, &img1)?;
+    let comp = dssim::load_image(&attr, &img2)?;
+    let (diff, _) = attr.compare(&orig, &comp); //NOTE: You're throwing the error away :(
+
+    Ok(diff)
+}
+
+// uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
+pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> {
+    // make the call
+    let _output = Command::new("tesseract.exe")
+        .arg(filename)
+        .arg("res")
+        .arg("-l")
+        .arg("eng")
+        .output()
+        .expect("ls command failed to start");
+
+    // read the res.txt file's contents into a string and return it
+    let contents: String = fs::read_to_string("res.txt")?;
+    if contents.len() > 0 {
+        let contents = contents.trim().parse()?;
+        // write output to log.txt
+        return Ok(contents);
+    } else {
+        Ok(external_tesseract_call("res.txt".into(), lang)?)
+    }
 }

@@ -82,11 +82,11 @@ impl PlayerController {
     // you can walk in something other than straight lines...
     pub fn turn_by_frames(
         &self,
-        enigo: &mut Enigo,
-        d1: CompassDegree,
-        d2: CompassDegree,
-        f: usize,
-        lr: LR,
+        _enigo: &mut Enigo,
+        _d1: CompassDegree,
+        _d2: CompassDegree,
+        _f: usize,
+        _lr: LR,
     ) {
         todo!();
     }
@@ -165,12 +165,12 @@ impl GameMenus {
         sys.enter(REFRESH_RATE, enigo);
 
         // move to quit
-        let quit = UiButton::new(4002 - 2560, 280);
+        let _quit = UiButton::new(4002 - 2560, 280);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
         // move to yes
-        let yes = UiButton::new(1140, 720);
+        let _yes = UiButton::new(1140, 720);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
@@ -205,7 +205,6 @@ pub struct MogRun {
     pub turn_angle: f64,
     pub walk_one: f64,
     pub walk_two: f64,
-    pub yield_total: usize,
 }
 
 // helpers to facilitate a Moghywn run
@@ -231,21 +230,18 @@ impl MogRun {
             turn_angle: 0.0,
             walk_one: 0.0,
             walk_two: 0.0,
-            yield_total: 0,
         }
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
-    pub fn teleport(&self, enigo: &mut Enigo, player: &PlayerController) {
-        //TODO: buttons into an array and loop
-        // player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(40));
+    pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
@@ -254,11 +250,24 @@ impl MogRun {
         player.turn(enigo, CompassDegree::fourtyfive, LR::Left);
         player.walk_fwd(&history.walk2, enigo);
 
+        // Datascience
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())
             .expect("unable to screengrab");
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
+
+        let filename = format!("screenshots/{}_pre_l2", Utc::now().timestamp());
+        let _ = GameWindow::screengrab(filename, "png".into(), "".into())
+            .expect("unable to screengrab");
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7400));
+        std::thread::sleep(Duration::from_millis(6400));
+
+        let filename = format!("screenshots/{}_post_l2", Utc::now().timestamp());
+        let _ = GameWindow::screengrab(filename, "png".into(), "".into())
+            .expect("unable to screengrab");
+        std::thread::sleep(Duration::from_millis(1));
+        // End Datascience
+
         self.teleport(enigo, player);
     }
 }

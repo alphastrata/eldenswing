@@ -1,54 +1,140 @@
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-1,7058501,-7058501,0,0,999999,1649129599,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:33:14.855622100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-2,7058501,-7058501,0,29430,29430,1649129616,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:33:31.372665900 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-3,7058501,-7058501,0,36786,29430,1649129632,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:33:47.894750500 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-4,7058501,-7058501,0,36786,29430,1649129649,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:34:04.416011700 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-5,7058501,-7058501,0,39238,29430,1649129665,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:34:20.905932100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-6,7058501,-7058501,0,51011,29430,1649129682,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:34:37.497049200 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-7,7058501,-7058501,0,51011,29430,1649129698,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:34:54.104297900 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-8,7058501,-7058501,0,51011,26487,1649129715,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:35:10.701055100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-9,7058501,-7058501,0,51011,26487,1649129731,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:35:27.273012800 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-10,7058501,-7058501,0,51011,26487,1649129748,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:35:43.852133200 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-11,7058501,-7058501,0,51011,26487,1649129765,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:36:00.430007400 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-12,7058501,-7058501,0,62784,26487,1649129781,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:36:17.027029 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-13,7058501,-7058501,0,62784,26487,1649129798,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:36:33.578118300 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-14,7058501,-7058501,0,62784,26487,1649129814,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:36:50.171642100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-15,7058501,-7058501,0,62784,26487,1649129831,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:37:06.768620600 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-16,7058501,-7058501,0,62784,26487,1649129848,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:37:23.361663100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-17,7058501,-7058501,0,62784,26487,1649129864,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:37:39.943986500 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-18,7058501,-7058501,0,62784,26487,1649129881,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:37:56.538033800 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-19,7058501,-7058501,0,62784,26487,1649129897,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:13.135061900 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-20,7058501,-7058501,0,62784,26487,1649129914,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:29.734027500 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-21,7058501,-7058501,0,62784,26487,1649129931,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:46.354746700 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-1,195205,-195205,0,0,195204,1649163943,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:05:38.450217800 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-2,195205,-195205,0,0,0,1649163958,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:05:53.723819700 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-3,195205,-195205,0,0,0,1649163973,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:06:08.974754300 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-4,195205,-195205,0,40712,0,1649163988,2022-04-05 13:05:18.972848200 UTC,2022-04-05 13:06:24.175974 UTC,2022-04-05 13:05:18.972675900 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-1,282515,-282515,0,0,282510,1649164036,2022-04-05 13:06:52.162766800 UTC,2022-04-05 13:07:11.605938200 UTC,2022-04-05 13:06:52.162604400 UTC,0.0,0.0,0.0,0.0,0.0
-run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
-2,282515,-282515,0,4,4,1649164051,2022-04-05 13:06:52.162766800 UTC,2022-04-05 13:07:26.809870100 UTC,2022-04-05 13:06:52.162604400 UTC,0.0,0.0,0.0,0.0,0.0
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1,3825786,-3825786,0,0,999999,1649247100,2022-04-06 12:11:14.119702100 UTC,2022-04-06 12:11:35.532557400 UTC,2022-04-06 12:11:14.119702 UTC,108,64,90
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+2,3825786,-3825786,0,34334,34334,1649247116,2022-04-06 12:11:14.119702100 UTC,2022-04-06 12:11:51.776629800 UTC,2022-04-06 12:11:14.119702 UTC,108,64,90
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+3,3825786,-3825786,0,34334,34334,1649247132,2022-04-06 12:11:14.119702100 UTC,2022-04-06 12:12:08.097217700 UTC,2022-04-06 12:11:14.119702 UTC,108,64,90
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+4,3825786,-3825786,0,34334,31391,1649247149,2022-04-06 12:11:14.119702100 UTC,2022-04-06 12:12:24.367265300 UTC,2022-04-06 12:11:14.119702 UTC,108,64,90
+run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+5,3825786,-3825786,0,34334,31391,1649247165,2022-04-06 12:11:14.119702100 UTC,2022-04-06 12:12:40.623518600 UTC,2022-04-06 12:11:14.119702 UTC,108,64,90
+data_taken_at,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+04/06/22042022,4028847,-4028847,0,0,999999,1649247385,2022-04-06 12:15:59.671318300 UTC,2022-04-06 12:16:21.187045100 UTC,2022-04-06 12:15:59.671318200 UTC,108,64,90
+data_taken_at,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+04/06/22042022,4028847,-4028847,0,28939,28939,1649247402,2022-04-06 12:15:59.671318300 UTC,2022-04-06 12:16:37.450401400 UTC,2022-04-06 12:15:59.671318200 UTC,108,64,90
+data_taken_at,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+04/06/220422,4123511,-4123511,0,0,999999,1649247464,2022-04-06 12:17:18.332206500 UTC,2022-04-06 12:17:39.779726900 UTC,2022-04-06 12:17:18.332206400 UTC,108,64,90
+data_taken_at,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+04/06/220422,4123511,-4123511,0,36786,36786,1649247480,2022-04-06 12:17:18.332206500 UTC,2022-04-06 12:17:56.022866200 UTC,2022-04-06 12:17:18.332206400 UTC,108,64,90
+data_taken_at,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+04/06/220422,4123511,-4123511,0,36786,8829,1649247496,2022-04-06 12:17:18.332206500 UTC,2022-04-06 12:18:12.270814300 UTC,2022-04-06 12:17:18.332206400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247682,4240246,-4240246,0,0,999999,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:21:18.282989100 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247699,4240246,-4240246,0,34334,34334,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:21:34.554812400 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247715,4240246,-4240246,0,34334,31882,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:21:50.794557600 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247731,4240246,-4240246,0,36786,31882,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:22:07.056596100 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247748,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:22:23.311791700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247764,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:22:39.594758900 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247780,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:22:55.859289500 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247796,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:23:12.135102 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247813,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:23:28.390272200 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247829,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:23:44.653673300 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247845,4240246,-4240246,0,36786,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:24:00.992134800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247861,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:24:17.251323600 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247878,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:24:33.527685800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247894,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:24:49.834950900 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247910,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:25:06.110305600 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247927,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:25:22.354013800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247943,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:25:38.630314400 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247959,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:25:54.900301700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247975,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:26:11.176976900 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649247992,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:26:27.440173500 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248008,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:26:43.711134400 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248024,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:26:59.960354900 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248040,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:27:16.227777800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248057,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:27:32.504004800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248073,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:27:48.766466900 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248089,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:28:05.054031400 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248106,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:28:21.348426700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248122,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:28:37.609818600 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248138,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:28:53.851846200 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248154,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:29:10.081817800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248171,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:29:26.356048700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248187,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:29:42.640328500 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248203,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:29:58.908264200 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248219,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:30:15.153883800 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248236,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:30:31.411590600 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248252,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:30:47.693839700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248268,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:31:03.988104700 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248284,4240246,-4240246,0,46598,28939,2022-04-06 12:20:56.820394100 UTC,2022-04-06 12:31:20.243310300 UTC,2022-04-06 12:20:56.820394 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248599,5589578,5589578,5589580,0,999999,2022-04-06 12:36:12.999191 UTC,2022-04-06 12:36:34.399874900 UTC,2022-04-06 12:36:12.999190900 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248615,5589578,5589578,11213493,34334,34334,2022-04-06 12:36:12.999191 UTC,2022-04-06 12:36:50.670923800 UTC,2022-04-06 12:36:12.999190900 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248742,5701409,5701409,5701410,0,999999,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:38:58.198929500 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248759,5701409,5701409,5735745,34334,34334,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:39:14.470666300 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248775,5701409,5701409,5767628,34334,31882,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:39:30.745771100 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248791,5701409,5701409,5801963,34334,31882,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:39:46.991350700 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248807,5701409,5701409,5833355,34334,31391,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:40:03.254006100 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248824,5701409,5701409,5864747,34334,31391,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:40:19.533389900 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248840,5701409,5701409,5893687,34334,28939,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:40:35.790278800 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248856,5701409,5701409,5925570,34334,28939,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:40:52.044724100 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248873,5701409,5701409,5956962,34334,28939,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:41:08.306234 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248889,5701409,5701409,5991297,34334,28939,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:41:24.566484400 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649248905,5701409,5701409,6037405,46107,28939,2022-04-06 12:38:36.719943500 UTC,2022-04-06 12:41:40.811994200 UTC,2022-04-06 12:38:36.719943400 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253746,6120777,6120777,6120778,0,999999,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:02:21.840317600 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253762,6120777,6120777,6120779,0,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:02:38.076032300 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253779,6120777,6120777,6157566,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:02:54.327358700 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253795,6120777,6120777,6191901,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:03:10.590860500 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253811,6120777,6120777,6223784,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:03:26.841757100 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253827,6120777,6120777,6258119,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:03:43.088686600 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253844,6120777,6120777,6291963,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:03:59.361318900 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253860,6120777,6120777,6323355,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:04:15.656224100 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90
+timestamp,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649253876,6120777,6120777,6355238,36786,0,2022-04-06 14:02:00.081140300 UTC,2022-04-06 14:04:31.931518 UTC,2022-04-06 14:02:00.081140200 UTC,108,64,90

@@ -21,8 +21,9 @@ n/a
 
 # TODO:
 
+- [x] Can you speed up the loaddimes if you move the install to a faster disk...??
 - [] add a check to make sure char has the correct weapon equipped
-- [] add a check to make sure souls != 0, if it does, log a death and quit out of game?
+- [x] add a check to make sure souls != 0, if it does, log a death and quit out of game?
 - [] bring back the runtime commands with the key matching
 - [x] Get OpenCV working ><
 - [x] Get a snapshotter working (on 'l' key take a screengrab from game)
@@ -39,7 +40,6 @@ n/a
 - [x] Get monitor resolution, [-]make all magic consts relative to it
 - [x] Error handling you scum
 - [x] Get some logging going:
-
 - [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
 - []
 
