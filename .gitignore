@@ -25,6 +25,7 @@ screenshots/*
 ocr/
 *.txt
 assets/.tmp*
+assets/*.png
 assets/*_fullscreengrab*
 assets/current_weapon*
 *.dll
