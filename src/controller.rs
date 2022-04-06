@@ -31,12 +31,12 @@ impl UiButton {
 }
 // representation of % of the ingame compass that you can use to turn
 pub enum CompassDegree {
-    ninety,
-    twentytwo,
-    fourtyfive,
-    oneeighty,
-    twozeventy,
-    threesixty,
+    Ninety,
+    Twentytwo,
+    Fourtyfive,
+    Oneeighty,
+    Twozeventy,
+    Threesixty,
 }
 
 // representaion of left and right
@@ -62,12 +62,12 @@ impl PlayerController {
     // NOTE: camera will be reset within this call
     pub fn turn(&self, enigo: &mut Enigo, d: CompassDegree, lr: LR) {
         let rotation = match { d } {
-            CompassDegree::fourtyfive => COMPASS_TIK * 2,
-            CompassDegree::twentytwo => COMPASS_TIK * 0.5 as i32,
-            CompassDegree::ninety => COMPASS_TIK * 4,
-            CompassDegree::oneeighty => COMPASS_TIK * 8,
-            CompassDegree::twozeventy => COMPASS_TIK * 12,
-            CompassDegree::threesixty => COMPASS_TIK * 16,
+            CompassDegree::Fourtyfive => COMPASS_TIK * 2,
+            CompassDegree::Twentytwo => COMPASS_TIK * 0.5 as i32,
+            CompassDegree::Ninety => COMPASS_TIK * 4,
+            CompassDegree::Oneeighty => COMPASS_TIK * 8,
+            CompassDegree::Twozeventy => COMPASS_TIK * 12,
+            CompassDegree::Threesixty => COMPASS_TIK * 16,
         };
 
         let rotation = match { lr } {
@@ -184,27 +184,23 @@ pub struct MogRun {
     pub current_run_end_utc: DateTime<Utc>,
     pub current_run_number: usize,
     pub current_run_start_utc: DateTime<Utc>,
-    // pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done //calculate this
     pub est_goldeye_spawns: usize,
     pub est_time_remaining: Duration,
     pub run_count_total_thusfar: usize,
     pub run_count_total_absolute: usize, // num of runs controlling the range of the loop
-    // pub runs_per_minute: f64, // calculate this
     pub souls_avg_per_run: usize,
     pub souls_best_thusfar: usize,
-    pub souls_last_run: i64,
-    pub souls_this_run: i64,
-    // pub souls_total_all_runs: Vec<i64>,
-    // pub souls_vs_last_run: usize, calculate this...
+    pub souls_last_run: usize,
+    pub souls_this_run: usize,
     pub souls_worst_thusfar: usize,
     pub starting_souls: usize, // they may start a run with some souls on the counter
     pub time_app_spartup_utc: DateTime<Utc>,
-    // pub time_avg_per_run: Duration, // calculate this
     pub time_best_thusfar: Duration,
     pub time_worst_thusfar: Duration,
     pub turn_angle: f64,
     pub walk_one: f64,
     pub walk_two: f64,
+    pub yield_total: usize,
 }
 
 // helpers to facilitate a Moghywn run
@@ -230,6 +226,7 @@ impl MogRun {
             turn_angle: 0.0,
             walk_one: 0.0,
             walk_two: 0.0,
+            yield_total: 0,
         }
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
@@ -247,7 +244,7 @@ impl MogRun {
     // Perform a Moghywn run
     pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, history: PlayerHistory) {
         player.walk_fwd(&history.walk1, enigo);
-        player.turn(enigo, CompassDegree::fourtyfive, LR::Left);
+        player.turn(enigo, CompassDegree::Fourtyfive, LR::Left);
         player.walk_fwd(&history.walk2, enigo);
 
         // Datascience

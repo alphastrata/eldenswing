@@ -25,10 +25,6 @@ fn main() -> Result<()> {
     // keyboard and event reader stuff
     let mut enigo = Enigo::new();
 
-    // it may look as though the data collection has unnessecary duplication, but this is to potentially allow for extensibility later on (for non Mog runs for example)
-    let history: PlayerHistory = PlayerHistory::new_from(110, 80, 90, 0.0, 0.0, 0);
-    let mut data = data_utils::Data::new(history);
-
     // construct hepler structs to make gameplay easier to control
     let player = controller::PlayerController::new();
     // let gamemenu = controller::GameMenus::new();
@@ -38,7 +34,6 @@ fn main() -> Result<()> {
 
     // start at Mog
     mogrun.time_app_spartup_utc = Utc::now();
-    data.session_start = mogrun.time_app_spartup_utc;
     std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
 
     // get our initial ingame screengrab to read soulcount etc..
@@ -82,14 +77,12 @@ fn main() -> Result<()> {
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
     for n in 1..mogrun.run_count_total_absolute {
-        data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(108, 64, 90, 0.0, 0.0, 0);
-        // let history = *data.playerhistory.clone();
 
-        // the actual run
+        // ================== MOGRUN ==================
         enigo.key_down(Key::Space);
         mogrun.run_count_total_thusfar += 1;
         mogrun.run(&mut enigo, &player, history);
@@ -98,17 +91,16 @@ fn main() -> Result<()> {
         mogrun.current_run_end_utc = Utc::now();
 
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-        mogrun.souls_this_run = (cv_utils::external_tesseract_call(
+        mogrun.souls_this_run = cv_utils::external_tesseract_call(
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
-        )?) as i64;
+        )?;
         let _ = cleanup_tmp_png();
         let delta = mogrun.souls_this_run - mogrun.souls_last_run;
 
         if mogrun.souls_this_run < 1 {
             panic!("A death has occured");
         }
-        mogrun.run_count_total_thusfar += delta as usize;
 
         std::thread::sleep(Duration::from_millis(4500));
         if delta > best && delta < 99999 {
@@ -119,28 +111,28 @@ fn main() -> Result<()> {
             worst = delta;
         }
 
-        // STDOUT for user feedback...
+        // -------------------- UI -----------------------
         println!("--------------------------------------------------------------");
-        println!("Starting Souls: {:^12}", mogrun.starting_souls);
+        println!("Starting Souls: {:^12}", &mogrun.starting_souls);
         println!(
             "Souls from bot: {:^12}",
-            mogrun.souls_this_run - mogrun.starting_souls as i64
+            &mogrun.souls_this_run - &mogrun.starting_souls
         );
-        println!("Souls vs last : {:^12}", delta);
-        println!("Run# :{}/{}", n, mogrun.run_count_total_absolute);
-        println!("Best run : {:^6}", best);
-        println!("Worst run: {:^6}", worst);
+        println!("Souls vs last : {:^12}", &delta);
+        println!("Run# :{}/{}", &n, &mogrun.run_count_total_absolute);
+        println!("Best run : {:^6}", &best);
+        println!("Worst run: {:^6}", &worst);
         println!("--------------------------------------------------------------");
 
         mogrun.souls_last_run = mogrun.souls_this_run;
+        mogrun.yield_total += mogrun.souls_this_run;
         mogrun.souls_this_run = 0;
-        let _ = data_utils::write_to_csv(mogrun, best, worst, history);
+        mogrun.run_count_total_thusfar += 1;
+        let _ = data_utils::write_to_csv(mogrun, best.try_into()?, worst.try_into()?, history);
     }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
-    println!("--------------------------------------------------------------");
-    println!("{:#?}", mogrun);
     println!("--------------------------------------------------------------");
     Ok(())
 }

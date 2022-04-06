@@ -93,15 +93,15 @@ impl GameWindow {
         Ok(())
     }
 
-    pub fn read_rh_weapon() -> Result<()> {
-        // TODO! Finish this, the crop and file part is sorted but not the recognition...
-        let date = Utc::now().timestamp();
-        let filename = format!("assets/{}_fullscreengrab", date);
-        let _ = GameWindow::screengrab(filename, "png".into(), "".into())?;
-        let filename = format!("assets/{}_fullscreengrab.png", date);
-        let _ = GameWindow::crop_rh_weapon(PathBuf::from(filename)).unwrap();
-        Ok(())
-    }
+    // pub fn read_rh_weapon() -> Result<()> {
+    //     // TODO! Finish this, the crop and file part is sorted but not the recognition...
+    //     let date = Utc::now().timestamp();
+    //     let filename = format!("assets/{}_fullscreengrab", date);
+    //     let _ = GameWindow::screengrab(filename, "png".into(), "".into())?;
+    //     let filename = format!("assets/{}_fullscreengrab.png", date);
+    //     let _ = GameWindow::crop_rh_weapon(PathBuf::from(filename)).unwrap();
+    //     Ok(())
+    // }
 
     // Make a box to cover the souls counter as a % of screen resolution (x and y)
     // or.. other region of interest
