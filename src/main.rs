@@ -40,22 +40,13 @@ fn main() -> Result<()> {
     let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
     let _ = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
 
-    // get an item crop and validate it's the wave sword.
-    let weapon_crop = GameWindow::crop_rh_weapon(PathBuf::from("starting_souls.png"))?;
-
-    // DEBUG for pathing>< DO NOT REMOVE
-    // println!("weapon_crop is {:?}", weapon_crop.as_path().display());
-    // println!("wave_sword is {:?}", WAVE_SWORD);
-    let dssim = cv_utils::dssim_compare(weapon_crop, PathBuf::from(WAVE_SWORD))?;
-    if dssim > 0.03 {
-        println!("weapon is not equipped");
-        println!("{}", dssim);
-        panic!("WAVE_SWORD not equipped");
-    } else {
-        println!("{}", dssim);
-        println!("weapon is equipped");
+    // *****SAFTEY FIRST******
+    // Check player always has weapon equipped.
+    let _ = GameWindow::check_rh_weapon()?;
+    // Check we haven't died...
+    if mogrun.souls_this_run < 1 {
+        panic!("A death has occured");
     }
-
     std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
 
     mogrun.teleport(&mut enigo, &player);
@@ -76,11 +67,17 @@ fn main() -> Result<()> {
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
+
     for n in 1..mogrun.run_count_total_absolute {
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
         let history: PlayerHistory = PlayerHistory::new_from(108, 64, 90, 0.0, 0.0, 0);
+
+        // Check we haven't died...
+        if mogrun.souls_this_run < 1 {
+            panic!("A death has occured");
+        }
 
         // ================== MOGRUN ==================
         enigo.key_down(Key::Space);
@@ -95,12 +92,8 @@ fn main() -> Result<()> {
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
         )?;
-        let _ = cleanup_tmp_png();
+        let _ = data_utils::cleanup_tmp_png();
         let delta = mogrun.souls_this_run - mogrun.souls_last_run;
-
-        if mogrun.souls_this_run < 1 {
-            panic!("A death has occured");
-        }
 
         std::thread::sleep(Duration::from_millis(4500));
         if delta > best && delta < 99999 {
@@ -110,6 +103,7 @@ fn main() -> Result<()> {
         if delta < worst {
             worst = delta;
         }
+        let _ = data_utils::write_to_csv(mogrun, best.try_into()?, worst.try_into()?, history);
 
         // -------------------- UI -----------------------
         println!("--------------------------------------------------------------");
@@ -124,36 +118,13 @@ fn main() -> Result<()> {
         println!("Worst run: {:^6}", &worst);
         println!("--------------------------------------------------------------");
 
+        mogrun.yield_total += mogrun.souls_this_run - mogrun.starting_souls;
         mogrun.souls_last_run = mogrun.souls_this_run;
-        mogrun.yield_total += mogrun.souls_this_run;
-        mogrun.souls_this_run = 0;
         mogrun.run_count_total_thusfar += 1;
-        let _ = data_utils::write_to_csv(mogrun, best.try_into()?, worst.try_into()?, history);
     }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     println!("--------------------------------------------------------------");
-    Ok(())
-}
-
-// TODO: Move these to data_utils
-fn cleanup_tmp_png() -> Result<()> {
-    // remove all png files in dir
-    let path = PathBuf::from("./");
-    let files = std::fs::read_dir(path)?;
-    for file in files {
-        let file = file?;
-        let file_name = file.file_name();
-        let file_name = file_name.to_str().expect("unable to stringify file_name");
-        if file_name.ends_with(".png") {
-            let output = format!(
-                "./screenshots/{}_soulcounter_crop.png",
-                Utc::now().timestamp()
-            );
-            std::fs::rename(file.path(), output)?;
-            std::fs::remove_file(file.path())?;
-        }
-    }
     Ok(())
 }

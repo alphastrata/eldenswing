@@ -85,7 +85,7 @@ pub fn write_to_csv(m: MogRun, best: usize, worst: usize, p: PlayerHistory) -> R
         current_run_end_utc: m.current_run_end_utc.to_string(),
         app_yield_total: m.yield_total,
         starting_souls: m.starting_souls,
-        souls_this_run: m.starting_souls - m.souls_this_run,
+        souls_this_run: m.souls_this_run,
         walk_one: w1,
         walk_two: w2,
         turn_angle: turn_angle,
@@ -94,7 +94,7 @@ pub fn write_to_csv(m: MogRun, best: usize, worst: usize, p: PlayerHistory) -> R
 }
 
 // TODO: Move these to data_utils
-fn cleanup_tmp_png() -> Result<()> {
+pub fn cleanup_tmp_png() -> Result<()> {
     // remove all png files in dir
     let path = PathBuf::from("./");
     let files = std::fs::read_dir(path)?;

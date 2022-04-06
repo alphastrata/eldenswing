@@ -10,6 +10,9 @@ use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
+
+const WAVE_SWORD: &str = r"C:\Users\jer\Documents\GitHub\eldenswing\assets\wave_sword.png";
+
 pub struct GameWindow {}
 pub struct RoiBox {
     x: u32,
@@ -46,8 +49,10 @@ impl GameWindow {
             w: 101,
             h: 123,
         };
-        let output_filename: PathBuf =
-            PathBuf::from(format!("current_weapon_{}.png", Utc::now().timestamp()));
+        let output_filename: PathBuf = PathBuf::from(format!(
+            "screenshots/current_weapon_{}.png",
+            Utc::now().timestamp()
+        ));
         let cropped_img = GameWindow::crop_from_screengrab(
             filename,
             (roi_box.x, roi_box.y, roi_box.w, roi_box.h),
@@ -93,16 +98,24 @@ impl GameWindow {
         Ok(())
     }
 
-    // pub fn read_rh_weapon() -> Result<()> {
-    //     // TODO! Finish this, the crop and file part is sorted but not the recognition...
-    //     let date = Utc::now().timestamp();
-    //     let filename = format!("assets/{}_fullscreengrab", date);
-    //     let _ = GameWindow::screengrab(filename, "png".into(), "".into())?;
-    //     let filename = format!("assets/{}_fullscreengrab.png", date);
-    //     let _ = GameWindow::crop_rh_weapon(PathBuf::from(filename)).unwrap();
-    //     Ok(())
-    // }
+    pub fn check_rh_weapon() -> Result<bool> {
+        // get an item crop and validate it's the wave sword.
+        let weapon_crop = GameWindow::crop_rh_weapon(PathBuf::from("starting_souls.png"))?;
 
+        // DEBUG for pathing>< DO NOT REMOVE
+        // println!("weapon_crop is {:?}", weapon_crop.as_path().display());
+        // println!("wave_sword is {:?}", WAVE_SWORD);
+        let dssim = dssim_compare(weapon_crop, PathBuf::from(WAVE_SWORD))?;
+        if dssim > 0.03 {
+            println!("weapon is not equipped");
+            println!("{}", dssim);
+            panic!("WAVE_SWORD not equipped");
+        } else {
+            println!("{}", dssim);
+            println!("weapon is equipped");
+        }
+        Ok(true)
+    }
     // Make a box to cover the souls counter as a % of screen resolution (x and y)
     // or.. other region of interest
     fn _make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
