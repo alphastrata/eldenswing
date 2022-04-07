@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
 1,7058501,-7058501,0,0,999999,1649129599,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:33:14.855622100 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
 run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
@@ -40,3 +41,21 @@ run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,time
 20,7058501,-7058501,0,62784,26487,1649129914,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:29.734027500 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
 run_number,starting_souls,souls_this_run,app_yield_total,best_run,worst_run,timestamp,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle,avg_souls_per_run,avg_souls_per_second
 21,7058501,-7058501,0,62784,26487,1649129931,2022-04-05 03:32:54.147224400 UTC,2022-04-05 03:38:46.354746700 UTC,2022-04-05 03:32:54.147048900 UTC,0.0,0.0,0.0,0.0,0.0
+=======
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341088,81863647,81863646,81863646,1,1,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:18:03.753393600 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341105,81863647,31882,31882,81863647,31882,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:18:20.515825300 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341122,81863647,30900,30900,81895529,31882,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:18:37.318508900 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341138,81863647,30900,30900,81926429,31882,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:18:54.098215500 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341155,81863647,49541,49541,81957329,49541,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:19:10.859201700 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341172,81863647,46598,46598,82006870,49541,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:19:27.614787400 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341189,81863647,34334,34334,82053468,49541,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:19:44.354972600 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+timestamp,starting_souls,souls_delta,souls_this_run,souls_last_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341205,81863647,34334,34334,82087802,49541,1,2022-04-07 14:17:36.735990800 UTC,2022-04-07 14:20:01.115187800 UTC,2022-04-07 14:17:36.520811700 UTC,115,76,90
+>>>>>>> Stashed changes
