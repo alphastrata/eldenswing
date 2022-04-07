@@ -45,9 +45,7 @@ pub fn read_inputs_from_os(receiver: &EventReceiver, verbose: bool) -> Vk {
                 action: Action::Press,
                 ..
             } => {
-                if verbose {
-                    println!("{:?}: {:^80}", vk, Utc::now().format("%H:%M:%S"));
-                }
+                if verbose {}
                 return vk;
             }
             _ => (),

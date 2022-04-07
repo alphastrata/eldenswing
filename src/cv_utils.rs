@@ -1,9 +1,8 @@
 use anyhow::Result;
 use chrono::prelude::*;
 use image::GrayImage;
-use image::RgbImage;
-use image::{open, GenericImage, Luma, Rgb};
-use imageproc::drawing::draw_hollow_rect_mut;
+use image::Rgb;
+// use imageproc::drawing::draw_hollow_rect_mut;
 use imageproc::map::map_colors;
 use imageproc::rect::Rect;
 use std::fs;
@@ -129,12 +128,6 @@ impl GameWindow {
 
         (x, y, w, h)
     }
-}
-
-pub fn draw_green_rect(image: &GrayImage, rect: Rect) -> RgbImage {
-    let mut color_image = map_colors(image, |p| Rgb([p[0], p[0], p[0]]));
-    draw_hollow_rect_mut(&mut color_image, rect, Rgb([0, 255, 0]));
-    color_image
 }
 
 /// NOTE: seems to require ABSOLUTE PATHS

@@ -179,7 +179,7 @@ impl GameMenus {
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
         println!("Waiting for game to load");
         std::thread::sleep(Duration::from_secs(30));
-        enigo.mouse_move_to((2560 / 2), (1440 / 2));
+        enigo.mouse_move_to(2560 / 2, 1440 / 2);
         std::thread::sleep(Duration::from_secs(3));
         enigo.mouse_click(MouseButton::Left);
         std::thread::sleep(Duration::from_secs(3));
@@ -206,6 +206,7 @@ pub struct MogRun {
     pub run_count_total_absolute: usize, // num of runs controlling the range of the loop
     pub souls_avg_per_run: usize,
     pub souls_best_thusfar: usize,
+    pub souls_delta: usize,
     pub souls_last_run: usize,
     pub souls_this_run: usize,
     pub souls_worst_thusfar: usize,
@@ -231,10 +232,11 @@ impl MogRun {
             run_count_total_thusfar: 1,
             run_count_total_absolute: 1,
             souls_avg_per_run: 1,
-            souls_best_thusfar: 1,
+            souls_best_thusfar: 1, // so anything will be better!
+            souls_delta: 0,
             souls_last_run: 1,
             souls_this_run: 1,
-            souls_worst_thusfar: 1,
+            souls_worst_thusfar: 99999, // so anything will be worse... unless you get all 17 abenorics with golden eyes...
             starting_souls: 1,
             time_app_spartup_utc: Utc::now(),
             time_best_thusfar: Duration::from_secs(0),
@@ -273,7 +275,7 @@ impl MogRun {
             .expect("unable to screengrab");
         std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(6400));
+        std::thread::sleep(Duration::from_millis(history.wave_wait as u64));
 
         let filename = format!("screenshots/{}_post_l2", Utc::now().timestamp());
         let _ = GameWindow::screengrab(filename, "png".into(), "".into())

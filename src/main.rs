@@ -67,13 +67,14 @@ fn main() -> Result<()> {
     println!("{:#?} starting_souls", mogrun.starting_souls);
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
 
-    // preset these
-    let mut best = 0;
-    let mut worst = 999999;
-
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
+
+    let mut walk1 = 110;
+    let mut walk2 = 60;
+    let mut wave_wait = 6780; //ms
+    let mut runs: Vec<usize> = Vec::new();
 
     for n in 1..mogrun.run_count_total_absolute {
         if !os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)? {
@@ -82,7 +83,12 @@ fn main() -> Result<()> {
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        let history: PlayerHistory = PlayerHistory::new_from(74, 38, 90, 0.0, 0.0, 0);
+
+        // These values were good when NOT streaming..
+        // let history: PlayerHistory = PlayerHistory::new_from(77, 43, 90, 0.0, 0.0, 0);
+
+        // Values to use when streaming...
+        let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
 
         // Check we haven't died...
         if mogrun.souls_this_run < 1 {
@@ -95,6 +101,7 @@ fn main() -> Result<()> {
         mogrun.run(&mut enigo, &player, history);
         enigo.key_up(Key::Space);
 
+        // ------------------DATA----------------------
         mogrun.current_run_end_utc = Utc::now();
 
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
@@ -103,17 +110,22 @@ fn main() -> Result<()> {
             "eng".to_string(),
         )?;
         let _ = data_utils::cleanup_tmp_png();
-        let delta = mogrun.souls_this_run - mogrun.souls_last_run;
+        mogrun.souls_delta = mogrun.souls_this_run - mogrun.souls_last_run;
+        runs.push(mogrun.souls_delta.clone());
 
         std::thread::sleep(Duration::from_millis(4500));
-        if delta > best && delta < 99999 {
-            best = delta;
+        if mogrun.souls_delta > mogrun.souls_best_thusfar && mogrun.souls_delta < 99999 {
+            mogrun.souls_best_thusfar = mogrun.souls_delta;
         }
 
-        if delta < worst {
-            worst = delta;
+        if mogrun.souls_delta < mogrun.souls_worst_thusfar {
+            mogrun.souls_worst_thusfar = mogrun.souls_delta;
         }
-        let _ = data_utils::write_to_csv(mogrun, best.try_into()?, worst.try_into()?, history);
+        let _ = data_utils::write_to_csv(mogrun, history);
+
+        mogrun.yield_total += mogrun.souls_delta;
+        mogrun.souls_last_run = mogrun.souls_this_run;
+        mogrun.run_count_total_thusfar += 1;
 
         // -------------------- UI -----------------------
         println!("--------------------------------------------------------------");
@@ -122,15 +134,18 @@ fn main() -> Result<()> {
             "Souls from bot: {:^12}",
             &mogrun.souls_this_run - &mogrun.starting_souls
         );
-        println!("Souls vs last : {:^12}", &delta);
+        println!("Souls vs last : {:^12}", &mogrun.souls_delta);
         println!("Run# :{}/{}", &n, &mogrun.run_count_total_absolute);
-        println!("Best run : {:^6}", &best);
-        println!("Worst run: {:^6}", &worst);
-        println!("--------------------------------------------------------------");
-
-        mogrun.yield_total += mogrun.souls_this_run - mogrun.starting_souls;
-        mogrun.souls_last_run = mogrun.souls_this_run;
-        mogrun.run_count_total_thusfar += 1;
+        println!("Best run : {:^6}", &mogrun.souls_best_thusfar);
+        println!("Worst run: {:^6}", &mogrun.souls_worst_thusfar);
+        if runs.len() % 5 == 0 {
+            let sum = runs.iter().sum::<usize>();
+            println!("Average : {:^6}", sum / runs.len());
+        }
+        if runs.len() % 10 == 0 {
+            let mode = runs.iter().max_by_key(|x| x.to_string().len()).unwrap();
+            println!("Mode    : {:^6}", mode);
+        }
     }
 
     println!("see ya tarnished!");

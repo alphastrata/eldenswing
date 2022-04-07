@@ -12,9 +12,9 @@ pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
     pub walk2: usize, // value dictating the ammount of time/frames that the player walks the second time
-    pub wave_wait: f64, // frames or secs?
-    pub grace_wait: f64, // frames or secs?
-    pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
+    pub wave_wait: usize, // frames or secs?
+    pub grace_wait: usize, // frames or secs?
+    pub player_lvl: usize, // unsure whether to capture this, maybe useful to make a runs for target level feature
 }
 impl PlayerHistory {
     pub fn new() -> PlayerHistory {
@@ -22,8 +22,8 @@ impl PlayerHistory {
             walk1: 0,
             turn_angle: 0,
             walk2: 0,
-            wave_wait: 0.0,
-            grace_wait: 0.0,
+            wave_wait: 0,
+            grace_wait: 0,
             player_lvl: 0,
         }
     }
@@ -31,9 +31,9 @@ impl PlayerHistory {
         walk1: usize,
         walk2: usize,
         turn_angle: usize,
-        wave_wait: f64,
-        grace_wait: f64,
-        player_lvl: u32,
+        wave_wait: usize,
+        grace_wait: usize,
+        player_lvl: usize,
     ) -> PlayerHistory {
         PlayerHistory {
             walk1,
@@ -52,8 +52,7 @@ impl PlayerHistory {
 struct Row {
     timestamp: String,
     starting_souls: usize,
-    souls_this_run: usize,
-    app_yield_total: usize,
+    souls_from_run: usize,
     best_run: usize,
     worst_run: usize,
     app_startup: String,
@@ -64,7 +63,7 @@ struct Row {
     turn_angle: usize,
 }
 
-pub fn write_to_csv(m: MogRun, best: usize, worst: usize, p: PlayerHistory) -> Result<()> {
+pub fn write_to_csv(m: MogRun, p: PlayerHistory) -> Result<()> {
     let file = OpenOptions::new()
         .create(true)
         .append(true)
@@ -77,18 +76,17 @@ pub fn write_to_csv(m: MogRun, best: usize, worst: usize, p: PlayerHistory) -> R
 
     let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
     wtr.serialize(Row {
-        app_startup: m.time_app_spartup_utc.to_string(),
         timestamp: Utc::now().timestamp().to_string(), // This is the machine parsable one (well, easier..)
-        best_run: best,
-        worst_run: worst,
+        souls_from_run: m.souls_delta,
+        best_run: m.souls_best_thusfar,
+        worst_run: m.souls_worst_thusfar,
         current_run_start_utc: m.current_run_start_utc.to_string(),
         current_run_end_utc: m.current_run_end_utc.to_string(),
-        app_yield_total: m.yield_total,
         starting_souls: m.starting_souls,
-        souls_this_run: m.souls_this_run,
         walk_one: w1,
         walk_two: w2,
-        turn_angle: turn_angle,
+        turn_angle,
+        app_startup: m.time_app_spartup_utc.to_string(),
     })?;
     Ok(())
 }
