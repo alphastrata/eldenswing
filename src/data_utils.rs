@@ -61,9 +61,10 @@ struct Row {
     walk_one: usize,
     walk_two: usize,
     turn_angle: usize,
+    runs_raw_entries: Vec<usize>,
 }
 
-pub fn write_to_csv(m: MogRun, p: PlayerHistory) -> Result<()> {
+pub fn write_to_csv(m: MogRun, p: PlayerHistory, runs_raw_entries: &Vec<usize>) -> Result<()> {
     let file = OpenOptions::new()
         .create(true)
         .append(true)
@@ -87,6 +88,7 @@ pub fn write_to_csv(m: MogRun, p: PlayerHistory) -> Result<()> {
         walk_two: w2,
         turn_angle,
         app_startup: m.time_app_spartup_utc.to_string(),
+        runs_raw_entries: runs_raw_entries.clone(),
     })?;
     Ok(())
 }

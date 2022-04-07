@@ -1,6 +1,6 @@
 # eldenswing
 
-Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
+Elden Ring helper tools: Speedquit, CV-based soul counting, Mowghyn's Palace farming, and more.
 
 # USAGE:
 
@@ -21,17 +21,26 @@ n/a
 
 # TODO:
 
-- [x] Can you speed up the loaddimes if you move the install to a faster disk...??
-- [] add a check to make sure char has the correct weapon equipped
-- [x] add a check to make sure souls != 0, if it does, log a death and quit out of game?
 - [] bring back the runtime commands with the key matching
+- [] impl stuff to recognise time spent/when in menus avg loop is still 16s .. can we get it lower?
+- [] UI is kinda ugly... add colours?
+- [] work on the mode -- this may be the key to finding good positioning (w1, w2 and the turn...)
+- [] 24 hour test
+- [] slap togeter a decent set of graphs in python off of your .csv data...
+- [] move screenshot storage to G:/
+
+# DONE:
+
+- [x] Can you speed up the loaddimes if you move the install to a faster disk...??
+- [x] add a check to make sure char has the correct weapon equipped
+- [x] add a check to make sure souls != 0, if it does, log a death and quit out of game?
 - [x] Get OpenCV working ><
 - [x] Get a snapshotter working (on 'l' key take a screengrab from game)
 - [x] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV
 - [-] if you do get a %match, what does that mean?
-- [-] Can you match a grace, then orient towards it to make it centre screen?
+- [x] Can you match a grace, then orient towards it to make it centre screen?
 - [x] Ask Pavel for some ideas
-- [-] Get a trimmer working (i.e crop a specific region of screen, like the compass)
+- [x] Get a trimmer working (i.e crop a specific region of screen, like the compass)
 - [x] Computer vision to recognise soul count?
 - [x] Take footage of a manual and automated run, whip up a quick script to take frames from them
 - [x] Pavel suggested taking the avg of the target from say 100 images then match on that.
@@ -41,7 +50,6 @@ n/a
 - [x] Error handling you scum
 - [x] Get some logging going:
 - [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
-- []
 
 # Feature Ideas:
 
