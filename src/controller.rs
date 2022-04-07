@@ -176,6 +176,22 @@ impl GameMenus {
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
     }
+    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
+        println!("Waiting for game to load");
+        std::thread::sleep(Duration::from_secs(30));
+        enigo.mouse_move_to((2560 / 2), (1440 / 2));
+        std::thread::sleep(Duration::from_secs(3));
+        enigo.mouse_click(MouseButton::Left);
+        std::thread::sleep(Duration::from_secs(3));
+        enigo.mouse_click(MouseButton::Left);
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        println!("Game should be up and runing..");
+    }
 }
 
 // #[derive(Debug, Clone, Copy)]

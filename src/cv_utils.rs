@@ -163,9 +163,9 @@ pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> 
 
     // read the res.txt file's contents into a string and return it
     let contents: String = fs::read_to_string("res.txt")?;
-    if contents.len() > 0 {
-        let contents = contents.trim().parse()?;
-        // write output to log.txt
+    let default = 0;
+    if contents.trim().len() > 0 {
+        let contents = contents.trim().parse().unwrap_or(default); //NOTE this will stop the crashing but.. it's not ideal.
         return Ok(contents);
     } else {
         Ok(external_tesseract_call("res.txt".into(), lang)?)

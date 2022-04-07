@@ -1,6 +1,8 @@
 mod controller;
 mod cv_utils;
 mod data_utils;
+mod os_reader;
+
 use anyhow::Result;
 use chrono::prelude::*;
 use cv_utils::GameWindow;
@@ -28,9 +30,14 @@ fn main() -> Result<()> {
     // construct hepler structs to make gameplay easier to control
     let player = controller::PlayerController::new();
     // let gamemenu = controller::GameMenus::new();
+    let gamemenu = controller::GameMenus::new();
 
     // these are for mostly for data collection
     let mut mogrun = controller::MogRun::new();
+
+    if !os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)? {
+        panic!("Elden Ring is not running");
+    }
 
     // start at Mog
     mogrun.time_app_spartup_utc = Utc::now();
@@ -69,10 +76,13 @@ fn main() -> Result<()> {
     mogrun.run_count_total_absolute = 101;
 
     for n in 1..mogrun.run_count_total_absolute {
+        if !os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)? {
+            panic!("Elden Ring is not running");
+        }
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        let history: PlayerHistory = PlayerHistory::new_from(108, 64, 90, 0.0, 0.0, 0);
+        let history: PlayerHistory = PlayerHistory::new_from(74, 38, 90, 0.0, 0.0, 0);
 
         // Check we haven't died...
         if mogrun.souls_this_run < 1 {
