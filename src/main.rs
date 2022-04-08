@@ -43,7 +43,7 @@ fn main() -> Result<()> {
 
     // start at Mog
     mogrun.time_app_spartup_utc = Utc::now();
-    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
+    std::thread::sleep(Duration::from_secs(2)); // needs to be long enough for initial read..
 
     // get our initial ingame screengrab to read soulcount etc..
     let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
@@ -56,12 +56,12 @@ fn main() -> Result<()> {
     if mogrun.souls_this_run < 1 {
         panic!("A death has occured");
     }
-    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
+    std::thread::sleep(Duration::from_secs(3)); // needs to be long enough for initial read..
 
     mogrun.teleport(&mut enigo, &player);
 
     // allow the user some alt-tab time, also this prevents the first run from going too short.
-    std::thread::sleep(Duration::from_secs(4));
+    std::thread::sleep(Duration::from_secs(2));
 
     // read it whilst waiting for teleport in...
     mogrun.starting_souls =
@@ -73,9 +73,9 @@ fn main() -> Result<()> {
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
 
-    let mut walk1 = 110;
-    let mut walk2 = 63;
-    let mut wave_wait = 6790; //ms
+    let mut walk1 = 118;
+    let mut walk2 = 68;
+    let mut wave_wait = 6789; //ms
     let mut runs: Vec<usize> = Vec::new();
 
     for n in 1..mogrun.run_count_total_absolute {
@@ -88,13 +88,14 @@ fn main() -> Result<()> {
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
 
         // These values were good when NOT streaming..
-        // let history: PlayerHistory = PlayerHistory::new_from(77, 43, 90, 0.0, 0.0, 0);
+        let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
 
         // Values to use when streaming...
-        let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
+        // let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
 
         // Check we haven't died...
         if mogrun.souls_this_run < 1 {
+            gamemenu.quit_from_game(&mut enigo);
             panic!("A death has occured");
         }
 

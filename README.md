@@ -28,6 +28,8 @@ n/a
 - [] 24 hour test
 - [] slap togeter a decent set of graphs in python off of your .csv data...
 - [] move screenshot storage to G:/
+- [] merge rh into win-dev
+- [] compress screenshots data (a lot...)
 
 # DONE:
 

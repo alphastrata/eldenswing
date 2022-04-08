@@ -178,7 +178,7 @@ impl GameMenus {
     }
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
         println!("Waiting for game to load");
-        std::thread::sleep(Duration::from_secs(30));
+        std::thread::sleep(Duration::from_secs(35));
         enigo.mouse_move_to(2560 / 2, 1440 / 2);
         std::thread::sleep(Duration::from_secs(3));
         enigo.mouse_click(MouseButton::Left);
@@ -250,7 +250,7 @@ impl MogRun {
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
     pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 7));
         enigo.key_click(Key::Layout('g'));
         std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('f'));
@@ -266,6 +266,7 @@ impl MogRun {
         player.walk_fwd(&history.walk2, enigo);
 
         // Datascience
+        enigo.mouse_move_relative(0, 320); // we need a better view
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())
             .expect("unable to screengrab");
         std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
@@ -280,9 +281,10 @@ impl MogRun {
         let filename = format!("screenshots/{}_post_l2", Utc::now().timestamp());
         let _ = GameWindow::screengrab(filename, "png".into(), "".into())
             .expect("unable to screengrab");
-        std::thread::sleep(Duration::from_millis(1));
         // End Datascience
 
+        player.centre_joypad(enigo);
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
         self.teleport(enigo, player);
     }
 }
