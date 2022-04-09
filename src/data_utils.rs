@@ -1,15 +1,20 @@
+use crate::controller::MogRun;
+use anyhow::Result;
 use chrono::prelude::*;
-use std::path::{Path, PathBuf};
+use csv::*;
+use serde::Serialize;
+use std::fs::OpenOptions;
+use std::path::PathBuf;
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
     pub walk2: usize, // value dictating the ammount of time/frames that the player walks the second time
-    pub wave_wait: f64, // frames or secs?
-    pub grace_wait: f64, // frames or secs?
-    pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
+    pub wave_wait: usize, // frames or secs?
+    pub grace_wait: usize, // frames or secs?
+    pub player_lvl: usize, // unsure whether to capture this, maybe useful to make a runs for target level feature
 }
 impl PlayerHistory {
     pub fn new() -> PlayerHistory {
@@ -17,8 +22,8 @@ impl PlayerHistory {
             walk1: 0,
             turn_angle: 0,
             walk2: 0,
-            wave_wait: 0.0,
-            grace_wait: 0.0,
+            wave_wait: 0,
+            grace_wait: 0,
             player_lvl: 0,
         }
     }
@@ -26,9 +31,9 @@ impl PlayerHistory {
         walk1: usize,
         walk2: usize,
         turn_angle: usize,
-        wave_wait: f64,
-        grace_wait: f64,
-        player_lvl: u32,
+        wave_wait: usize,
+        grace_wait: usize,
+        player_lvl: usize,
     ) -> PlayerHistory {
         PlayerHistory {
             walk1,
@@ -42,100 +47,69 @@ impl PlayerHistory {
 }
 
 // representing all data we wish to capture from the game and interact with/present
-#[derive(Debug, Clone)]
-pub struct Data {
-    pub session_start: DateTime<Utc>, // will actually be a timestamp
-    pub soulscount: u32,              // get this from Tesseract with OCR
-    pub timestamp: DateTime<Utc>, // representing the UPDATE time this data was last updated will actually be a Utc::Datetime
-    pub run_number: usize,        // count this even if infinite
-    pub playerhistory: PlayerHistory, // See comments above struct decleration
-    pub session_end: u32,         // will actually be a timestamp
-    pub prev_run_yeild: u32,      // soul yield previous run
+
+#[derive(Serialize)]
+struct Row {
+    timestamp: String,
+    starting_souls: usize,
+    souls_from_run: usize,
+    best_run: usize,
+    worst_run: usize,
+    app_startup: String,
+    current_run_end_utc: String,
+    current_run_start_utc: String,
+    walk_one: usize,
+    walk_two: usize,
+    turn_angle: usize,
+    runs_raw_entries: Vec<usize>,
 }
-impl Data {
-    pub fn new(history: PlayerHistory) -> Data {
-        Data {
-            session_start: Utc::now(),
-            soulscount: 0,
-            timestamp: Utc::now(),
-            run_number: 0,
-            playerhistory: history,
-            session_end: 0,
-            prev_run_yeild: 0,
+
+pub fn write_to_csv(m: MogRun, p: PlayerHistory, runs_raw_entries: &Vec<usize>) -> Result<()> {
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(format!("assets/history.csv"))
+        .unwrap();
+
+    let w1 = p.walk1;
+    let w2 = p.walk2;
+    let turn_angle = p.turn_angle;
+
+    let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
+    wtr.serialize(Row {
+        timestamp: Utc::now().timestamp().to_string(), // This is the machine parsable one (well, easier..)
+        souls_from_run: m.souls_delta,
+        best_run: m.souls_best_thusfar,
+        worst_run: m.souls_worst_thusfar,
+        current_run_start_utc: m.current_run_start_utc.to_string(),
+        current_run_end_utc: m.current_run_end_utc.to_string(),
+        starting_souls: m.starting_souls,
+        walk_one: w1,
+        walk_two: w2,
+        turn_angle,
+        app_startup: m.time_app_spartup_utc.to_string(),
+        runs_raw_entries: runs_raw_entries.clone(),
+    })?;
+    Ok(())
+}
+
+// TODO: Move these to data_utils
+pub fn cleanup_tmp_png() -> Result<()> {
+    // remove all png files in dir
+    let path = PathBuf::from("./");
+    let files = std::fs::read_dir(path)?;
+    for file in files {
+        let file = file?;
+        let file_name = file.file_name();
+        let file_name = file_name.to_str().expect("unable to stringify file_name");
+        if file_name.ends_with(".png") {
+            let output = format!(
+                "./screenshots/{}_soulcounter_crop.png",
+                Utc::now().timestamp()
+            );
+            std::fs::rename(file.path(), output)?;
+            std::fs::remove_file(file.path())?;
         }
     }
-    // save all data to disk
-    fn write_run_data() {
-        // let out = File::create("output_csv.txt")?; // apparently possible with prettytable
-        // table.to_csv(out)?;
-        todo!();
-    }
-    // Helpers to get avg yield on runs
-    // pass verbose as true to have them print to stdout
-    fn running_avg_by_run(verbose: bool, history: PlayerHistory, data: Data) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_h(verbose: bool) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_m(verbose: bool) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_s(verbose: bool) -> u32 {
-        todo!()
-    }
-    pub fn data_to_stdout() {
-        // lots of precanned convenience formats are available in consts....
-        // table.set_format(*format::consts::FORMAT_NO_BORDER_LINE_SEPARATOR);
-        // table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
-        // // Create the table
-        // let mut table = Table::new();
-
-        // // Add a row per time
-        // table.add_row(row!["ABC", "DEFG", "HIJKLMN"]);
-        // table.add_row(row!["foobar", "bar", "foo"]);
-        // // A more complicated way to add a row:
-        // table.add_row(Row::new(vec![
-        //     Cell::new("foobar2"),
-        //     Cell::new("bar2"),
-        //     Cell::new("foo2"),
-        // ]));
-
-        // Print the table to stdout
-        // table.printstd();
-        todo!();
-    }
-    // cleanup temporary files
-    // fn cleanup_tmp() -> Result<bool, std::io::Error> {
-    //     for entry in std::fs::read_dir("tmp")?.into_iter() {
-    //         let path = entry?.path();
-    //         if path.extension().expect("Unable to view file extension.") == "png" {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     for entry in std::fs::read_dir("completed")?.into_iter() {
-    //         let path = entry?.path();
-    //         if !path.to_str().unwrap().contains("fulldisc") {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     Ok(true)
-    // }
-    fn create_tmp_dir() -> Result<(), std::io::Error> {
-        // let tmpdir_contents = std::fs::read_dir(Path::new("tmp"))?;
-        // Ok();
-        todo!()
-    }
+    Ok(())
 }
-
-// pub struct SoulsCounter {}
-// impl SoulsCounter {
-//     fn new() -> SoulsCounter {
-//         SoulsCounter {}
-//     }
-//     // uses the cv_utils.rs which uses OCR via tesseract to read the soul counter from an ingame screengrab
-//     pub fn read_counter(img: PathBuf) -> u32 {
-//         // crate::cv_utils::read_souls_counter();
-//         todo!()
-//     }
-// }

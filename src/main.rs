@@ -1,208 +1,199 @@
 mod controller;
-
 mod cv_utils;
 mod data_utils;
-mod ui;
+mod os_reader;
 
 use anyhow::Result;
 use chrono::prelude::*;
-use controller::MogRun;
-use csv::*;
+use colored::*;
 use cv_utils::GameWindow;
+use std::collections::HashMap;
+use std::path::PathBuf;
+// use winput::message_loop::{self, EventReceiver};
 use data_utils::PlayerHistory;
 use enigo::*;
-use serde::Serialize;
-use std::fs::OpenOptions;
-use std::path::PathBuf;
 use std::time::Duration;
 
-// use winput::message_loop::{self, EventReceiver};
+const WAVE_SWORD: &str = r"C:\Users\jer\Documents\GitHub\eldenswing\assets\wave_sword.png";
+
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
                               // ingame constants if required...
                               // let one_second = Duration::from_millis(1000);
                               // let one_frame = one_second / 60;
 
-//
 // +=====+======+ MAIN +=====+======+
 fn main() -> Result<()> {
-    // os_reader::check_monitors(); // TODO: not useful?
+    println!("Hello tarnished...");
 
     // keyboard and event reader stuff
-    // let receiver = message_loop::start().expect("unable to read OS events...");
     let mut enigo = Enigo::new();
-
-    // it may look as though the data collection has unnessecary duplication, but this is to potentially allow for extensibility later on (for non Mog runs for example)
-    let history: PlayerHistory = PlayerHistory::new_from(98, 87, 90, 0.0, 0.0, 0);
-    let mut data = data_utils::Data::new(history);
 
     // construct hepler structs to make gameplay easier to control
     let player = controller::PlayerController::new();
     // let gamemenu = controller::GameMenus::new();
+    let gamemenu = controller::GameMenus::new();
 
     // these are for mostly for data collection
     let mut mogrun = controller::MogRun::new();
 
-    // NOTE: this is out for the mo because I cannot work out the Copy impl thing...
-    // data.playerhistory = &history;
-    // we set the ammount to walk/turn etc as history because it will become so, and will be logged for data science later..
+    if !os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)? {
+        panic!("Elden Ring is not running");
+    }
 
     // start at Mog
-    println!("App running.");
     mogrun.time_app_spartup_utc = Utc::now();
-    data.session_start = mogrun.time_app_spartup_utc;
-    std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
+    std::thread::sleep(Duration::from_secs(2)); // needs to be long enough for initial read..
 
-    // get our initial ingame screengrab
+    // get our initial ingame screengrab to read soulcount etc..
     let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())?;
-
-    // crop it
     let _ = GameWindow::crop_souls_counter(PathBuf::from("starting_souls.png"))?;
 
-    // allow the user some alt-tab time
-    mogrun.teleport(&mut enigo, &player);
-    // allow them a moment to cancel/move their char etc before control of their keyboard is snatched
-    std::thread::sleep(Duration::from_secs(3));
+    // *****SAFTEY FIRST******
+    // Check player always has weapon equipped.
+    let _ = GameWindow::check_rh_weapon()?;
+    // Check we haven't died...
+    if mogrun.souls_this_run < 1 {
+        panic!("A death has occured");
+    }
+    std::thread::sleep(Duration::from_secs(3)); // needs to be long enough for initial read..
 
-    // read it
+    mogrun.teleport(&mut enigo, &player);
+
+    // allow the user some alt-tab time, also this prevents the first run from going too short.
+    std::thread::sleep(Duration::from_secs(2));
+
+    // read it whilst waiting for teleport in...
     mogrun.starting_souls =
-        GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
+        cv_utils::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-    // let mut souls_total_all_runs = vec![1];
-
-    // let mut table = ui::setup_table(mogrun);
-    let mut best = 0;
-    let mut worst = 999999;
 
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
+
+    let mut walk1 = 118;
+    let mut walk2 = 68;
+    let mut wave_wait = 6789; //ms
+    let mut runs: Vec<usize> = Vec::new();
+
     for n in 1..mogrun.run_count_total_absolute {
-        data.run_number = n as usize;
+        let stopwatch = std::time::Instant::now();
+        if !os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)? {
+            panic!("Elden Ring is not running");
+        }
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
-        // let history = *data.playerhistory.clone();
 
-        // the actual run
+        // These values were good when NOT streaming..
+        let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
+
+        // Values to use when streaming...
+        // let history: PlayerHistory = PlayerHistory::new_from(walk1, walk2, 90, wave_wait, 0, 0);
+
+        // Check we haven't died...
+        if mogrun.souls_this_run < 1 {
+            gamemenu.quit_from_game(&mut enigo);
+            panic!("A death has occured");
+        }
+
+        // ================== MOGRUN ==================
         enigo.key_down(Key::Space);
         mogrun.run_count_total_thusfar += 1;
         mogrun.run(&mut enigo, &player, history);
         enigo.key_up(Key::Space);
 
+        // ------------------DATA----------------------
         mogrun.current_run_end_utc = Utc::now();
 
         let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-        mogrun.souls_this_run = (GameWindow::external_tesseract_call(
+        mogrun.souls_this_run = cv_utils::external_tesseract_call(
             "current_souls_cropped.png".to_string(),
             "eng".to_string(),
-        )?) as i64;
+        )?;
+        let _ = data_utils::cleanup_tmp_png();
+        mogrun.souls_delta = mogrun.souls_this_run - mogrun.souls_last_run;
 
-        let _ = cleanup_tmp_png(n);
-        let delta = mogrun.souls_this_run - mogrun.souls_last_run;
-
-        std::thread::sleep(Duration::from_millis(4500));
-        if delta > best && delta < 99999 {
-            best = delta;
+        //TODO: how much smaller can this sleep get...
+        std::thread::sleep(Duration::from_millis(4300));
+        if mogrun.souls_delta > mogrun.souls_best_thusfar && mogrun.souls_delta < 99999 {
+            mogrun.souls_best_thusfar = mogrun.souls_delta;
         }
 
-        if delta < worst {
-            worst = delta;
+        if mogrun.souls_delta < mogrun.souls_worst_thusfar {
+            mogrun.souls_worst_thusfar = mogrun.souls_delta;
         }
 
-        // STDOUT for user feedback...
+        mogrun.yield_total += mogrun.souls_delta;
+        mogrun.souls_last_run = mogrun.souls_this_run;
+        mogrun.run_count_total_thusfar += 1;
+
+        // -------------------- UI -----------------------
         println!("--------------------------------------------------------------");
-        println!("Starting Souls: {:^12}", mogrun.starting_souls);
+        println!("Starting Souls: {:^12}", &mogrun.starting_souls);
         println!(
             "Souls from bot: {:^12}",
-            mogrun.souls_this_run - mogrun.starting_souls as i64
+            &mogrun.souls_this_run - &mogrun.starting_souls
         );
-        println!("Souls vs last : {:^12}", delta);
-        println!("Run# :{}/{}", n, mogrun.run_count_total_absolute);
-        println!("Best run : {:^6}", best);
-        println!("Worst run: {:^6}", worst);
-        println!("--------------------------------------------------------------");
+        println!("Souls vs last : {:^12}", &mogrun.souls_delta);
+        println!("Run# :{}/{}", &n, &mogrun.run_count_total_absolute);
+        println!("Best run : {:^6}", &mogrun.souls_best_thusfar);
+        println!("Worst run: {:^6}", &mogrun.souls_worst_thusfar);
 
-        mogrun.souls_last_run = mogrun.souls_this_run;
-        mogrun.souls_this_run = 0;
-        let _ = write_to_csv(mogrun, best, worst, n);
+        // you don't wanna be pushing the initial souls_counter's value onto this as it can... really make the avg look awesome, when it isn't.
+        if n > 1 {
+            runs.push(mogrun.souls_delta.clone());
+            let median = get_median(&mut runs);
+            let mode = get_mode(&runs);
+            let mean = get_mean(&runs);
+            println!("Median: {:^6}", median);
+            println!("Mean: {:^6}", mean);
+            println!("Mode: {:#?}", mode);
+        }
+
+        println!("Run took : {}ms ", stopwatch.elapsed().as_millis());
+        let _ = data_utils::write_to_csv(mogrun, history, &runs);
     }
 
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     println!("--------------------------------------------------------------");
-    println!("{:#?}", mogrun);
-    println!("--------------------------------------------------------------");
     Ok(())
 }
 
-// TODO: Move these somewhere else
-fn cleanup_tmp_png(run_number: usize) -> Result<()> {
-    // remove all png files in dir
-    let path = PathBuf::from("./");
-    let files = std::fs::read_dir(path)?;
-    for file in files {
-        let file = file?;
-        let file_name = file.file_name();
-        let file_name = file_name.to_str().expect("unable to stringify file_name");
-        if file_name.ends_with(".png") {
-            let output = format!("./screenshots/{}_{}", run_number, file_name);
-            std::fs::rename(file.path(), output)?;
-            std::fs::remove_file(file.path())?;
-        }
+fn get_median(v: &mut Vec<usize>) -> f32 {
+    if v.len() < 1 {
+        return 0.0;
     }
-    Ok(())
+
+    let mut vec = v.clone();
+    vec.sort();
+    if vec.len() % 2 == 1 {
+        return *vec.get(vec.len() / 2).unwrap() as f32;
+    }
+    return (*vec.get(vec.len() / 2 - 1).unwrap() + *vec.get(vec.len() / 2).unwrap()) as f32 / 2.0;
 }
 
-#[derive(Serialize)]
-struct Row {
-    run_number: usize,
-    starting_souls: usize,
-    souls_this_run: i64,
-    app_yield_total: usize,
-    best_run: i64,
-    worst_run: i64,
-    timestamp: String,
-    app_startup: String,
-    current_run_end_utc: String,
-    current_run_start_utc: String,
-    walk_one: f64,
-    walk_two: f64,
-    turn_angle: f64,
-    avg_souls_per_run: f64,
-    avg_souls_per_second: f64,
+fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
+    let mut map = HashMap::with_capacity(slice.len());
+    if slice.is_empty() {
+        return map;
+    }
+
+    for num in slice {
+        let count = map.entry(num).or_insert(0);
+        *count += 1;
+    }
+    let _max_value: i32 = map.values().map(|v| *v).max().unwrap();
+    map
 }
 
-fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<()> {
-    let file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(format!("assets/history.csv"))
-        .unwrap();
-
-    let avg_souls_per_second = (m.souls_this_run as f64
-        / (m.current_run_end_utc.timestamp() - m.current_run_start_utc.timestamp()) as f64);
-    let avg_souls_per_run = (m.souls_this_run as f64 / m.run_count_total_thusfar as f64);
-
-    let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
-    wtr.serialize(Row {
-        app_startup: m.time_app_spartup_utc.to_string(),
-        run_number,
-        starting_souls: m.starting_souls,
-        souls_this_run: m.souls_this_run - m.starting_souls as i64,
-        best_run: best,
-        worst_run: worst,
-        timestamp: Utc::now().timestamp().to_string(),
-        app_yield_total: m.yield_total,
-        current_run_start_utc: m.current_run_start_utc.to_string(),
-        current_run_end_utc: m.current_run_end_utc.to_string(),
-        walk_one: m.walk_one,
-        walk_two: m.walk_two,
-        turn_angle: m.turn_angle,
-        avg_souls_per_run,
-        avg_souls_per_second,
-    })?;
-    Ok(())
+fn get_mean(slice: &[usize]) -> f32 {
+    if slice.len() < 1 {
+        return 0.0;
+    }
+    let sum: usize = slice.iter().sum();
+    return sum as f32 / slice.len() as f32;
 }

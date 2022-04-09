@@ -31,12 +31,12 @@ impl UiButton {
 }
 // representation of % of the ingame compass that you can use to turn
 pub enum CompassDegree {
-    ninety,
-    twentytwo,
-    fourtyfive,
-    oneeighty,
-    twozeventy,
-    threesixty,
+    Ninety,
+    Twentytwo,
+    Fourtyfive,
+    Oneeighty,
+    Twozeventy,
+    Threesixty,
 }
 
 // representaion of left and right
@@ -62,12 +62,12 @@ impl PlayerController {
     // NOTE: camera will be reset within this call
     pub fn turn(&self, enigo: &mut Enigo, d: CompassDegree, lr: LR) {
         let rotation = match { d } {
-            CompassDegree::fourtyfive => COMPASS_TIK * 2,
-            CompassDegree::twentytwo => COMPASS_TIK * 0.5 as i32,
-            CompassDegree::ninety => COMPASS_TIK * 4,
-            CompassDegree::oneeighty => COMPASS_TIK * 8,
-            CompassDegree::twozeventy => COMPASS_TIK * 12,
-            CompassDegree::threesixty => COMPASS_TIK * 16,
+            CompassDegree::Fourtyfive => COMPASS_TIK * 2,
+            CompassDegree::Twentytwo => COMPASS_TIK * 0.5 as i32,
+            CompassDegree::Ninety => COMPASS_TIK * 4,
+            CompassDegree::Oneeighty => COMPASS_TIK * 8,
+            CompassDegree::Twozeventy => COMPASS_TIK * 12,
+            CompassDegree::Threesixty => COMPASS_TIK * 16,
         };
 
         let rotation = match { lr } {
@@ -82,11 +82,11 @@ impl PlayerController {
     // you can walk in something other than straight lines...
     pub fn turn_by_frames(
         &self,
-        enigo: &mut Enigo,
-        d1: CompassDegree,
-        d2: CompassDegree,
-        f: usize,
-        lr: LR,
+        _enigo: &mut Enigo,
+        _d1: CompassDegree,
+        _d2: CompassDegree,
+        _f: usize,
+        _lr: LR,
     ) {
         todo!();
     }
@@ -165,16 +165,32 @@ impl GameMenus {
         sys.enter(REFRESH_RATE, enigo);
 
         // move to quit
-        let quit = UiButton::new(4002 - 2560, 280);
+        let _quit = UiButton::new(4002 - 2560, 280);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
         // move to yes
-        let yes = UiButton::new(1140, 720);
+        let _yes = UiButton::new(1140, 720);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
+    }
+    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
+        println!("Waiting for game to load");
+        std::thread::sleep(Duration::from_secs(35));
+        enigo.mouse_move_to(2560 / 2, 1440 / 2);
+        std::thread::sleep(Duration::from_secs(3));
+        enigo.mouse_click(MouseButton::Left);
+        std::thread::sleep(Duration::from_secs(3));
+        enigo.mouse_click(MouseButton::Left);
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        std::thread::sleep(Duration::from_secs(1));
+        enigo.key_click(enigo::Key::Layout('e'));
+        println!("Game should be up and runing..");
     }
 }
 
@@ -184,22 +200,18 @@ pub struct MogRun {
     pub current_run_end_utc: DateTime<Utc>,
     pub current_run_number: usize,
     pub current_run_start_utc: DateTime<Utc>,
-    // pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done //calculate this
     pub est_goldeye_spawns: usize,
     pub est_time_remaining: Duration,
     pub run_count_total_thusfar: usize,
     pub run_count_total_absolute: usize, // num of runs controlling the range of the loop
-    // pub runs_per_minute: f64, // calculate this
     pub souls_avg_per_run: usize,
     pub souls_best_thusfar: usize,
-    pub souls_last_run: i64,
-    pub souls_this_run: i64,
-    // pub souls_total_all_runs: Vec<i64>,
-    // pub souls_vs_last_run: usize, calculate this...
+    pub souls_delta: usize,
+    pub souls_last_run: usize,
+    pub souls_this_run: usize,
     pub souls_worst_thusfar: usize,
     pub starting_souls: usize, // they may start a run with some souls on the counter
     pub time_app_spartup_utc: DateTime<Utc>,
-    // pub time_avg_per_run: Duration, // calculate this
     pub time_best_thusfar: Duration,
     pub time_worst_thusfar: Duration,
     pub turn_angle: f64,
@@ -220,10 +232,11 @@ impl MogRun {
             run_count_total_thusfar: 1,
             run_count_total_absolute: 1,
             souls_avg_per_run: 1,
-            souls_best_thusfar: 1,
+            souls_best_thusfar: 1, // so anything will be better!
+            souls_delta: 0,
             souls_last_run: 1,
             souls_this_run: 1,
-            souls_worst_thusfar: 1,
+            souls_worst_thusfar: 99999, // so anything will be worse... unless you get all 17 abenorics with golden eyes...
             starting_souls: 1,
             time_app_spartup_utc: Utc::now(),
             time_best_thusfar: Duration::from_secs(0),
@@ -236,29 +249,42 @@ impl MogRun {
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
-    pub fn teleport(&self, enigo: &mut Enigo, player: &PlayerController) {
-        //TODO: buttons into an array and loop
-        // player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(40));
+    pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 7));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
     pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, history: PlayerHistory) {
         player.walk_fwd(&history.walk1, enigo);
-        player.turn(enigo, CompassDegree::fourtyfive, LR::Left);
+        player.turn(enigo, CompassDegree::Fourtyfive, LR::Left);
         player.walk_fwd(&history.walk2, enigo);
 
+        // Datascience
+        enigo.mouse_move_relative(0, 320); // we need a better view
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())
             .expect("unable to screengrab");
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
+
+        let filename = format!("screenshots/{}_pre_l2", Utc::now().timestamp());
+        let _ = GameWindow::screengrab(filename, "png".into(), "".into())
+            .expect("unable to screengrab");
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7400));
+        std::thread::sleep(Duration::from_millis(history.wave_wait as u64));
+
+        let filename = format!("screenshots/{}_post_l2", Utc::now().timestamp());
+        let _ = GameWindow::screengrab(filename, "png".into(), "".into())
+            .expect("unable to screengrab");
+        // End Datascience
+
+        player.centre_joypad(enigo);
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
         self.teleport(enigo, player);
     }
 }
