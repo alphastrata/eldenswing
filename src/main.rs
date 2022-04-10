@@ -11,13 +11,6 @@ use data_utils::PlayerHistory;
 use enigo::*;
 use os_reader::read_inputs_from_os;
 
-// const COMPASS_TIK: i32 = 381;
-// const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
-// ingame constants if required...
-// let one_second = Duration::from_millis(1000);
-// let one_frame = one_second / 60;
-
-// +=====+======+ MAIN +=====+======+
 fn main() -> Result<()> {
     println!("Hello tarnished!");
     println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));

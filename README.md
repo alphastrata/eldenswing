@@ -41,10 +41,11 @@ F12 -- take a screengrab (used mostly for debugging / prototyping new features)
 # TODO:
 
 - [] finish game again to get a fucking sword
-- [] improve the game launcher -- it's shit atm..
+- [x] improve the game launcher -- it's shit atm..
 - [] impl stuff to recognise time spent/when in menus avg loop is still 16s .. can we get it lower?
 - [] UI is kinda ugly... add colours?
 - [] compress screenshots data (a lot...)
+- [x] keybindings to features, and for runtime adjustments
 
 # DONE:
 
