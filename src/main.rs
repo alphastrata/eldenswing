@@ -6,14 +6,19 @@ mod os_reader;
 
 use anyhow::Result;
 use chrono::prelude::*;
+use colored::*;
 use controller::MogRun;
 use data_utils::PlayerHistory;
 use enigo::*;
 use os_reader::read_inputs_from_os;
 
 fn main() -> Result<()> {
-    println!("Hello tarnished!");
-    println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    println!("--------------------------------------------------------------");
+    println!("Hello {}!", "tarnished".red().bold());
+    println!(
+        "START_TIME: {:^40}",
+        Utc::now().format("%H:%M:%S %D%m%Y").to_string().blue()
+    );
 
     // check game is running and, if it isn't relaunch it
 
@@ -45,7 +50,10 @@ fn main() -> Result<()> {
         &mut history.clone(),
     );
     println!("see ya tarnished!");
-    println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    println!(
+        "END_TIME: {:^40}",
+        Utc::now().format("%H:%M:%S %D%m%Y").to_string().blue()
+    );
     println!("--------------------------------------------------------------");
     Ok(())
 }

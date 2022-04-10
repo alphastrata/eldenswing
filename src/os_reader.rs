@@ -4,6 +4,7 @@ use crate::data_utils::{Data, PlayerHistory};
 use crate::mohgwyn;
 use anyhow::Result;
 use chrono::prelude::*;
+use colored::*;
 use enigo::Enigo;
 use scrap::Display;
 use std::path::PathBuf;
@@ -24,7 +25,7 @@ pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> R
     // }
     for (_, process) in s.processes() {
         if process.name().contains("eldenring.exe") {
-            println!("Elden Ring is running");
+            println!("{}", "Elden Ring is running".green());
             return Ok(true);
         }
     }
@@ -33,7 +34,7 @@ pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> R
     Ok(false)
 }
 fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
-    println!("Launching eldenring.exe");
+    println!("{}", "Launching eldenring.exe".green());
     let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe") //TODO: Replace with const
         .output()
         .expect("failed to run eldenring.exe");
@@ -73,10 +74,10 @@ pub fn check_eac_has_launched() -> Result<bool> {
 
     if dssim > 0.03 {
         println!("EAC hasn't opened...");
-        println!("{}", dssim);
+        println!("{}", dssim.to_string().cyan());
     } else {
-        println!("EAC is open...");
-        println!("{}", dssim);
+        println!("{}", "EAC is open...".green());
+        println!("{}", dssim.to_string().cyan());
     }
     Ok(true)
 }
@@ -92,12 +93,12 @@ pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
 
     if dssim > 0.03 {
         println!("INFORMATION window has not opened... trying again...");
-        println!("{}", dssim);
+        println!("{}", dssim.to_string().cyan());
         let _ = std::fs::remove_file("multiplayer_dialouge_check.png");
         let _ = check_main_menu_multiplayer_dialouge()?;
     } else {
         println!("Closing this POS shitty window... ");
-        println!("{}", dssim);
+        println!("{}", dssim.to_string().cyan());
     }
     Ok(true)
 }
@@ -116,8 +117,8 @@ pub fn check_main_menu_continue() -> Result<bool> {
         let _ = std::fs::remove_file("main_menu_continue.png");
         let _ = check_main_menu_continue()?;
     } else {
-        println!("MENU open!");
-        println!("{}", dssim);
+        println!("{}", "MENU open!".green());
+        println!("{}", dssim.to_string().cyan());
     }
     Ok(true)
 }
@@ -136,8 +137,8 @@ pub fn check_main_menu_options() -> Result<bool> {
         let _ = std::fs::remove_file("main_menu_options.png");
         let _ = check_main_menu_options()?;
     } else {
-        println!("Pressable!");
-        println!("{}", dssim);
+        println!("{}", "Pressable!".green());
+        println!("{}", dssim.to_string().cyan());
     }
     Ok(true)
 }
@@ -167,7 +168,7 @@ pub fn read_inputs_from_os(
                 if j_count == 3 {
                     println!("Speed quitting from game");
                     gamemenu.quit_from_game(enigo);
-                    println!("Completed at: {:?}", Utc::now().date());
+                    println!("Completed at: {:?}", Utc::now().date().to_string().blue());
 
                     return Ok(false);
                 }
@@ -193,24 +194,42 @@ pub fn read_inputs_from_os(
                 }
                 // add option to launch/relaunch game
                 if vk == Vk::F1 {
-                    println!("Relaunching game...");
-                    launch_elden_ring(enigo, gamemenu);
+                    if !check_elden_ring_is_running(enigo, gamemenu)? {
+                        println!("Relaunching game...");
+                        launch_elden_ring(enigo, gamemenu);
+                    }
                 }
                 // add option to increase/decrease the value of w1, w2 and the turn?
                 if vk == Vk::F2 {
-                    println!("Increasing walk one by 1");
+                    println!(
+                        "Increasing walk two by 1.\n{}:{}",
+                        "it is now".cyan(),
+                        history.walk1.to_string().cyan().bold()
+                    );
                     history.walk1 += 1;
                 }
                 if vk == Vk::F3 {
-                    println!("Increasing walk one by 1");
+                    println!(
+                        "decreasing walk one by 1.\n{}:{}",
+                        "it is now".cyan(),
+                        history.walk1.to_string().yellow().bold()
+                    );
                     history.walk1 -= 1;
                 }
                 if vk == Vk::F4 {
-                    println!("Increasing walk one by 1");
+                    println!(
+                        "Increasing walk two by 1.\n{}:{}",
+                        "it is now".cyan(),
+                        history.walk2.to_string().cyan().bold()
+                    );
                     history.walk2 += 1;
                 }
                 if vk == Vk::F5 {
-                    println!("Increasing walk one by 1");
+                    println!(
+                        "decreasing walk two by 1.\n{}:{}",
+                        "it is now".cyan(),
+                        history.walk2.to_string().yellow().bold()
+                    );
                     history.walk2 -= 1;
                 }
                 if vk == Vk::F12 {
@@ -228,6 +247,8 @@ pub fn read_inputs_from_os(
 
             _ => (),
         }
+        // clear console
+        print!("\x1B[2J\x1B[1;1H");
     }
 }
 
