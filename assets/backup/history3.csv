@@ -1,0 +1,344 @@
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341388,82195708,82207479,1,99999,2022-04-07 14:22:36.344435200 UTC,2022-04-07 14:23:03.391514500 UTC,2022-04-07 14:22:36.121245 UTC,115,76,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341404,82195708,31882,31882,31882,2022-04-07 14:22:36.344435200 UTC,2022-04-07 14:23:20.160306200 UTC,2022-04-07 14:22:36.121245 UTC,115,76,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341421,82195708,34334,34334,31882,2022-04-07 14:22:36.344435200 UTC,2022-04-07 14:23:36.914909900 UTC,2022-04-07 14:22:36.121245 UTC,115,76,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341438,82195708,28939,34334,28939,2022-04-07 14:22:36.344435200 UTC,2022-04-07 14:23:53.667656600 UTC,2022-04-07 14:22:36.121245 UTC,115,76,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341713,82376207,82376206,1,99999,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:28:29.216117200 UTC,2022-04-07 14:28:02.582652700 UTC,102,62,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341730,82376207,31882,31882,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:28:45.418989600 UTC,2022-04-07 14:28:02.582652700 UTC,104,64,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341746,82376207,34334,34334,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:29:01.747191800 UTC,2022-04-07 14:28:02.582652700 UTC,106,66,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341762,82376207,34334,34334,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:29:18.165017300 UTC,2022-04-07 14:28:02.582652700 UTC,108,68,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341779,82376207,34334,34334,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:29:34.655516 UTC,2022-04-07 14:28:02.582652700 UTC,110,70,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341795,82376207,34334,34334,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:29:51.254717500 UTC,2022-04-07 14:28:02.582652700 UTC,112,72,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341812,82376207,36786,36786,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:30:07.963363500 UTC,2022-04-07 14:28:02.582652700 UTC,114,74,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341829,82376207,39238,39238,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:30:24.772815 UTC,2022-04-07 14:28:02.582652700 UTC,116,76,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341846,82376207,46107,46107,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:30:41.689591300 UTC,2022-04-07 14:28:02.582652700 UTC,118,78,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341863,82376207,36786,46107,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:30:58.676116700 UTC,2022-04-07 14:28:02.582652700 UTC,120,80,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341880,82376207,36295,46107,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:31:15.757766700 UTC,2022-04-07 14:28:02.582652700 UTC,122,82,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341897,82376207,33843,46107,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:31:32.918991200 UTC,2022-04-07 14:28:02.582652700 UTC,124,84,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341914,82376207,39729,46107,31882,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:31:50.172176800 UTC,2022-04-07 14:28:02.582652700 UTC,126,86,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341932,82376207,23053,46107,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:32:07.480376600 UTC,2022-04-07 14:28:02.582652700 UTC,128,88,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341949,82376207,36786,46107,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:32:24.934703300 UTC,2022-04-07 14:28:02.582652700 UTC,130,90,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341967,82376207,51502,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:32:42.481604 UTC,2022-04-07 14:28:02.582652700 UTC,132,92,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649341984,82376207,23544,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:33:00.137933800 UTC,2022-04-07 14:28:02.582652700 UTC,134,94,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342002,82376207,26487,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:33:17.882271700 UTC,2022-04-07 14:28:02.582652700 UTC,136,96,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342020,82376207,34334,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:33:35.756577700 UTC,2022-04-07 14:28:02.582652700 UTC,138,98,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342038,82376207,34334,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:33:53.710429700 UTC,2022-04-07 14:28:02.582652700 UTC,140,100,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342056,82376207,31391,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:34:11.734150 UTC,2022-04-07 14:28:02.582652700 UTC,142,102,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342074,82376207,36786,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:34:29.845396800 UTC,2022-04-07 14:28:02.582652700 UTC,144,104,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342092,82376207,36786,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:34:48.057616200 UTC,2022-04-07 14:28:02.582652700 UTC,146,106,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342111,82376207,36786,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:35:06.383113300 UTC,2022-04-07 14:28:02.582652700 UTC,148,108,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342129,82376207,45616,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:35:24.789965600 UTC,2022-04-07 14:28:02.582652700 UTC,150,110,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342148,82376207,36786,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:35:43.308075600 UTC,2022-04-07 14:28:02.582652700 UTC,152,112,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342166,82376207,43164,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:36:01.840464400 UTC,2022-04-07 14:28:02.582652700 UTC,154,114,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342185,82376207,31391,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:36:20.540350500 UTC,2022-04-07 14:28:02.582652700 UTC,156,116,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342203,82376207,30900,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:36:39.296268400 UTC,2022-04-07 14:28:02.582652700 UTC,158,118,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342222,82376207,33843,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:36:58.157782600 UTC,2022-04-07 14:28:02.582652700 UTC,160,120,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342241,82376207,33843,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:37:17.131135900 UTC,2022-04-07 14:28:02.582652700 UTC,162,122,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342260,82376207,28939,51502,23053,2022-04-07 14:28:02.811749400 UTC,2022-04-07 14:37:36.183547500 UTC,2022-04-07 14:28:02.582652700 UTC,164,124,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342386,83498928,83498927,1,99999,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:39:41.426741 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342401,83498928,17167,17167,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:39:56.569656800 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342416,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:40:11.681485900 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342431,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:40:26.824645200 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342446,83498928,28939,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:40:41.970004500 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342461,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:40:57.081766100 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342476,83498928,28939,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:41:12.227011400 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342492,83498928,28939,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:41:27.402715200 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342507,83498928,28939,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:41:42.556704 UTC,2022-04-07 14:39:15.812893 UTC,88,30,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342522,83498928,25996,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:41:57.767331200 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342537,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:42:12.967767500 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342552,83498928,20601,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:42:28.173710500 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342568,83498928,25996,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:42:43.386121300 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342583,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:42:58.618352800 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342598,83498928,31882,31882,17167,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:43:13.831222100 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342613,83498928,14224,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:43:29.047038600 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342628,83498928,23053,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:43:44.231616300 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342644,83498928,17167,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:43:59.452488500 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342659,83498928,31882,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:44:14.660892800 UTC,2022-04-07 14:39:15.812893 UTC,90,31,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342674,83498928,23053,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:44:29.971211 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342689,83498928,25996,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:44:45.259091300 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342705,83498928,17167,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:45:00.551759900 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342720,83498928,31882,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:45:15.873213400 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342735,83498928,31882,31882,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:45:31.180703600 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342751,83498928,34825,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:45:46.477337800 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342766,83498928,34825,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:46:01.752972900 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342781,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:46:17.105674600 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342797,83498928,23053,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:46:32.441898800 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342812,83498928,34825,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:46:47.785499700 UTC,2022-04-07 14:39:15.812893 UTC,92,32,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342827,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:47:03.193541300 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342843,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:47:18.596884 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342858,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:47:33.981240700 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342874,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:47:49.332058400 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342889,83498928,31882,34825,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:48:04.735188200 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342904,83498928,40712,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:48:20.124691500 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342920,83498928,28939,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:48:35.503401700 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342935,83498928,28939,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:48:50.904366400 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342950,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:49:06.293902600 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342966,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:49:21.641329600 UTC,2022-04-07 14:39:15.812893 UTC,94,33,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342981,83498928,40712,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:49:37.088818900 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649342997,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:49:52.515911700 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343012,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:50:07.960169700 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343028,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:50:23.407731600 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343043,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:50:38.863880400 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343059,83498928,28939,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:50:54.350769600 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343074,83498928,32373,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:51:09.840073300 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343090,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:51:25.319497900 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343105,83498928,25996,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:51:40.750092700 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343120,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:51:56.230624900 UTC,2022-04-07 14:39:15.812893 UTC,96,34,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343136,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:52:11.742684800 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343151,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:52:27.285342100 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343167,83498928,34334,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:52:42.825743300 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343183,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:52:58.405697100 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343198,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:53:13.886425600 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343214,83498928,40712,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:53:29.398125900 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343229,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:53:44.919592400 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343245,83498928,34825,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:54:00.441668100 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343260,83498928,31882,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:54:15.936900800 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343276,83498928,20110,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:54:31.447673400 UTC,2022-04-07 14:39:15.812893 UTC,98,35,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343291,83498928,28939,40712,14224,2022-04-07 14:39:16.053962500 UTC,2022-04-07 14:54:47.052402200 UTC,2022-04-07 14:39:15.812893 UTC,100,36,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343399,85341710,85346613,1,99999,2022-04-07 14:56:08.850312900 UTC,2022-04-07 14:56:35.180460500 UTC,2022-04-07 14:56:08.622996100 UTC,110,50,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343415,85341710,28939,28939,28939,2022-04-07 14:56:08.850312900 UTC,2022-04-07 14:56:51.257981400 UTC,2022-04-07 14:56:08.622996100 UTC,110,50,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343432,85341710,26487,28939,26487,2022-04-07 14:56:08.850312900 UTC,2022-04-07 14:57:07.429797900 UTC,2022-04-07 14:56:08.622996100 UTC,110,50,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343448,85341710,31391,31391,26487,2022-04-07 14:56:08.850312900 UTC,2022-04-07 14:57:23.575768900 UTC,2022-04-07 14:56:08.622996100 UTC,110,50,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343464,85341710,34334,34334,26487,2022-04-07 14:56:08.850312900 UTC,2022-04-07 14:57:39.700396800 UTC,2022-04-07 14:56:08.622996100 UTC,110,50,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343525,85499647,85499646,1,99999,2022-04-07 14:58:13.550202600 UTC,2022-04-07 14:58:40.426493400 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343541,85499647,31882,31882,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 14:58:57.014269500 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343558,85499647,36786,36786,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 14:59:13.626403400 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343574,85499647,43655,43655,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 14:59:30.222566400 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343591,85499647,34334,43655,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 14:59:46.859736700 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343608,85499647,46107,46107,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:00:03.498028500 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343624,85499647,36786,46107,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:00:20.150668 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343641,85499647,33843,46107,31882,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:00:36.762187500 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343658,85499647,31391,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:00:53.349146300 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343674,85499647,34334,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:01:09.974189 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343691,85499647,31391,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:01:26.622565200 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343707,85499647,36786,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:01:43.228167400 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343724,85499647,34334,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:01:59.868367400 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649343741,85499647,34334,46107,31391,2022-04-07 14:58:13.550202600 UTC,2022-04-07 15:02:16.520680500 UTC,2022-04-07 14:58:13.317366600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344037,86033787,86033786,1,99999,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:07:12.312785300 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344053,86033787,37277,37277,37277,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:07:28.904704900 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344070,86033787,31391,37277,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:07:45.510311400 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344086,86033787,36786,37277,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:08:02.106350400 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344103,86033787,45616,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:08:18.762118400 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344120,86033787,34334,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:08:35.371042 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344136,86033787,34334,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:08:51.950707500 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344153,86033787,31391,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:09:08.535533300 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344169,86033787,34334,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:09:25.142002 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344186,86033787,34334,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:09:41.776441900 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344202,86033787,34334,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:09:58.224776100 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344219,86033787,31391,45616,31391,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:10:14.861445500 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344236,86033787,11772,45616,11772,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:10:31.503058600 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344252,86033787,31391,45616,11772,2022-04-07 15:06:45.502916 UTC,2022-04-07 15:10:48.150429 UTC,2022-04-07 15:06:45.240526600 UTC,110,60,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344456,86530649,86530648,1,99999,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:14:11.585107100 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344472,86530649,34334,34334,34334,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:14:28.243928800 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344489,86530649,34334,34334,34334,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:14:44.936475900 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344506,86530649,34334,34334,34334,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:15:01.630750400 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344523,86530649,36786,36786,34334,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:15:18.309969900 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344539,86530649,34334,36786,34334,2022-04-07 15:13:44.642227800 UTC,2022-04-07 15:15:35.009052 UTC,2022-04-07 15:13:44.408875100 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344773,86781286,86781285,1,99999,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:19:29.086276600 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344790,86781286,36786,36786,36786,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:19:45.615984500 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344806,86781286,34334,36786,34334,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:20:02.146831800 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344823,86781286,34334,36786,34334,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:20:18.662099100 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344839,86781286,34334,36786,34334,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:20:35.232651500 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344856,86781286,34334,36786,34334,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:20:51.774379400 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649344872,86781286,36786,36786,34334,2022-04-07 15:19:02.117952300 UTC,2022-04-07 15:21:08.330647500 UTC,2022-04-07 15:19:01.871267900 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345537,87063314,87066256,1,99999,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:32:12.669392700 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345553,87063314,37277,37277,37277,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:32:29.222970700 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345570,87063314,36786,37277,36786,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:32:45.783276700 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345586,87063314,34334,37277,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:33:02.345816800 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345603,87063314,65727,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:33:18.846321400 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345619,87063314,34334,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:33:35.374793300 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345636,87063314,36786,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:33:51.889405300 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345652,87063314,36786,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:34:08.415183400 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345669,87063314,34334,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:34:24.930888200 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345685,87063314,34334,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:34:41.426916700 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345702,87063314,34334,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:34:57.911585600 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649345718,87063314,36786,65727,34334,2022-04-07 15:31:45.680690400 UTC,2022-04-07 15:35:14.467971700 UTC,2022-04-07 15:31:45.462090 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346038,87548405,87561646,1,99999,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:40:33.956046900 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346054,87548405,34334,34334,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:40:50.489892 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346071,87548405,34334,34334,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:41:06.977240500 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346088,87548405,34334,34334,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:41:23.485931900 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346104,87548405,34334,34334,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:41:39.996852500 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346120,87548405,46107,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:41:56.493585800 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346137,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:42:13.028843300 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346154,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:42:29.536247 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346170,87548405,36786,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:42:46.064076400 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346187,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:43:02.582003200 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346203,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:43:19.084191700 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346220,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:43:35.607524 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346236,87548405,46107,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:43:52.121298100 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346253,87548405,34334,46107,34334,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:44:08.645643200 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346269,87548405,31391,46107,31391,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:44:25.151606300 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346286,87548405,34334,46107,31391,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:44:41.669369 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346302,87548405,34334,46107,31391,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:44:58.229536900 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90
+timestamp,starting_souls,souls_from_run,best_run,worst_run,app_startup,current_run_end_utc,current_run_start_utc,walk_one,walk_two,turn_angle
+1649346319,87548405,36786,46107,31391,2022-04-07 15:40:06.996304100 UTC,2022-04-07 15:45:14.739746300 UTC,2022-04-07 15:40:06.777631500 UTC,110,63,90

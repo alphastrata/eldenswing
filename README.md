@@ -1,6 +1,19 @@
 # eldenswing
 
+<<<<<<< HEAD
+Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
+
+# Prerequisites:
+
+- Elden Ring
+- Tesseract OCR ( the binary from here https://codetoprosper.com/tesseract-ocr-for-windows/)
+- You've run the screenCapture.bat (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/screenCapture.bat if missing) it requires .net framework
+- Rust & Cargo
+- That all the paths to Tesseract and screenCapture.exe are reflecting their locations on disk for _your_ system -- amend them in the cv_utils.rs file with the text editor of your choice
+- That the screen (if you have multiple) on which you play the game's top left hand corner == 0,0 in pixels, if this is not the case all the ComputerVision stuff will be out by 2560px on that axis
+=======
 Elden Ring helper tools: Speedquit, CV-based soul counting, Mowghyn's Palace farming, and more.
+>>>>>>> main
 
 # USAGE:
 
@@ -16,7 +29,15 @@ cargo build --release
 Keybindings:
 
 ```
+<<<<<<< HEAD
+j -- hit 3 times to speedquit
+o -- hit once to speedrun Mog
+i -- hit once to do a single Mog run
+m -- hit once to stop EldenSwing
+x -- emergency quit *this makes the app painc!() it's not a good way to quit...
+=======
 n/a
+>>>>>>> main
 ```
 
 # TODO:
@@ -40,9 +61,15 @@ n/a
 - [x] Get a snapshotter working (on 'l' key take a screengrab from game)
 - [x] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV
 - [-] if you do get a %match, what does that mean?
+<<<<<<< HEAD
+- [-] Can you match a grace, then orient towards it to make it centre screen?
+- [x] Ask Pavel for some ideas
+- [-] Get a trimmer working (i.e crop a specific region of screen, like the compass)
+=======
 - [x] Can you match a grace, then orient towards it to make it centre screen?
 - [x] Ask Pavel for some ideas
 - [x] Get a trimmer working (i.e crop a specific region of screen, like the compass)
+>>>>>>> main
 - [x] Computer vision to recognise soul count?
 - [x] Take footage of a manual and automated run, whip up a quick script to take frames from them
 - [x] Pavel suggested taking the avg of the target from say 100 images then match on that.
@@ -51,7 +78,13 @@ n/a
 - [x] Get monitor resolution, [-]make all magic consts relative to it
 - [x] Error handling you scum
 - [x] Get some logging going:
+<<<<<<< HEAD
+
 - [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
+- []
+=======
+- [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
+>>>>>>> main
 
 # Feature Ideas:
 

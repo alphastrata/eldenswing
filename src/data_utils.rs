@@ -1,39 +1,28 @@
-use crate::controller::MogRun;
 use anyhow::Result;
 use chrono::prelude::*;
-use csv::*;
 use serde::Serialize;
-use std::fs::OpenOptions;
 use std::path::PathBuf;
 
+use crate::controller::MogRun;
+
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
     pub walk2: usize, // value dictating the ammount of time/frames that the player walks the second time
-    pub wave_wait: usize, // frames or secs?
-    pub grace_wait: usize, // frames or secs?
-    pub player_lvl: usize, // unsure whether to capture this, maybe useful to make a runs for target level feature
+    pub wave_wait: f64, // frames or secs?
+    pub grace_wait: f64, // frames or secs?
+    pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
 }
 impl PlayerHistory {
-    pub fn new() -> PlayerHistory {
-        PlayerHistory {
-            walk1: 0,
-            turn_angle: 0,
-            walk2: 0,
-            wave_wait: 0,
-            grace_wait: 0,
-            player_lvl: 0,
-        }
-    }
     pub fn new_from(
         walk1: usize,
         walk2: usize,
         turn_angle: usize,
-        wave_wait: usize,
-        grace_wait: usize,
-        player_lvl: usize,
+        wave_wait: f64,
+        grace_wait: f64,
+        player_lvl: u32,
     ) -> PlayerHistory {
         PlayerHistory {
             walk1,
@@ -47,54 +36,32 @@ impl PlayerHistory {
 }
 
 // representing all data we wish to capture from the game and interact with/present
-
-#[derive(Serialize)]
-struct Row {
-    timestamp: String,
-    starting_souls: usize,
-    souls_from_run: usize,
-    best_run: usize,
-    worst_run: usize,
-    app_startup: String,
-    current_run_end_utc: String,
-    current_run_start_utc: String,
-    walk_one: usize,
-    walk_two: usize,
-    turn_angle: usize,
-    runs_raw_entries: Vec<usize>,
+#[derive(Debug, Clone)]
+pub struct Data {
+    pub session_start: DateTime<Utc>, // will actually be a timestamp
+    pub soulscount: u32,              // get this from Tesseract with OCR
+    pub timestamp: DateTime<Utc>, // representing the UPDATE time this data was last updated will actually be a Utc::Datetime
+    pub run_number: usize,        // count this even if infinite
+    pub playerhistory: PlayerHistory, // See comments above struct decleration
+    pub session_end: u32,         // will actually be a timestamp
+    pub prev_run_yeild: u32,      // soul yield previous run
+}
+impl Data {
+    pub fn new(history: PlayerHistory) -> Data {
+        Data {
+            session_start: Utc::now(),
+            soulscount: 0,
+            timestamp: Utc::now(),
+            run_number: 0,
+            playerhistory: history,
+            session_end: 0,
+            prev_run_yeild: 0,
+        }
+    }
 }
 
-pub fn write_to_csv(m: MogRun, p: PlayerHistory, runs_raw_entries: &Vec<usize>) -> Result<()> {
-    let file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(format!("assets/history.csv"))
-        .unwrap();
-
-    let w1 = p.walk1;
-    let w2 = p.walk2;
-    let turn_angle = p.turn_angle;
-
-    let mut wtr = WriterBuilder::new().has_headers(true).from_writer(file);
-    wtr.serialize(Row {
-        timestamp: Utc::now().timestamp().to_string(), // This is the machine parsable one (well, easier..)
-        souls_from_run: m.souls_delta,
-        best_run: m.souls_best_thusfar,
-        worst_run: m.souls_worst_thusfar,
-        current_run_start_utc: m.current_run_start_utc.to_string(),
-        current_run_end_utc: m.current_run_end_utc.to_string(),
-        starting_souls: m.starting_souls,
-        walk_one: w1,
-        walk_two: w2,
-        turn_angle,
-        app_startup: m.time_app_spartup_utc.to_string(),
-        runs_raw_entries: runs_raw_entries.clone(),
-    })?;
-    Ok(())
-}
-
-// TODO: Move these to data_utils
-pub fn cleanup_tmp_png() -> Result<()> {
+// TODO: Move these somewhere else
+pub fn cleanup_tmp_png(run_number: usize) -> Result<()> {
     // remove all png files in dir
     let path = PathBuf::from("./");
     let files = std::fs::read_dir(path)?;
@@ -103,13 +70,63 @@ pub fn cleanup_tmp_png() -> Result<()> {
         let file_name = file.file_name();
         let file_name = file_name.to_str().expect("unable to stringify file_name");
         if file_name.ends_with(".png") {
-            let output = format!(
-                "./screenshots/{}_soulcounter_crop.png",
-                Utc::now().timestamp()
-            );
+            let output = format!("./screenshots/{}_{}", run_number, file_name);
             std::fs::rename(file.path(), output)?;
             std::fs::remove_file(file.path())?;
         }
     }
+    Ok(())
+}
+
+#[derive(Serialize)]
+pub(crate) struct Row {
+    run_number: usize,
+    starting_souls: usize,
+    souls_this_run: i64,
+    app_yield_total: usize,
+    best_run: i64,
+    worst_run: i64,
+    timestamp: String,
+    app_startup: String,
+    current_run_end_utc: String,
+    current_run_start_utc: String,
+    walk_one: f64,
+    walk_two: f64,
+    turn_angle: f64,
+    avg_souls_per_run: f64,
+    avg_souls_per_second: f64,
+}
+
+pub fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<()> {
+    let file = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(format!("assets/history.csv"))
+        .unwrap();
+
+    let avg_souls_per_second = m.souls_this_run as f64
+        / (m.current_run_end_utc.timestamp() - m.current_run_start_utc.timestamp()) as f64;
+    let avg_souls_per_run = m.souls_this_run as f64 / m.run_count_total_thusfar as f64;
+
+    let mut wtr = csv::WriterBuilder::new()
+        .has_headers(true)
+        .from_writer(file);
+    wtr.serialize(Row {
+        app_startup: m.time_app_spartup_utc.to_string(),
+        run_number,
+        starting_souls: m.starting_souls,
+        souls_this_run: m.souls_this_run - m.starting_souls as i64,
+        best_run: best,
+        worst_run: worst,
+        timestamp: Utc::now().timestamp().to_string(),
+        app_yield_total: m.yield_total,
+        current_run_start_utc: m.current_run_start_utc.to_string(),
+        current_run_end_utc: m.current_run_end_utc.to_string(),
+        walk_one: m.walk_one,
+        walk_two: m.walk_two,
+        turn_angle: m.turn_angle,
+        avg_souls_per_run,
+        avg_souls_per_second,
+    })?;
     Ok(())
 }
