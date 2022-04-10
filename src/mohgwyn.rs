@@ -1,7 +1,7 @@
 use crate::controller::{MogRun, PlayerController};
 use crate::cv_utils::GameWindow;
 use crate::data_utils::{cleanup_tmp_png, write_to_csv, Data, PlayerHistory};
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use enigo::Enigo;
 use enigo::*;
@@ -11,9 +11,10 @@ use std::time::Duration;
 pub fn run(
     enigo: &mut Enigo,
     player: &PlayerController,
-    // _gamemenu: GameWindow,
+    // gamemenu: &GameWindow,
     data: &mut Data,
     mogrun: &mut MogRun,
+    history: &mut PlayerHistory,
 ) -> Result<()> {
     // start at Mog
     println!("App running.");
@@ -37,27 +38,30 @@ pub fn run(
         GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-    // let mut souls_total_all_runs = vec![1];
 
-    // let mut table = ui::setup_table(mogrun);
+    // check rh-weapon
+
     let mut best = 0;
     let mut worst = 999999;
 
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
+    if !GameWindow::check_rh_weapon()? {
+        return Err(anyhow!("RH weapon not found."));
+    }
     for n in 1..mogrun.run_count_total_absolute {
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
 
         // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
+        // let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
         // let history = *data.playerhistory.clone();
 
         // the actual run
         enigo.key_down(Key::Space);
         mogrun.run_count_total_thusfar += 1;
-        mogrun.run(enigo, &player, history);
+        mogrun.run(enigo, &player, history.to_owned());
         enigo.key_up(Key::Space);
 
         mogrun.current_run_end_utc = Utc::now();

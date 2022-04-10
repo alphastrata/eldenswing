@@ -1,12 +1,12 @@
 use anyhow::Result;
 use chrono::prelude::*;
 use serde::Serialize;
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 
 use crate::controller::MogRun;
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
@@ -129,4 +129,42 @@ pub fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Resu
         avg_souls_per_second,
     })?;
     Ok(())
+}
+
+#[allow(dead_code)]
+fn get_median(v: &mut Vec<usize>) -> f32 {
+    if v.len() < 1 {
+        return 0.0;
+    }
+
+    let mut vec = v.clone();
+    vec.sort();
+    if vec.len() % 2 == 1 {
+        return *vec.get(vec.len() / 2).unwrap() as f32;
+    }
+    return (*vec.get(vec.len() / 2 - 1).unwrap() + *vec.get(vec.len() / 2).unwrap()) as f32 / 2.0;
+}
+
+#[allow(dead_code)]
+fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
+    let mut map = HashMap::with_capacity(slice.len());
+    if slice.is_empty() {
+        return map;
+    }
+
+    for num in slice {
+        let count = map.entry(num).or_insert(0);
+        *count += 1;
+    }
+    let _max_value: i32 = map.values().map(|v| *v).max().unwrap();
+    map
+}
+
+#[allow(dead_code)]
+fn get_mean(slice: &[usize]) -> f32 {
+    if slice.len() < 1 {
+        return 0.0;
+    }
+    let sum: usize = slice.iter().sum();
+    return sum as f32 / slice.len() as f32;
 }

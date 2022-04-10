@@ -1,5 +1,7 @@
 use crate::cv_utils::GameWindow;
 use crate::data_utils::PlayerHistory;
+use crate::os_reader;
+use anyhow::Result;
 use chrono::prelude::*;
 use enigo::*;
 use std::thread;
@@ -142,38 +144,55 @@ impl GameMenus {
 
         // move to system
         let sys = UiButton::new(20, 1080);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
+        sys.move_to(REFRESH_RATE * 4, enigo);
+        sys.enter(REFRESH_RATE * 4, enigo);
 
         // move to quit
-        let _quit = UiButton::new(4002 - 2560, 280);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
+        let quit = UiButton::new(1450, 250);
+        quit.move_to(REFRESH_RATE * 4, enigo);
+        quit.enter(REFRESH_RATE * 4, enigo);
 
         // move to yes
-        let _yes = UiButton::new(1140, 720);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
-
-        thread::sleep(Duration::from_secs(3)); // this menu takes a while
+        let yes = UiButton::new(1000, 750);
+        yes.move_to(REFRESH_RATE * 4, enigo);
+        yes.enter(REFRESH_RATE * 4, enigo);
     }
-    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
-        // TODO: use dssim here to match on menus you're in instead of timers
-        // why? well you cannot know the load speed of ppl's harddrives ><
+    //
+    // TODO: this could probably be nicer than a 4 indent...
+    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) -> Result<()> {
+        // check EAC splash is there...
         println!("Waiting for game to load");
-        std::thread::sleep(Duration::from_secs(35));
-        enigo.mouse_move_to(2560 / 2, 1440 / 2);
-        std::thread::sleep(Duration::from_secs(3));
-        enigo.mouse_click(MouseButton::Left);
-        std::thread::sleep(Duration::from_secs(3));
-        enigo.mouse_click(MouseButton::Left);
-        std::thread::sleep(Duration::from_secs(1));
+
+        println!("checking_eac");
+        if os_reader::check_eac_has_launched()? {
+            std::thread::sleep(Duration::from_secs(30));
+            enigo.mouse_move_to(2560 / 2, 1440 / 2);
+            // make sure we're in the game window...
+            enigo.mouse_click(MouseButton::Left);
+            enigo.mouse_click(MouseButton::Left);
+
+            // check main menu has loaded
+            if os_reader::check_main_menu_continue()? {
+                println!("3rd if");
+                enigo.mouse_click(MouseButton::Left);
+                enigo.key_click(enigo::Key::Layout('e'));
+
+                // check multiplyer/main menu_continue is there
+                if os_reader::check_main_menu_multiplayer_dialouge()? {
+                    println!("2nd if");
+                    enigo.mouse_click(MouseButton::Left);
+                    enigo.key_click(enigo::Key::Layout('e'));
+
+                    // check you've got the option to continue from last game...
+                    if os_reader::check_main_menu_options()? {
+                        println!("4th if");
+                        enigo.key_click(enigo::Key::Layout('e'));
+                    }
+                }
+            }
+        }
         enigo.key_click(enigo::Key::Layout('e'));
-        std::thread::sleep(Duration::from_secs(1));
-        enigo.key_click(enigo::Key::Layout('e'));
-        std::thread::sleep(Duration::from_secs(1));
-        enigo.key_click(enigo::Key::Layout('e'));
-        println!("Game should be up and runing..");
+        Ok(())
     }
 }
 
@@ -232,14 +251,13 @@ impl MogRun {
     // and the player location
     pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
         //TODO: buttons into an array and loop
-        // player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
@@ -252,7 +270,7 @@ impl MogRun {
             .expect("unable to screengrab");
         std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7400));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 460)); //7.2s
         self.teleport(enigo, player);
     }
 }

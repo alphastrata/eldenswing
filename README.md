@@ -1,6 +1,5 @@
 # eldenswing
 
-<<<<<<< HEAD
 Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
 
 # Prerequisites:
@@ -11,9 +10,6 @@ Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
 - Rust & Cargo
 - That all the paths to Tesseract and screenCapture.exe are reflecting their locations on disk for _your_ system -- amend them in the cv_utils.rs file with the text editor of your choice
 - That the screen (if you have multiple) on which you play the game's top left hand corner == 0,0 in pixels, if this is not the case all the ComputerVision stuff will be out by 2560px on that axis
-=======
-Elden Ring helper tools: Speedquit, CV-based soul counting, Mowghyn's Palace farming, and more.
->>>>>>> main
 
 # USAGE:
 
@@ -29,62 +25,56 @@ cargo build --release
 Keybindings:
 
 ```
-<<<<<<< HEAD
 j -- hit 3 times to speedquit
-o -- hit once to speedrun Mog
+o -- hit once to speedrun Mog ( The default number of runs to be done is 100)
 i -- hit once to do a single Mog run
 m -- hit once to stop EldenSwing
 x -- emergency quit *this makes the app painc!() it's not a good way to quit...
-=======
-n/a
->>>>>>> main
+F1 -- Launch game
+F2 -- increase walk_one by 1
+F3 -- decrease walk_one by 1
+F4 -- increase walk_two by 1
+F5 -- decrease walk_two by 1
+F12 -- take a screengrab (used mostly for debugging / prototyping new features)
 ```
 
 # TODO:
 
-- [] bring back the runtime commands with the key matching
+- [] finish game again to get a fucking sword
+- [x] improve the game launcher -- it's shit atm..
 - [] impl stuff to recognise time spent/when in menus avg loop is still 16s .. can we get it lower?
 - [] UI is kinda ugly... add colours?
-- [] work on the mode -- this may be the key to finding good positioning (w1, w2 and the turn...)
-- [] 24 hour test
-- [] slap togeter a decent set of graphs in python off of your .csv data...
-- [] move screenshot storage to G:/
-- [] merge rh into win-dev
 - [] compress screenshots data (a lot...)
+- [x] keybindings to features, and for runtime adjustments
 
 # DONE:
 
+- [-] Can you match a grace, then orient towards it to make it centre screen?
+- [-] Get a trimmer working (i.e crop a specific region of screen, like the compass)
+- [-] get the Akaze thing working and get some numbers around how much of a match things are... what's acceptable?
+- [-] if you do get a %match, what does that mean?
+- [x] 24 hour test
+- [x] Ask Pavel for some ideas
 - [x] Can you speed up the loaddimes if you move the install to a faster disk...??
+- [x] Computer vision to recognise soul count?
+- [x] Error handling you scum
+- [x] Get OpenCV working ><
+- [x] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV
+- [x] Get a snapshotter working (on 'l' key take a screengrab from game)
+- [x] Get monitor resolution, [-]make all magic consts relative to it
+- [x] Get some logging going:
+- [x] Pavel suggested taking the avg of the target from say 100 images then match on that.
+- [x] Sort out Dir Structure: [Screengrabs] [Logs] [Config] [Assets] [Other]
+- [x] Take footage of a manual and automated run, whip up a quick script to take frames from them
+- [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working
 - [x] add a check to make sure char has the correct weapon equipped
 - [x] add a check to make sure souls != 0, if it does, log a death and quit out of game?
-- [x] Get OpenCV working ><
-- [x] Get a snapshotter working (on 'l' key take a screengrab from game)
-- [x] Get a basic A:B comparison going -- is SIFT usable? it's part of OpenCV
-- [-] if you do get a %match, what does that mean?
-<<<<<<< HEAD
-- [-] Can you match a grace, then orient towards it to make it centre screen?
-- [x] Ask Pavel for some ideas
-- [-] Get a trimmer working (i.e crop a specific region of screen, like the compass)
-=======
-- [x] Can you match a grace, then orient towards it to make it centre screen?
-- [x] Ask Pavel for some ideas
-- [x] Get a trimmer working (i.e crop a specific region of screen, like the compass)
->>>>>>> main
-- [x] Computer vision to recognise soul count?
-- [x] Take footage of a manual and automated run, whip up a quick script to take frames from them
-- [x] Pavel suggested taking the avg of the target from say 100 images then match on that.
-- [-] get the Akaze thing working and get some numbers around how much of a match things are... what's acceptable?
-- [x] Sort out Dir Structure: [Screengrabs] [Logs] [Config] [Assets] [Other]
-- [x] Get monitor resolution, [-]make all magic consts relative to it
-- [x] Error handling you scum
-- [x] Get some logging going:
-<<<<<<< HEAD
-
-- [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
+- [x] bring back the runtime commands with the key matching
+- [x] merge rh into win-dev
+- [x] move screenshot storage to G:/
+- [x] slap togeter a decent set of graphs in python off of your .csv data...
+- [x] work on the mode -- this may be the key to finding good positioning (w1, w2 and the turn...)
 - []
-=======
-- [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
->>>>>>> main
 
 # Feature Ideas:
 

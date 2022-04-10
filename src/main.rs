@@ -6,28 +6,19 @@ mod os_reader;
 
 use anyhow::Result;
 use chrono::prelude::*;
+use colored::*;
 use controller::MogRun;
-// use csv::*;
-// use cv_utils::GameWindow;
 use data_utils::PlayerHistory;
 use enigo::*;
 use os_reader::read_inputs_from_os;
-// use serde::Serialize;
-// use std::fs::OpenOptions;
-// use std::path::PathBuf;
-// use std::time::Duration;
 
-// use winput::message_loop::{self, EventReceiver};
-// const COMPASS_TIK: i32 = 381;
-// const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
-// ingame constants if required...
-// let one_second = Duration::from_millis(1000);
-// let one_frame = one_second / 60;
-
-// +=====+======+ MAIN +=====+======+
 fn main() -> Result<()> {
-    println!("Hello tarnished!");
-    println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    println!("--------------------------------------------------------------");
+    println!("Hello {}!", "tarnished".red().bold());
+    println!(
+        "START_TIME: {:^40}",
+        Utc::now().format("%H:%M:%S %D%m%Y").to_string().blue()
+    );
 
     // check game is running and, if it isn't relaunch it
 
@@ -48,87 +39,21 @@ fn main() -> Result<()> {
 
     let _ = os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)?;
 
-    let mut q_count = 0;
-    let vk = read_inputs_from_os(&receiver, true);
-
-    loop {
-        // TODO: refactor to use match
-        if vk == winput::Vk::J {
-            q_count += 1;
-            println!("Q count is {:?}", q_count);
-        } else {
-            println!("KEY: {:?}", vk);
-        }
-        if q_count == 3 {
-            println!("Speed quitting from game");
-            gamemenu.quit_from_game(&mut enigo);
-            println!("Completed at: {:?}", Utc::now().date());
-
-            break;
-        }
-        if vk == winput::Vk::O {
-            // mog 100
-            mogrun.run_count_total_absolute = 100;
-            println!("Mogrun called for 100 iterations");
-            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
-        }
-        if vk == winput::Vk::M {
-            // Close App
-            println!("graceful quit!");
-            break;
-        }
-        if vk == winput::Vk::I {
-            // single mog
-            // let mut mogrun = MogRun::new();
-            mogrun.run_count_total_absolute = 1;
-            println!("Mogrun called for 1 iteration");
-            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
-        }
-        if vk == winput::Vk::X {
-            println!("panic!");
-            panic!()
-        }
-        // add option to launch/relaunch game
-        // add option to increase/decrease the value of w1, w2 and the turn?
-        // add option to manually screengrab
-    }
+    // This runs the actual app:
+    let _ = read_inputs_from_os(
+        &receiver,
+        &gamemenu,
+        &mut enigo,
+        &player,
+        &mut data,
+        &mut mogrun,
+        &mut history.clone(),
+    );
     println!("see ya tarnished!");
-    println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+    println!(
+        "END_TIME: {:^40}",
+        Utc::now().format("%H:%M:%S %D%m%Y").to_string().blue()
+    );
     println!("--------------------------------------------------------------");
     Ok(())
-}
-
-fn get_median(v: &mut Vec<usize>) -> f32 {
-    if v.len() < 1 {
-        return 0.0;
-    }
-
-    let mut vec = v.clone();
-    vec.sort();
-    if vec.len() % 2 == 1 {
-        return *vec.get(vec.len() / 2).unwrap() as f32;
-    }
-    return (*vec.get(vec.len() / 2 - 1).unwrap() + *vec.get(vec.len() / 2).unwrap()) as f32 / 2.0;
-}
-
-fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
-    let mut map = HashMap::with_capacity(slice.len());
-    if slice.is_empty() {
-        return map;
-    }
-
-    for num in slice {
-        let count = map.entry(num).or_insert(0);
-        *count += 1;
-    }
-    let _max_value: i32 = map.values().map(|v| *v).max().unwrap();
-    map
-}
-
-fn get_mean(slice: &[usize]) -> f32 {
-    if slice.len() < 1 {
-        return 0.0;
-    }
-    let sum: usize = slice.iter().sum();
-    return sum as f32 / slice.len() as f32;
 }
