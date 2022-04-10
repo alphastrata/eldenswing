@@ -1,11 +1,11 @@
 use anyhow::Result;
 use chrono::prelude::*;
-use image::GrayImage;
-use image::Rgb;
-use imageproc::map::map_colors;
-use imageproc::rect::Rect;
+// use image::GrayImage;
+// use image::Rgb;
+// use imageproc::map::map_colors;
+// use imageproc::rect::Rect;
 use std::fs;
-use std::io::Write;
+// use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -61,7 +61,7 @@ impl GameWindow {
     }
     // Used to crop the souls counter from screengrab
     // NOTE: could be used for other things...
-    fn crop_from_screengrab(
+    pub fn crop_from_screengrab(
         // img: dyn GenericImageView,
         p: PathBuf,
         roi_box: (u32, u32, u32, u32),
@@ -81,18 +81,17 @@ impl GameWindow {
     // format - Bmp,Emf,Exif,Gif,Icon,Jpeg,Png,Tiff and are supported - default is bmp
     // WindowTitle - instead of capturing the whole screen will capture the only a window with the given title if there's such
     pub fn screengrab(filename: String, format: String, _window_title: String) -> Result<()> {
-        let output =
-            Command::new("C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe")
-                // TODO: fix above to be like below...
-                // Command::new("screenCapture.exe")
-                .arg(format!("{}.{}", filename, format))
-                // .arg("ELDEN RING™")
-                .output()
-                .expect("ls command failed to start");
+        let _output = Command::new(SCREENCAPEXE)
+            // TODO: fix above to be like below...
+            // Command::new("screenCapture.exe")
+            .arg(format!("{}.{}", filename, format))
+            // .arg("ELDEN RING™")
+            .output()
+            .expect("Screencapture failed, is it installed?");
 
-        // append output to log.txt
-        let mut file = fs::File::create("screengrab_log.txt")?;
-        file.write_all(output.stdout.as_slice())?;
+        // // append output to log.txt
+        // let mut file = fs::File::create("screengrab_log.txt")?;
+        // file.write_all(output.stdout.as_slice())?;
 
         Ok(())
     }
@@ -152,6 +151,7 @@ impl GameWindow {
 }
 
 /// NOTE: seems to require ABSOLUTE PATHS
+/// img2 is the template
 pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
     // let img2 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\wave_sword.png");
     // let img1 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\weapon_crop_1.png");

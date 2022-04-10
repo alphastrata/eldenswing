@@ -1,5 +1,5 @@
 use crate::controller::{GameMenus, MogRun, PlayerController};
-use crate::cv_utils::RoiBox;
+use crate::cv_utils::{dssim_compare, GameWindow, RoiBox};
 use crate::data_utils::Data;
 use crate::mohgwyn;
 use anyhow::Result;
@@ -31,13 +31,13 @@ pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> R
 
 fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     println!("Launching eldenring.exe");
-    let output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe")
+    let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe") //TODO: Replace with const
         .output()
         .expect("failed to run eldenring.exe");
-    game.enter_game_from_main_menu(enigo)
+    let _ = game.enter_game_from_main_menu(enigo);
 }
 
-fn check_eac_has_launched(screengrab: PathBuf) -> bool {
+pub fn check_eac_has_launched() -> Result<bool> {
     // NOTE: for a 1440p display
 
     let eac_anti_cheat_window_ft: RoiBox = RoiBox {
@@ -47,12 +47,65 @@ fn check_eac_has_launched(screengrab: PathBuf) -> bool {
         h: 65,
     };
     // take screengrab save it as eac_check.png
-
+    let _ = GameWindow::screengrab("eac_check".into(), "png".into(), "".into())?;
     // crop it
+    GameWindow::crop_from_screengrab(
+        PathBuf::from("eac_check.png"),
+        (
+            eac_anti_cheat_window_ft.x,
+            eac_anti_cheat_window_ft.y,
+            eac_anti_cheat_window_ft.w,
+            eac_anti_cheat_window_ft.h,
+        ),
+        PathBuf::from("eac_check_cropped.png"),
+    )?;
 
-    // compare it
-    //
-    true
+    let dssim = dssim_compare(
+        PathBuf::from("eac_check_cropped.png"),
+        PathBuf::from("assets/eac_check.png"), //TODO: replace with const
+    )?;
+
+    if dssim > 0.03 {
+        println!("EAC hasn't opened...");
+        println!("{}", dssim);
+    } else {
+        println!("EAC is open...");
+        println!("{}", dssim);
+    }
+    Ok(true)
+}
+
+pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
+    // NOTE: for a 1440p display
+
+    let roi: RoiBox = RoiBox {
+        x: 1110,
+        y: 955,
+        w: 355,
+        h: 65,
+    };
+    // take screengrab save it as eac_check.png
+    let _ = GameWindow::screengrab("multiplayer_dialouge_check".into(), "png".into(), "".into())?;
+    // crop it
+    GameWindow::crop_from_screengrab(
+        PathBuf::from("multiplayer_dialouge_check.png"),
+        (roi.x, roi.y, roi.w, roi.h),
+        PathBuf::from("multiplayer_dialouge_check_cropped.png"),
+    )?;
+
+    let dssim = dssim_compare(
+        PathBuf::from("multiplayer_dialouge_check_cropped.png"),
+        PathBuf::from("assets/multiplayer_dialouge_check.png"), //TODO: replace with const
+    )?;
+
+    if dssim > 0.03 {
+        println!("dialouge hasn't opened...");
+        println!("{}", dssim);
+    } else {
+        println!("dialouge is open...");
+        println!("{}", dssim);
+    }
+    Ok(true)
 }
 
 pub fn read_inputs_from_os(

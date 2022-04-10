@@ -1,5 +1,7 @@
 use crate::cv_utils::GameWindow;
 use crate::data_utils::PlayerHistory;
+use crate::os_reader;
+use anyhow::Result;
 use chrono::prelude::*;
 use enigo::*;
 use std::thread;
@@ -157,23 +159,32 @@ impl GameMenus {
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
     }
-    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
+    pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) -> Result<()> {
         // TODO: use dssim here to match on menus you're in instead of timers
         // why? well you cannot know the load speed of ppl's harddrives ><
         println!("Waiting for game to load");
-        std::thread::sleep(Duration::from_secs(35));
-        enigo.mouse_move_to(2560 / 2, 1440 / 2);
-        std::thread::sleep(Duration::from_secs(3));
-        enigo.mouse_click(MouseButton::Left);
-        std::thread::sleep(Duration::from_secs(3));
-        enigo.mouse_click(MouseButton::Left);
-        std::thread::sleep(Duration::from_secs(1));
-        enigo.key_click(enigo::Key::Layout('e'));
-        std::thread::sleep(Duration::from_secs(1));
-        enigo.key_click(enigo::Key::Layout('e'));
-        std::thread::sleep(Duration::from_secs(1));
-        enigo.key_click(enigo::Key::Layout('e'));
-        println!("Game should be up and runing..");
+        // check EAC splash is there...
+        if os_reader::check_eac_has_launched()? {
+            std::thread::sleep(Duration::from_secs(35));
+            enigo.mouse_move_to(2560 / 2, 1440 / 2);
+            // check multiplyer/main menu_continue is there
+            if os_reader::check_main_menu_multiplayer_dialouge()? {
+                std::thread::sleep(Duration::from_secs(3));
+                enigo.mouse_click(MouseButton::Left);
+                std::thread::sleep(Duration::from_secs(3));
+                enigo.mouse_click(MouseButton::Left);
+                std::thread::sleep(Duration::from_secs(1));
+
+                // spam your way in
+                enigo.key_click(enigo::Key::Layout('e'));
+                std::thread::sleep(Duration::from_secs(1));
+                enigo.key_click(enigo::Key::Layout('e'));
+                std::thread::sleep(Duration::from_secs(1));
+                enigo.key_click(enigo::Key::Layout('e'));
+                println!("Game should be up ad runing..");
+            }
+        }
+        Ok(())
     }
 }
 
