@@ -1,7 +1,7 @@
 use crate::controller::{MogRun, PlayerController};
 use crate::cv_utils::GameWindow;
 use crate::data_utils::{cleanup_tmp_png, write_to_csv, Data, PlayerHistory};
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use enigo::Enigo;
 use enigo::*;
@@ -37,15 +37,18 @@ pub fn run(
         GameWindow::external_tesseract_call("current_souls_cropped.png".into(), "eng".into())?;
     println!("{:#?} starting_souls", mogrun.starting_souls);
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
-    // let mut souls_total_all_runs = vec![1];
 
-    // let mut table = ui::setup_table(mogrun);
+    // check rh-weapon
+
     let mut best = 0;
     let mut worst = 999999;
 
     // ----------------- MAIN LOOP ------------------
     // How many runs do you wanna do?
     mogrun.run_count_total_absolute = 101;
+    if !GameWindow::check_rh_weapon()? {
+        return Err(anyhow!("RH weapon not found."));
+    }
     for n in 1..mogrun.run_count_total_absolute {
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;

@@ -163,28 +163,30 @@ impl GameMenus {
     // TODO: this could probably be nicer than a 4 indent...
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) -> Result<()> {
         // check EAC splash is there...
+        println!("Waiting for game to load");
+
+        println!("checking_eac");
         if os_reader::check_eac_has_launched()? {
-            println!("Waiting for game to load");
             std::thread::sleep(Duration::from_secs(35));
             enigo.mouse_move_to(2560 / 2, 1440 / 2);
 
             // check multiplyer/main menu_continue is there
             if os_reader::check_main_menu_multiplayer_dialouge()? {
-                std::thread::sleep(Duration::from_secs(3));
+                std::thread::sleep(Duration::from_secs(5));
                 enigo.mouse_click(MouseButton::Left);
-                std::thread::sleep(Duration::from_secs(3));
+                std::thread::sleep(Duration::from_secs(5));
                 enigo.mouse_click(MouseButton::Left);
-                std::thread::sleep(Duration::from_secs(1));
+                std::thread::sleep(Duration::from_secs(5));
 
                 // check main menu has loaded
                 if os_reader::check_main_menu_continue()? {
                     enigo.key_click(enigo::Key::Layout('e'));
-                    std::thread::sleep(Duration::from_secs(1));
+                    std::thread::sleep(Duration::from_secs(5));
 
                     // check you've got the option to continue from last game...
                     if os_reader::check_main_menu_options()? {
                         enigo.key_click(enigo::Key::Layout('e'));
-                        std::thread::sleep(Duration::from_secs(1));
+                        std::thread::sleep(Duration::from_secs(5));
                         enigo.key_click(enigo::Key::Layout('e'));
                     }
                 }
