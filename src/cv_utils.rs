@@ -152,7 +152,7 @@ pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> 
         .arg("-l")
         .arg("eng")
         .output()
-        .expect("ls command failed to start");
+        .expect("Failed to run tesseract -- perhaps it's not installed?\nperhaps it is but the path is wrong.");
 
     // read the res.txt file's contents into a string and return it
     let contents: String = fs::read_to_string("res.txt")?;
