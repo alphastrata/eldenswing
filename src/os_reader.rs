@@ -8,9 +8,12 @@ use enigo::Enigo;
 use scrap::Display;
 use std::path::PathBuf;
 use std::process::Command;
+use std::time::Duration;
 use sysinfo::{ProcessExt, System, SystemExt};
 use winput::message_loop::EventReceiver;
 use winput::{message_loop::Event, Action, Vk};
+
+const REFRESH_RATE: u64 = 16;
 
 pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> Result<bool> {
     // Checks for something like this : 19064 eldenring.exe
@@ -34,19 +37,21 @@ fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe") //TODO: Replace with const
         .output()
         .expect("failed to run eldenring.exe");
+    std::thread::sleep(Duration::from_secs(2));
     let _ = game.enter_game_from_main_menu(enigo);
 }
 
 // MAIN MENU CHECK HELPERS
 pub fn check_eac_has_launched() -> Result<bool> {
     // NOTE: for a 1440p display
-
     let eac_anti_cheat_window_ft: RoiBox = RoiBox {
         x: 900,
         y: 845,
         w: 215,
         h: 65,
     };
+    // make sure that EAC has had a chance to start..
+    std::thread::sleep(Duration::from_secs(2));
     // take screengrab save it as eac_check.png
     let _ = GameWindow::screengrab("eac_check".into(), "png".into(), "".into())?;
     // crop it
@@ -76,8 +81,7 @@ pub fn check_eac_has_launched() -> Result<bool> {
     Ok(true)
 }
 pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
-    // NOTE: for a 1440p display
-
+    std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
     // take screengrab save it as eac_check.png
     let _ = GameWindow::screengrab("multiplayer_dialouge_check".into(), "png".into(), "".into())?;
 
@@ -87,32 +91,38 @@ pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
     )?;
 
     if dssim > 0.03 {
-        println!("dialouge hasn't opened...");
+        println!("INFORMATION window has not opened... trying again...");
         println!("{}", dssim);
+        let _ = std::fs::remove_file("multiplayer_dialouge_check.png");
+        let _ = check_main_menu_multiplayer_dialouge()?;
     } else {
-        println!("dialouge is open...");
+        println!("Closing this POS shitty window... ");
         println!("{}", dssim);
     }
     Ok(true)
 }
 pub fn check_main_menu_continue() -> Result<bool> {
-    let _ = GameWindow::screengrab("main_menu_continue".into(), "png".into(), "".into())?;
+    std::thread::sleep(Duration::from_secs(2));
+    let _ = GameWindow::screengrab("main_menu_press_any_button".into(), "png".into(), "".into())?;
 
     let dssim = dssim_compare(
-        PathBuf::from("main_menu_continue.png"),
+        PathBuf::from("main_menu_press_any_button.png"),
         PathBuf::from("assets/mm2.png"), //TODO: replace with const
     )?;
 
     if dssim > 0.03 {
-        println!("dialouge hasn't opened...");
+        println!("press any button MENU has not opened... trying again...");
         println!("{}", dssim);
+        let _ = std::fs::remove_file("main_menu_continue.png");
+        let _ = check_main_menu_continue()?;
     } else {
-        println!("dialouge is open...");
+        println!("MENU open!");
         println!("{}", dssim);
     }
     Ok(true)
 }
 pub fn check_main_menu_options() -> Result<bool> {
+    std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
     let _ = GameWindow::screengrab("main_menu_options".into(), "png".into(), "".into())?;
 
     let dssim = dssim_compare(
@@ -121,10 +131,12 @@ pub fn check_main_menu_options() -> Result<bool> {
     )?;
 
     if dssim > 0.03 {
-        println!("dialouge hasn't opened...");
+        println!("CONTINUE is not pressable... trying again...");
         println!("{}", dssim);
+        let _ = std::fs::remove_file("main_menu_options.png");
+        let _ = check_main_menu_options()?;
     } else {
-        println!("dialouge is open...");
+        println!("Pressable!");
         println!("{}", dssim);
     }
     Ok(true)
@@ -167,6 +179,7 @@ pub fn read_inputs_from_os(
                 }
                 if vk == Vk::M {
                     // Close App
+                    // TODO!()
                     println!("graceful quit!");
                     return false;
                 }

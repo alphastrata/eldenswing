@@ -154,13 +154,15 @@ impl GameWindow {
 /// NOTE: seems to require ABSOLUTE PATHS
 /// img2 is the template
 pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
-    // let img2 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\wave_sword.png");
-    // let img1 = PathBuf::from(r"C:\Users\jer\Documents\GitHub\eldenswing\assets\weapon_crop_1.png");
+    let stopwatch = std::time::Instant::now();
 
     let attr = dssim::Dssim::new();
     let orig = dssim::load_image(&attr, &img1)?;
     let comp = dssim::load_image(&attr, &img2)?;
     let (diff, _) = attr.compare(&orig, &comp); //NOTE: You're throwing the error away :(
 
+    println!("Runtime  : {}ms", stopwatch.elapsed().as_millis());
+    println!("Comparing:\n\t {} and {}", img1.display(), img2.display());
+    println!("DIFF     : {}", diff);
     Ok(diff)
 }

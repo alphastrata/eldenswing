@@ -148,14 +148,15 @@ impl GameMenus {
         sys.enter(REFRESH_RATE, enigo);
 
         // move to quit
-        let _quit = UiButton::new(4002 - 2560, 280);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
+        let quit = UiButton::new(1450, 250);
+        quit.move_to(REFRESH_RATE, enigo);
+        quit.enter(REFRESH_RATE, enigo);
 
         // move to yes
-        let _yes = UiButton::new(1140, 720);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
+        let yes = UiButton::new(1140, 720);
+        yes.move_to(REFRESH_RATE, enigo);
+        thread::sleep(Duration::from_millis(REFRESH_RATE * 8)); // this menu takes a while
+        yes.enter(REFRESH_RATE, enigo);
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
     }
@@ -167,31 +168,33 @@ impl GameMenus {
 
         println!("checking_eac");
         if os_reader::check_eac_has_launched()? {
-            std::thread::sleep(Duration::from_secs(35));
+            std::thread::sleep(Duration::from_secs(30));
             enigo.mouse_move_to(2560 / 2, 1440 / 2);
+            // make sure we're in the game window...
+            enigo.mouse_click(MouseButton::Left);
+            enigo.mouse_click(MouseButton::Left);
 
-            // check multiplyer/main menu_continue is there
-            if os_reader::check_main_menu_multiplayer_dialouge()? {
-                std::thread::sleep(Duration::from_secs(5));
+            // check main menu has loaded
+            if os_reader::check_main_menu_continue()? {
+                println!("3rd if");
                 enigo.mouse_click(MouseButton::Left);
-                std::thread::sleep(Duration::from_secs(5));
-                enigo.mouse_click(MouseButton::Left);
-                std::thread::sleep(Duration::from_secs(5));
+                enigo.key_click(enigo::Key::Layout('e'));
 
-                // check main menu has loaded
-                if os_reader::check_main_menu_continue()? {
+                // check multiplyer/main menu_continue is there
+                if os_reader::check_main_menu_multiplayer_dialouge()? {
+                    println!("2nd if");
+                    enigo.mouse_click(MouseButton::Left);
                     enigo.key_click(enigo::Key::Layout('e'));
-                    std::thread::sleep(Duration::from_secs(5));
 
                     // check you've got the option to continue from last game...
                     if os_reader::check_main_menu_options()? {
-                        enigo.key_click(enigo::Key::Layout('e'));
-                        std::thread::sleep(Duration::from_secs(5));
+                        println!("4th if");
                         enigo.key_click(enigo::Key::Layout('e'));
                     }
                 }
             }
         }
+        enigo.key_click(enigo::Key::Layout('e'));
         Ok(())
     }
 }
