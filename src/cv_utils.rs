@@ -13,6 +13,12 @@ pub struct _Confidence {
 
 // Helper struct to more easily interact with the concept of the Game's screen
 pub struct GameWindow {}
+pub struct RoiBox {
+    x: u32,
+    y: u32,
+    w: u32,
+    h: u32,
+}
 
 impl GameWindow {
     pub fn _new() -> GameWindow {
