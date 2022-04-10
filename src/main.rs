@@ -3,7 +3,6 @@ mod cv_utils;
 mod data_utils;
 mod mohgwyn;
 mod os_reader;
-mod ui;
 
 use anyhow::Result;
 use chrono::prelude::*;
@@ -50,8 +49,10 @@ fn main() -> Result<()> {
     let _ = os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)?;
 
     let mut q_count = 0;
+    let vk = read_inputs_from_os(&receiver, true);
+
     loop {
-        let vk = read_inputs_from_os(&receiver, true);
+        // TODO: refactor to use match
         if vk == winput::Vk::J {
             q_count += 1;
             println!("Q count is {:?}", q_count);
@@ -69,7 +70,7 @@ fn main() -> Result<()> {
             // mog 100
             mogrun.run_count_total_absolute = 100;
             println!("Mogrun called for 100 iterations");
-            mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
+            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
         }
         if vk == winput::Vk::M {
             // Close App
@@ -81,7 +82,7 @@ fn main() -> Result<()> {
             // let mut mogrun = MogRun::new();
             mogrun.run_count_total_absolute = 1;
             println!("Mogrun called for 1 iteration");
-            mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
+            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
         }
         if vk == winput::Vk::X {
             println!("panic!");

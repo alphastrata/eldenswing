@@ -1,13 +1,9 @@
 use crate::controller::GameMenus;
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use chrono::prelude::*;
 use enigo::*;
-use scrap::{Capturer, Display};
-use std::fs::File;
-use std::io::ErrorKind::WouldBlock;
+use scrap::Display;
 use std::process::Command;
-use std::thread;
-use std::time::Duration;
 use sysinfo::{ProcessExt, System, SystemExt};
 use winput::message_loop::{self, EventReceiver};
 use winput::{Action, Vk};
@@ -62,7 +58,7 @@ pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> R
 
 fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     println!("Launching eldenring.exe");
-    let output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe")
+    let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe")
         .output()
         .expect("failed to run eldenring.exe");
     game.enter_game_from_main_menu(enigo)

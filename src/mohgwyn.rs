@@ -3,11 +3,8 @@ use crate::cv_utils::GameWindow;
 use crate::data_utils::{cleanup_tmp_png, write_to_csv, Data, PlayerHistory};
 use anyhow::Result;
 use chrono::prelude::*;
-use csv::*;
 use enigo::Enigo;
 use enigo::*;
-use serde::Serialize;
-use std::fs::OpenOptions;
 use std::path::PathBuf;
 use std::time::Duration;
 

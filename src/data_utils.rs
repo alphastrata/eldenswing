@@ -1,7 +1,7 @@
 use anyhow::Result;
 use chrono::prelude::*;
 use serde::Serialize;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use crate::controller::MogRun;
 
@@ -16,16 +16,6 @@ pub struct PlayerHistory {
     pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
 }
 impl PlayerHistory {
-    pub fn new() -> PlayerHistory {
-        PlayerHistory {
-            walk1: 0,
-            turn_angle: 0,
-            walk2: 0,
-            wave_wait: 0.0,
-            grace_wait: 0.0,
-            player_lvl: 0,
-        }
-    }
     pub fn new_from(
         walk1: usize,
         walk2: usize,
@@ -68,68 +58,6 @@ impl Data {
             prev_run_yeild: 0,
         }
     }
-    // save all data to disk
-    fn write_run_data() {
-        // let out = File::create("output_csv.txt")?; // apparently possible with prettytable
-        // table.to_csv(out)?;
-        todo!();
-    }
-    // Helpers to get avg yield on runs
-    // pass verbose as true to have them print to stdout
-    fn running_avg_by_run(verbose: bool, history: PlayerHistory, data: Data) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_h(verbose: bool) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_m(verbose: bool) -> u32 {
-        todo!()
-    }
-    fn running_avg_by_s(verbose: bool) -> u32 {
-        todo!()
-    }
-    pub fn data_to_stdout() {
-        // lots of precanned convenience formats are available in consts....
-        // table.set_format(*format::consts::FORMAT_NO_BORDER_LINE_SEPARATOR);
-        // table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
-        // // Create the table
-        // let mut table = Table::new();
-
-        // // Add a row per time
-        // table.add_row(row!["ABC", "DEFG", "HIJKLMN"]);
-        // table.add_row(row!["foobar", "bar", "foo"]);
-        // // A more complicated way to add a row:
-        // table.add_row(Row::new(vec![
-        //     Cell::new("foobar2"),
-        //     Cell::new("bar2"),
-        //     Cell::new("foo2"),
-        // ]));
-
-        // Print the table to stdout
-        // table.printstd();
-        todo!();
-    }
-    // cleanup temporary files
-    // fn cleanup_tmp() -> Result<bool, std::io::Error> {
-    //     for entry in std::fs::read_dir("tmp")?.into_iter() {
-    //         let path = entry?.path();
-    //         if path.extension().expect("Unable to view file extension.") == "png" {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     for entry in std::fs::read_dir("completed")?.into_iter() {
-    //         let path = entry?.path();
-    //         if !path.to_str().unwrap().contains("fulldisc") {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     Ok(true)
-    // }
-    fn create_tmp_dir() -> Result<(), std::io::Error> {
-        // let tmpdir_contents = std::fs::read_dir(Path::new("tmp"))?;
-        // Ok();
-        todo!()
-    }
 }
 
 // TODO: Move these somewhere else
@@ -151,7 +79,7 @@ pub fn cleanup_tmp_png(run_number: usize) -> Result<()> {
 }
 
 #[derive(Serialize)]
-pub struct Row {
+pub(crate) struct Row {
     run_number: usize,
     starting_souls: usize,
     souls_this_run: i64,

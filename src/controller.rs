@@ -31,25 +31,33 @@ impl UiButton {
 }
 // representation of % of the ingame compass that you can use to turn
 pub enum CompassDegree {
-    ninety,
-    twentytwo,
-    fourtyfive,
-    oneeighty,
-    twozeventy,
-    threesixty,
+    #[allow(dead_code)]
+    Ninety,
+    #[allow(dead_code)]
+    Twentytwo,
+    Fourtyfive,
+    #[allow(dead_code)]
+    Oneeighty,
+    #[allow(dead_code)]
+    Twoseventy,
+    #[allow(dead_code)]
+    Threesixty,
 }
 
 // representaion of left and right
 pub enum LR {
     Left,
+    #[allow(dead_code)]
     Right,
 }
 // simple struct to simplify player control
 pub struct PlayerController {}
 impl PlayerController {
+    #[allow(dead_code)]
     pub fn centre_joypad(&self, enigo: &mut Enigo) {
         enigo.mouse_move_to(1280, 720);
     }
+    #[allow(dead_code)]
     pub fn interact(&self, enigo: &mut Enigo, refrate: u64) {
         thread::sleep(Duration::from_millis(refrate));
         enigo.key_click(Key::Layout('e'));
@@ -62,12 +70,12 @@ impl PlayerController {
     // NOTE: camera will be reset within this call
     pub fn turn(&self, enigo: &mut Enigo, d: CompassDegree, lr: LR) {
         let rotation = match { d } {
-            CompassDegree::fourtyfive => COMPASS_TIK * 2,
-            CompassDegree::twentytwo => COMPASS_TIK * 0.5 as i32,
-            CompassDegree::ninety => COMPASS_TIK * 4,
-            CompassDegree::oneeighty => COMPASS_TIK * 8,
-            CompassDegree::twozeventy => COMPASS_TIK * 12,
-            CompassDegree::threesixty => COMPASS_TIK * 16,
+            CompassDegree::Fourtyfive => COMPASS_TIK * 2,
+            CompassDegree::Twentytwo => COMPASS_TIK * 0.5 as i32,
+            CompassDegree::Ninety => COMPASS_TIK * 4,
+            CompassDegree::Oneeighty => COMPASS_TIK * 8,
+            CompassDegree::Twoseventy => COMPASS_TIK * 12,
+            CompassDegree::Threesixty => COMPASS_TIK * 16,
         };
 
         let rotation = match { lr } {
@@ -80,16 +88,6 @@ impl PlayerController {
     }
     // Try to turn over a time-period of frames, ideally combine it with a walk so that
     // you can walk in something other than straight lines...
-    pub fn turn_by_frames(
-        &self,
-        enigo: &mut Enigo,
-        d1: CompassDegree,
-        d2: CompassDegree,
-        f: usize,
-        lr: LR,
-    ) {
-        todo!();
-    }
     pub fn walk_fwd(&self, t: &usize, enigo: &mut Enigo) {
         for _ in 0..t.clone() {
             enigo.key_click(enigo::Key::Layout('w'));
@@ -98,33 +96,16 @@ impl PlayerController {
     }
 
     // TODO: make a walk_fwd based on frames
-    pub fn walk_by_frames(&self, f: usize, enigo: &mut Enigo) {
-        for _ in 0..f as usize {
-            std::thread::sleep(Duration::from_millis(REFRESH_RATE));
-            enigo.key_click(enigo::Key::Layout('w'));
-        }
-        enigo.key_up(enigo::Key::Layout('w'));
-    }
+    // pub fn walk_by_frames(&self, f: usize, enigo: &mut Enigo) {
+    //     for _ in 0..f as usize {
+    //         std::thread::sleep(Duration::from_millis(REFRESH_RATE));
+    //         enigo.key_click(enigo::Key::Layout('w'));
+    //     }
+    //     enigo.key_up(enigo::Key::Layout('w'));
+    // }
     // DEPRICATED
-    pub fn run_fwd(&self, t: u64, enigo: &mut Enigo) {
-        enigo.key_down(enigo::Key::Space);
-        enigo.key_down(enigo::Key::Layout('w'));
-        println!("running");
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
-
-        std::thread::sleep(Duration::from_millis(t));
-
-        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
-        enigo.key_up(enigo::Key::Space);
-        enigo.key_up(enigo::Key::Layout('w'));
-        println!("Keys up..");
-    }
     pub fn l2(&self, enigo: &mut Enigo) {
         enigo.key_click(enigo::Key::Layout('p'));
-    }
-
-    pub fn reset_camera(&self, enigo: &mut Enigo) {
-        enigo.key_click(enigo::Key::Layout('q'));
     }
 }
 
@@ -134,26 +115,26 @@ impl GameMenus {
     pub fn new() -> GameMenus {
         GameMenus {}
     }
-    pub fn exit_grace(&self, enigo: &mut Enigo, player: PlayerController) {
-        // to exit a grace
-        std::thread::sleep(Duration::from_millis(3000)); // ensure grace menu is loaded
-        println!("exit_grace");
-        self.rh_click_menu(enigo, player);
-        std::thread::sleep(Duration::from_millis(800));
-    }
-    pub fn rh_click_menu(&self, enigo: &mut Enigo, player: PlayerController) {
-        // in lieu of being able to use PS4 virtualisation, we'll just use the mouse
-        enigo.mouse_move_to(1280, 720); // should be centre of screen...
-        std::thread::sleep(Duration::from_millis(200));
-        enigo.mouse_down(MouseButton::Right);
-        std::thread::sleep(Duration::from_millis(200));
-        enigo.mouse_up(MouseButton::Right);
+    // pub fn exit_grace(&self, enigo: &mut Enigo, player: PlayerController) {
+    //     // to exit a grace
+    //     std::thread::sleep(Duration::from_millis(3000)); // ensure grace menu is loaded
+    //     println!("exit_grace");
+    //     self.rh_click_menu(enigo, player);
+    //     std::thread::sleep(Duration::from_millis(800));
+    // }
+    // pub fn rh_click_menu(&self, enigo: &mut Enigo, player: PlayerController) {
+    //     // in lieu of being able to use PS4 virtualisation, we'll just use the mouse
+    //     enigo.mouse_move_to(1280, 720); // should be centre of screen...
+    //     std::thread::sleep(Duration::from_millis(200));
+    //     enigo.mouse_down(MouseButton::Right);
+    //     std::thread::sleep(Duration::from_millis(200));
+    //     enigo.mouse_up(MouseButton::Right);
 
-        enigo.mouse_move_relative(80, -10);
-        std::thread::sleep(Duration::from_millis(400));
-        player.interact(enigo, REFRESH_RATE);
-        std::thread::sleep(Duration::from_millis(200)); // interactions take time
-    }
+    //     enigo.mouse_move_relative(80, -10);
+    //     std::thread::sleep(Duration::from_millis(400));
+    //     player.interact(enigo, REFRESH_RATE);
+    //     std::thread::sleep(Duration::from_millis(200)); // interactions take time
+    // }
     // This quits from within the game, assumes no menus are already open..
     pub fn quit_from_game(&self, enigo: &mut Enigo) {
         enigo.key_click(Key::Escape);
@@ -165,18 +146,20 @@ impl GameMenus {
         sys.enter(REFRESH_RATE, enigo);
 
         // move to quit
-        let quit = UiButton::new(4002 - 2560, 280);
+        let _quit = UiButton::new(4002 - 2560, 280);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
         // move to yes
-        let yes = UiButton::new(1140, 720);
+        let _yes = UiButton::new(1140, 720);
         sys.move_to(REFRESH_RATE, enigo);
         sys.enter(REFRESH_RATE, enigo);
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
     }
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) {
+        // TODO: use dssim here to match on menus you're in instead of timers
+        // why? well you cannot know the load speed of ppl's harddrives ><
         println!("Waiting for game to load");
         std::thread::sleep(Duration::from_secs(35));
         enigo.mouse_move_to(2560 / 2, 1440 / 2);
@@ -247,7 +230,7 @@ impl MogRun {
     }
     // Teleport to Moghywn's Palace to set up, always called at the end or run() and speedrun() to reset the area,
     // and the player location
-    pub fn teleport(&self, enigo: &mut Enigo, player: &PlayerController) {
+    pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
         //TODO: buttons into an array and loop
         // player.reset_camera(enigo);
         std::thread::sleep(Duration::from_millis(40));
@@ -262,7 +245,7 @@ impl MogRun {
     // Perform a Moghywn run
     pub fn run(&self, enigo: &mut Enigo, player: &PlayerController, history: PlayerHistory) {
         player.walk_fwd(&history.walk1, enigo);
-        player.turn(enigo, CompassDegree::fourtyfive, LR::Left);
+        player.turn(enigo, CompassDegree::Fourtyfive, LR::Left);
         player.walk_fwd(&history.walk2, enigo);
 
         let _ = GameWindow::screengrab("starting_souls".into(), "png".into(), "".into())

@@ -1,7 +1,7 @@
 use anyhow::Result;
 use std::fs;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process::Command;
 
 const SCREENCAPEXE: &str = r"C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe";
@@ -72,7 +72,7 @@ impl GameWindow {
     // NOTE: could be used for other things...
     fn crop_from_screengrab(
         // img: dyn GenericImageView,
-        p: PathBuf,
+        _p: PathBuf,
         roi_box: (u32, u32, u32, u32),
     ) -> Result<PathBuf> {
         let mut img = image::open("starting_souls.png")?; // it will actually ALWAYS take in starting_souls.png
