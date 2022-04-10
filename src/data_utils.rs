@@ -131,6 +131,7 @@ pub fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Resu
     Ok(())
 }
 
+#[allow(dead_code)]
 fn get_median(v: &mut Vec<usize>) -> f32 {
     if v.len() < 1 {
         return 0.0;
@@ -144,6 +145,7 @@ fn get_median(v: &mut Vec<usize>) -> f32 {
     return (*vec.get(vec.len() / 2 - 1).unwrap() + *vec.get(vec.len() / 2).unwrap()) as f32 / 2.0;
 }
 
+#[allow(dead_code)]
 fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
     let mut map = HashMap::with_capacity(slice.len());
     if slice.is_empty() {
@@ -158,6 +160,7 @@ fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
     map
 }
 
+#[allow(dead_code)]
 fn get_mean(slice: &[usize]) -> f32 {
     if slice.len() < 1 {
         return 0.0;

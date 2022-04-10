@@ -9,7 +9,7 @@ use scrap::Display;
 use std::path::PathBuf;
 use std::process::Command;
 use sysinfo::{ProcessExt, System, SystemExt};
-use winput::message_loop::{self, EventReceiver};
+use winput::message_loop::EventReceiver;
 use winput::{message_loop::Event, Action, Vk};
 
 pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> Result<bool> {
@@ -37,6 +37,7 @@ fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     let _ = game.enter_game_from_main_menu(enigo);
 }
 
+// MAIN MENU CHECK HELPERS
 pub fn check_eac_has_launched() -> Result<bool> {
     // NOTE: for a 1440p display
 
@@ -74,28 +75,49 @@ pub fn check_eac_has_launched() -> Result<bool> {
     }
     Ok(true)
 }
-
 pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
     // NOTE: for a 1440p display
 
-    let roi: RoiBox = RoiBox {
-        x: 1110,
-        y: 955,
-        w: 355,
-        h: 65,
-    };
     // take screengrab save it as eac_check.png
     let _ = GameWindow::screengrab("multiplayer_dialouge_check".into(), "png".into(), "".into())?;
-    // crop it
-    GameWindow::crop_from_screengrab(
-        PathBuf::from("multiplayer_dialouge_check.png"),
-        (roi.x, roi.y, roi.w, roi.h),
-        PathBuf::from("multiplayer_dialouge_check_cropped.png"),
-    )?;
 
     let dssim = dssim_compare(
-        PathBuf::from("multiplayer_dialouge_check_cropped.png"),
-        PathBuf::from("assets/multiplayer_dialouge_check.png"), //TODO: replace with const
+        PathBuf::from("multiplayer_dialouge_check.png"),
+        PathBuf::from("assets/mm1.png"), //TODO: replace with const
+    )?;
+
+    if dssim > 0.03 {
+        println!("dialouge hasn't opened...");
+        println!("{}", dssim);
+    } else {
+        println!("dialouge is open...");
+        println!("{}", dssim);
+    }
+    Ok(true)
+}
+pub fn check_main_menu_continue() -> Result<bool> {
+    let _ = GameWindow::screengrab("main_menu_continue".into(), "png".into(), "".into())?;
+
+    let dssim = dssim_compare(
+        PathBuf::from("main_menu_continue.png"),
+        PathBuf::from("assets/mm2.png"), //TODO: replace with const
+    )?;
+
+    if dssim > 0.03 {
+        println!("dialouge hasn't opened...");
+        println!("{}", dssim);
+    } else {
+        println!("dialouge is open...");
+        println!("{}", dssim);
+    }
+    Ok(true)
+}
+pub fn check_main_menu_options() -> Result<bool> {
+    let _ = GameWindow::screengrab("main_menu_options".into(), "png".into(), "".into())?;
+
+    let dssim = dssim_compare(
+        PathBuf::from("main_menu_options.png"),
+        PathBuf::from("assets/mm3.png"), //TODO: replace with const
     )?;
 
     if dssim > 0.03 {
@@ -108,6 +130,7 @@ pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
     Ok(true)
 }
 
+// INPUT and UI capture stuff:
 pub fn read_inputs_from_os(
     receiver: &EventReceiver,
     gamemenu: &GameMenus,
@@ -119,12 +142,12 @@ pub fn read_inputs_from_os(
     let mut j_count = 0;
     loop {
         match receiver.next_event() {
-            message_loop::Event::Keyboard {
+            Event::Keyboard {
                 vk,
                 action: Action::Press,
                 ..
             } => {
-                if vk == winput::Vk::J {
+                if vk == Vk::J {
                     j_count += 1;
                     println!("Q count is {:?}", j_count);
                 }
@@ -136,25 +159,25 @@ pub fn read_inputs_from_os(
 
                     return false;
                 }
-                if vk == winput::Vk::O {
+                if vk == Vk::O {
                     // mog 100
                     mogrun.run_count_total_absolute = 100;
                     println!("Mogrun called for 100 iterations");
                     let _ = mohgwyn::run(enigo, player, data, mogrun);
                 }
-                if vk == winput::Vk::M {
+                if vk == Vk::M {
                     // Close App
                     println!("graceful quit!");
                     return false;
                 }
-                if vk == winput::Vk::I {
+                if vk == Vk::I {
                     // single mog
                     // let mut mogrun = MogRun::new();
                     mogrun.run_count_total_absolute = 1;
                     println!("Mogrun called for 1 iteration");
                     let _ = mohgwyn::run(enigo, player, data, mogrun);
                 }
-                if vk == winput::Vk::X {
+                if vk == Vk::X {
                     println!("panic!");
                     panic!()
                 }
@@ -170,6 +193,7 @@ pub fn read_inputs_from_os(
     }
 }
 
+// NOTE use this later to remove all the fixed values by px that're powering the crops
 pub fn check_monitors() {
     let displays = Display::all().expect("Unable to index displays");
 

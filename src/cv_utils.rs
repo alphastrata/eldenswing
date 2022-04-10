@@ -40,6 +40,7 @@ impl GameWindow {
         );
         cropped_img
     }
+    #[allow(dead_code)]
     pub fn crop_rh_weapon(filename: PathBuf) -> Result<PathBuf> {
         let roi_box: RoiBox = RoiBox {
             //NOTE: this if calibrated to a 1440p display

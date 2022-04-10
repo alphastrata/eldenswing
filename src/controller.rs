@@ -159,14 +159,15 @@ impl GameMenus {
 
         thread::sleep(Duration::from_secs(3)); // this menu takes a while
     }
+    //
+    // TODO: this could probably be nicer than a 4 indent...
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) -> Result<()> {
-        // TODO: use dssim here to match on menus you're in instead of timers
-        // why? well you cannot know the load speed of ppl's harddrives ><
-        println!("Waiting for game to load");
         // check EAC splash is there...
         if os_reader::check_eac_has_launched()? {
+            println!("Waiting for game to load");
             std::thread::sleep(Duration::from_secs(35));
             enigo.mouse_move_to(2560 / 2, 1440 / 2);
+
             // check multiplyer/main menu_continue is there
             if os_reader::check_main_menu_multiplayer_dialouge()? {
                 std::thread::sleep(Duration::from_secs(3));
@@ -175,13 +176,18 @@ impl GameMenus {
                 enigo.mouse_click(MouseButton::Left);
                 std::thread::sleep(Duration::from_secs(1));
 
-                // spam your way in
-                enigo.key_click(enigo::Key::Layout('e'));
-                std::thread::sleep(Duration::from_secs(1));
-                enigo.key_click(enigo::Key::Layout('e'));
-                std::thread::sleep(Duration::from_secs(1));
-                enigo.key_click(enigo::Key::Layout('e'));
-                println!("Game should be up ad runing..");
+                // check main menu has loaded
+                if os_reader::check_main_menu_continue()? {
+                    enigo.key_click(enigo::Key::Layout('e'));
+                    std::thread::sleep(Duration::from_secs(1));
+
+                    // check you've got the option to continue from last game...
+                    if os_reader::check_main_menu_options()? {
+                        enigo.key_click(enigo::Key::Layout('e'));
+                        std::thread::sleep(Duration::from_secs(1));
+                        enigo.key_click(enigo::Key::Layout('e'));
+                    }
+                }
             }
         }
         Ok(())
