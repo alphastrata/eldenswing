@@ -144,21 +144,18 @@ impl GameMenus {
 
         // move to system
         let sys = UiButton::new(20, 1080);
-        sys.move_to(REFRESH_RATE, enigo);
-        sys.enter(REFRESH_RATE, enigo);
+        sys.move_to(REFRESH_RATE * 4, enigo);
+        sys.enter(REFRESH_RATE * 4, enigo);
 
         // move to quit
         let quit = UiButton::new(1450, 250);
-        quit.move_to(REFRESH_RATE, enigo);
-        quit.enter(REFRESH_RATE, enigo);
+        quit.move_to(REFRESH_RATE * 4, enigo);
+        quit.enter(REFRESH_RATE * 4, enigo);
 
         // move to yes
-        let yes = UiButton::new(1140, 720);
-        yes.move_to(REFRESH_RATE, enigo);
-        thread::sleep(Duration::from_millis(REFRESH_RATE * 8)); // this menu takes a while
-        yes.enter(REFRESH_RATE, enigo);
-
-        thread::sleep(Duration::from_secs(3)); // this menu takes a while
+        let yes = UiButton::new(1000, 750);
+        yes.move_to(REFRESH_RATE * 4, enigo);
+        yes.enter(REFRESH_RATE * 4, enigo);
     }
     //
     // TODO: this could probably be nicer than a 4 indent...
