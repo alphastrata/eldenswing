@@ -1,7 +1,7 @@
 use anyhow::Result;
 use chrono::prelude::*;
 use serde::Serialize;
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 
 use crate::controller::MogRun;
 
@@ -129,4 +129,39 @@ pub fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Resu
         avg_souls_per_second,
     })?;
     Ok(())
+}
+
+fn get_median(v: &mut Vec<usize>) -> f32 {
+    if v.len() < 1 {
+        return 0.0;
+    }
+
+    let mut vec = v.clone();
+    vec.sort();
+    if vec.len() % 2 == 1 {
+        return *vec.get(vec.len() / 2).unwrap() as f32;
+    }
+    return (*vec.get(vec.len() / 2 - 1).unwrap() + *vec.get(vec.len() / 2).unwrap()) as f32 / 2.0;
+}
+
+fn get_mode(slice: &[usize]) -> HashMap<&usize, i32> {
+    let mut map = HashMap::with_capacity(slice.len());
+    if slice.is_empty() {
+        return map;
+    }
+
+    for num in slice {
+        let count = map.entry(num).or_insert(0);
+        *count += 1;
+    }
+    let _max_value: i32 = map.values().map(|v| *v).max().unwrap();
+    map
+}
+
+fn get_mean(slice: &[usize]) -> f32 {
+    if slice.len() < 1 {
+        return 0.0;
+    }
+    let sum: usize = slice.iter().sum();
+    return sum as f32 / slice.len() as f32;
 }
