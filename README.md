@@ -26,10 +26,16 @@ Keybindings:
 
 ```
 j -- hit 3 times to speedquit
-o -- hit once to speedrun Mog
+o -- hit once to speedrun Mog ( The default number of runs to be done is 100)
 i -- hit once to do a single Mog run
 m -- hit once to stop EldenSwing
 x -- emergency quit *this makes the app painc!() it's not a good way to quit...
+F1 -- Launch game
+F2 -- increase walk_one by 1
+F3 -- decrease walk_one by 1
+F4 -- increase walk_two by 1
+F5 -- decrease walk_two by 1
+F12 -- take a screengrab (used mostly for debugging / prototyping new features)
 ```
 
 # TODO:
