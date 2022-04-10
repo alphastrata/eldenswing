@@ -27,9 +27,9 @@ Keybindings:
 ```
 j -- hit 3 times to speedquit
 o -- hit once to speedrun Mog
-i -- hit once to walk a Mog run
+i -- hit once to do a single Mog run
 m -- hit once to stop EldenSwing
-x -- emergency quit
+x -- emergency quit *this makes the app painc!() it's not a good way to quit...
 ```
 
 - Whilst running it'll quit you out of the actual game into the main menu if you tripple tap 'j'.
