@@ -2,6 +2,15 @@
 
 Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
 
+# Prerequisites:
+
+- Elden Ring
+- Tesseract OCR ( the binary from here https://codetoprosper.com/tesseract-ocr-for-windows/)
+- You've run the screenCapture.bat (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/screenCapture.bat if missing) it requires .net framework
+- Rust & Cargo
+- That all the paths to Tesseract and screenCapture.exe are reflecting their locations on disk for _your_ system -- amend them in the cv_utils.rs file with the text editor of your choice
+- That the screen (if you have multiple) on which you play the game's top left hand corner == 0,0 in pixels, if this is not the case all the ComputerVision stuff will be out by 2560px on that axis
+
 # USAGE:
 
 _assuming you've cloned the repo and got all the above installed properly_

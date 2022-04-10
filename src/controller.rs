@@ -184,22 +184,17 @@ pub struct MogRun {
     pub current_run_end_utc: DateTime<Utc>,
     pub current_run_number: usize,
     pub current_run_start_utc: DateTime<Utc>,
-    // pub est_endtime: DateTime<Utc>, // num_runs * avg_time_per_run - runs_done //calculate this
     pub est_goldeye_spawns: usize,
     pub est_time_remaining: Duration,
     pub run_count_total_thusfar: usize,
     pub run_count_total_absolute: usize, // num of runs controlling the range of the loop
-    // pub runs_per_minute: f64, // calculate this
     pub souls_avg_per_run: usize,
     pub souls_best_thusfar: usize,
     pub souls_last_run: i64,
     pub souls_this_run: i64,
-    // pub souls_total_all_runs: Vec<i64>,
-    // pub souls_vs_last_run: usize, calculate this...
     pub souls_worst_thusfar: usize,
     pub starting_souls: usize, // they may start a run with some souls on the counter
     pub time_app_spartup_utc: DateTime<Utc>,
-    // pub time_avg_per_run: Duration, // calculate this
     pub time_best_thusfar: Duration,
     pub time_worst_thusfar: Duration,
     pub turn_angle: f64,

@@ -4,11 +4,12 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+const SCREENCAPEXE: &str = r"C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe";
+
 // To indicate the confdence in a value returned by Tesseract.
 pub struct _Confidence {
     value: f64,
 }
-const SCREENCAPEXE: &str = r"C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe";
 
 // Helper struct to more easily interact with the concept of the Game's screen
 pub struct GameWindow {}

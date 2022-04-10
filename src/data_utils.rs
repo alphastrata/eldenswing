@@ -127,15 +127,3 @@ impl Data {
         todo!()
     }
 }
-
-// pub struct SoulsCounter {}
-// impl SoulsCounter {
-//     fn new() -> SoulsCounter {
-//         SoulsCounter {}
-//     }
-//     // uses the cv_utils.rs which uses OCR via tesseract to read the soul counter from an ingame screengrab
-//     pub fn read_counter(img: PathBuf) -> u32 {
-//         // crate::cv_utils::read_souls_counter();
-//         todo!()
-//     }
-// }
