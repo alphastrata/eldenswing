@@ -15,3 +15,4 @@ scrap = "*"
 winput = "*"
 serde = { version = "1.*", features = ["derive"] }
 sysinfo = "0.23.9"
+dssim = "3.2.0"

@@ -41,50 +41,15 @@ fn main() -> Result<()> {
 
     let _ = os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)?;
 
-    let mut q_count = 0;
-    let vk = read_inputs_from_os(&receiver, true);
-
-    loop {
-        // TODO: refactor to use match
-        if vk == winput::Vk::J {
-            q_count += 1;
-            println!("Q count is {:?}", q_count);
-        } else {
-            println!("KEY: {:?}", vk);
-        }
-        if q_count == 3 {
-            println!("Speed quitting from game");
-            gamemenu.quit_from_game(&mut enigo);
-            println!("Completed at: {:?}", Utc::now().date());
-
-            break;
-        }
-        if vk == winput::Vk::O {
-            // mog 100
-            mogrun.run_count_total_absolute = 100;
-            println!("Mogrun called for 100 iterations");
-            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
-        }
-        if vk == winput::Vk::M {
-            // Close App
-            println!("graceful quit!");
-            break;
-        }
-        if vk == winput::Vk::I {
-            // single mog
-            // let mut mogrun = MogRun::new();
-            mogrun.run_count_total_absolute = 1;
-            println!("Mogrun called for 1 iteration");
-            let _ = mohgwyn::run(&mut enigo, &player, &mut data, &mut mogrun);
-        }
-        if vk == winput::Vk::X {
-            println!("panic!");
-            panic!()
-        }
-        // add option to launch/relaunch game
-        // add option to increase/decrease the value of w1, w2 and the turn?
-        // add option to manually screengrab
-    }
+    // This runs the actual app:
+    let _ = read_inputs_from_os(
+        &receiver,
+        &gamemenu,
+        &mut enigo,
+        &player,
+        &mut data,
+        &mut mogrun,
+    );
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
     println!("--------------------------------------------------------------");
