@@ -1,6 +1,6 @@
 use crate::controller::{GameMenus, MogRun, PlayerController};
 use crate::cv_utils::{dssim_compare, GameWindow, RoiBox};
-use crate::data_utils::Data;
+use crate::data_utils::{Data, PlayerHistory};
 use crate::mohgwyn;
 use anyhow::Result;
 use chrono::prelude::*;
@@ -15,6 +15,7 @@ use winput::{message_loop::Event, Action, Vk};
 
 const REFRESH_RATE: u64 = 16;
 
+// Elden Ring app running or not helpers
 pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> Result<bool> {
     // Checks for something like this : 19064 eldenring.exe
     let s = System::new_all();
@@ -31,7 +32,6 @@ pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> R
     launch_elden_ring(enigo, &gamemenu);
     Ok(false)
 }
-
 fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     println!("Launching eldenring.exe");
     let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe") //TODO: Replace with const
@@ -150,7 +150,8 @@ pub fn read_inputs_from_os(
     player: &PlayerController,
     data: &mut Data,
     mogrun: &mut MogRun,
-) -> bool {
+    history: &mut PlayerHistory,
+) -> Result<bool> {
     let mut j_count = 0;
     loop {
         match receiver.next_event() {
@@ -163,44 +164,68 @@ pub fn read_inputs_from_os(
                     j_count += 1;
                     println!("Q count is {:?}", j_count);
                 }
-
                 if j_count == 3 {
                     println!("Speed quitting from game");
                     gamemenu.quit_from_game(enigo);
                     println!("Completed at: {:?}", Utc::now().date());
 
-                    return false;
+                    return Ok(false);
                 }
                 if vk == Vk::O {
                     // mog 100
                     mogrun.run_count_total_absolute = 100;
                     println!("Mogrun called for 100 iterations");
-                    let _ = mohgwyn::run(enigo, player, data, mogrun);
+                    let _ = mohgwyn::run(enigo, player, data, mogrun, history);
                 }
                 if vk == Vk::M {
                     // Close App
-                    // TODO!()
                     println!("graceful quit!");
-                    return false;
+                    return Ok(false);
                 }
                 if vk == Vk::I {
-                    // single mog
-                    // let mut mogrun = MogRun::new();
                     mogrun.run_count_total_absolute = 1;
                     println!("Mogrun called for 1 iteration");
-                    let _ = mohgwyn::run(enigo, player, data, mogrun);
+                    let _ = mohgwyn::run(enigo, player, data, mogrun, history);
                 }
                 if vk == Vk::X {
                     println!("panic!");
                     panic!()
                 }
                 // add option to launch/relaunch game
+                if vk == Vk::F1 {
+                    println!("Relaunching game...");
+                    launch_elden_ring(enigo, gamemenu);
+                }
                 // add option to increase/decrease the value of w1, w2 and the turn?
-                // add option to manually screengrab
-                else {
+                if vk == Vk::F2 {
+                    println!("Increasing walk one by 1");
+                    history.walk1 += 1;
+                }
+                if vk == Vk::F3 {
+                    println!("Increasing walk one by 1");
+                    history.walk1 -= 1;
+                }
+                if vk == Vk::F4 {
+                    println!("Increasing walk one by 1");
+                    history.walk2 += 1;
+                }
+                if vk == Vk::F5 {
+                    println!("Increasing walk one by 1");
+                    history.walk2 -= 1;
+                }
+                if vk == Vk::F12 {
+                    println!("Screengrabbing...");
+                    let timestamp = Utc::now().timestamp();
+                    let _ = GameWindow::screengrab(
+                        format!("{}_screengrab", timestamp).into(),
+                        "png".into(),
+                        "".into(),
+                    )?;
+                } else {
                     println!("{:?} was pressed!", vk);
                 }
             }
+
             _ => (),
         }
     }

@@ -251,14 +251,13 @@ impl MogRun {
     // and the player location
     pub fn teleport(&self, enigo: &mut Enigo, _player: &PlayerController) {
         //TODO: buttons into an array and loop
-        // player.reset_camera(enigo);
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('g'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('f'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
-        std::thread::sleep(Duration::from_millis(40));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 3));
         enigo.key_click(Key::Layout('e'));
     }
     // Perform a Moghywn run
@@ -271,7 +270,7 @@ impl MogRun {
             .expect("unable to screengrab");
         std::thread::sleep(Duration::from_millis(REFRESH_RATE * 2));
         player.l2(enigo);
-        std::thread::sleep(Duration::from_millis(7400));
+        std::thread::sleep(Duration::from_millis(REFRESH_RATE * 460)); //7.2s
         self.teleport(enigo, player);
     }
 }

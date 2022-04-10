@@ -49,6 +49,7 @@ fn main() -> Result<()> {
         &player,
         &mut data,
         &mut mogrun,
+        &mut history.clone(),
     );
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));

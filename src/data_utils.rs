@@ -6,7 +6,7 @@ use std::{collections::HashMap, path::PathBuf};
 use crate::controller::MogRun;
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn
     pub turn_angle: usize, // value dictating the degrees a player turns NOTE: needs to eventually become something the Compass can discern
