@@ -8,6 +8,7 @@ use std::process::Command;
 pub struct _Confidence {
     value: f64,
 }
+const SCREENCAPEXE: &str = r"C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe";
 
 // Helper struct to more easily interact with the concept of the Game's screen
 pub struct GameWindow {}
@@ -32,14 +33,11 @@ impl GameWindow {
     // format - Bmp,Emf,Exif,Gif,Icon,Jpeg,Png,Tiff and are supported - default is bmp
     // WindowTitle - instead of capturing the whole screen will capture the only a window with the given title if there's such
     pub fn screengrab(filename: String, format: String, _window_title: String) -> Result<()> {
-        let output =
-            Command::new("C:\\Users\\jer\\Documents\\Github\\eldenswing\\screenCapture.exe")
-                // TODO: fix above to be like below...
-                // Command::new("screenCapture.exe")
-                .arg(format!("{}.{}", filename, format))
-                // .arg("ELDEN RING™")
-                .output()
-                .expect("ls command failed to start");
+        let output = Command::new(SCREENCAPEXE)
+            .arg(format!("{}.{}", filename, format))
+            // .arg("ELDEN RING™") // the window name would be eldenring.exe
+            .output()
+            .expect("ls command failed to start");
 
         // append output to log.txt
         let mut file = fs::File::create("screengrab_log.txt")?;
@@ -56,7 +54,7 @@ impl GameWindow {
             .arg("-l")
             .arg("eng")
             .output()
-            .expect("ls command failed to start");
+            .expect("Tesseract not found in path? not installed?");
 
         // read the res.txt file's contents into a string and return it
         let contents: String = fs::read_to_string("res.txt")?;
