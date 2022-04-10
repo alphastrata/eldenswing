@@ -8,26 +8,31 @@ mod ui;
 use anyhow::Result;
 use chrono::prelude::*;
 use controller::MogRun;
-use csv::*;
-use cv_utils::GameWindow;
+// use csv::*;
+// use cv_utils::GameWindow;
 use data_utils::PlayerHistory;
 use enigo::*;
 use os_reader::read_inputs_from_os;
-use serde::Serialize;
-use std::fs::OpenOptions;
-use std::path::PathBuf;
-use std::time::Duration;
+// use serde::Serialize;
+// use std::fs::OpenOptions;
+// use std::path::PathBuf;
+// use std::time::Duration;
 
 // use winput::message_loop::{self, EventReceiver};
-const COMPASS_TIK: i32 = 381;
-const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
-                              // ingame constants if required...
-                              // let one_second = Duration::from_millis(1000);
-                              // let one_frame = one_second / 60;
+// const COMPASS_TIK: i32 = 381;
+// const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
+// ingame constants if required...
+// let one_second = Duration::from_millis(1000);
+// let one_frame = one_second / 60;
 
 // +=====+======+ MAIN +=====+======+
 fn main() -> Result<()> {
-    // os_reader::check_monitors(); // TODO: not useful?
+    println!("Hello tarnished!");
+    println!("START_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
+
+    // check game is running and, if it isn't relaunch it
+
+    os_reader::check_monitors(); // TODO: not useful?
 
     // keyboard and event reader stuff
     let receiver = winput::message_loop::start().expect("unable to read OS events...");
@@ -41,6 +46,8 @@ fn main() -> Result<()> {
     let player = controller::PlayerController::new();
     let gamemenu = controller::GameMenus::new();
     let mut mogrun = MogRun::new();
+
+    let _ = os_reader::check_elden_ring_is_running(&mut enigo, &gamemenu)?;
 
     let mut q_count = 0;
     loop {
@@ -80,6 +87,9 @@ fn main() -> Result<()> {
             println!("panic!");
             panic!()
         }
+        // add option to launch/relaunch game
+        // add option to increase/decrease the value of w1, w2 and the turn?
+        // add option to manually screengrab
     }
     println!("see ya tarnished!");
     println!("END_TIME: {:^40}", Utc::now().format("%H:%M:%S %D%m%Y"));
