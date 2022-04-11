@@ -1,5 +1,5 @@
 use crate::controller::{MogRun, PlayerController};
-use crate::cv_utils::{self, GameWindow};
+use crate::cv_utils::GameWindow;
 use crate::data_utils::{cleanup_tmp_png, write_to_csv, Data, PlayerHistory};
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;

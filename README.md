@@ -10,6 +10,7 @@ Elden Ring helper tools. [the only useful thing is the speedquit and moglvlbot]
 - Rust & Cargo
 - That all the paths to Tesseract and screenCapture.exe are reflecting their locations on disk for _your_ system -- amend them in the cv_utils.rs file with the text editor of your choice
 - That the screen (if you have multiple) on which you play the game's top left hand corner == 0,0 in pixels, if this is not the case all the ComputerVision stuff will be out by 2560px on that axis
+- That the game path has been added
 
 # USAGE:
 
@@ -41,14 +42,16 @@ F12 -- take a screengrab (used mostly for debugging / prototyping new features)
 # TODO:
 
 - [] finish game again to get a fucking sword
-- [x] improve the game launcher -- it's shit atm..
-- [] impl stuff to recognise time spent/when in menus avg loop is still 16s .. can we get it lower?
-- [] UI is kinda ugly... add colours?
+- [] locate the eldenring.exe automagically so it doesn't need to be hardcoded.
+- []
 - [] compress screenshots data (a lot...)
-- [x] keybindings to features, and for runtime adjustments
 
 # DONE:
 
+- [x] keybindings to features, and for runtime adjustments
+- [x] improve the game launcher -- it's shit atm..
+- [x] impl stuff to recognise time spent/when in menus avg loop is still 16s .. can we get it lower?
+- [x] UI is kinda ugly... add colours?
 - [-] Can you match a grace, then orient towards it to make it centre screen?
 - [-] Get a trimmer working (i.e crop a specific region of screen, like the compass)
 - [-] get the Akaze thing working and get some numbers around how much of a match things are... what's acceptable?
@@ -84,8 +87,8 @@ F12 -- take a screengrab (used mostly for debugging / prototyping new features)
 
 - Gear Swap...
 
-
 # DISCLAIMER:
+
 IF THIS GETS YOU BANNED, LOSES YOU SOULS, OR DOESN'T BRING YOU JOY -- I DO NOT CARE.
 This is prototype lvl implementation at best, use at your own risk.
 THE CONTENT OF THIS REPOSITORY IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
