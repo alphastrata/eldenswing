@@ -24,7 +24,10 @@ impl GameWindow {
     pub fn _new() -> GameWindow {
         GameWindow {}
     }
+    /// crop specific region of interest from the screen, this enables the rest of the comparison pipeline to run faster (2000ms vs 5ms for example)
+    // if extending functionality make use of the cropping conventions employed to make comparison easier, more relaible and more efficient
     pub fn crop_souls_counter(filename: PathBuf) -> Result<PathBuf> {
+        // TODO: make all px values a derivitave of a % of screen resolution **assuming the UI scales and presents uniformly across resolutions..
         let roi_box: RoiBox = RoiBox {
             //NOTE: this if calibrated to a 1440p display
             x: 2280,
@@ -40,6 +43,7 @@ impl GameWindow {
         );
         cropped_img
     }
+    /// Depricated
     #[allow(dead_code)]
     pub fn crop_rh_weapon(filename: PathBuf) -> Result<PathBuf> {
         let roi_box: RoiBox = RoiBox {
@@ -97,8 +101,9 @@ impl GameWindow {
         Ok(())
     }
 
+    /// Mohgywn runs require a specific item, this uses dssim to compare the current RH weapon with assets/wave_sword.png
+    /// if the sword is *not* equipped the run is aborted.
     pub fn check_rh_weapon() -> Result<bool> {
-        // get an item crop and validate it's the wave sword.
         let weapon_crop = GameWindow::crop_rh_weapon(PathBuf::from("starting_souls.png"))?;
 
         // DEBUG for pathing>< DO NOT REMOVE
@@ -115,8 +120,12 @@ impl GameWindow {
         }
         Ok(true)
     }
-    // Make a box to cover the souls counter as a % of screen resolution (x and y)
-    // or.. other region of interest
+    /// Make a BOX to cover the souls counter as a % of screen resolution (x and y)
+    /// Arguments:
+    /// x - top rh corner in px on the x axis (the long one)
+    /// y - top rh corner in px on the y
+    /// w - width in px (again, along the x axis)
+    /// h - height in px (along the y)
     fn _make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
         // let x = (x as f64 * 0.89).round() as i32;
         let x = (x as f64 * 0.98).round() as i32;
@@ -128,7 +137,10 @@ impl GameWindow {
 
         (x, y, w, h)
     }
-    // uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
+    /// Uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
+    /// Arguments:
+    /// * filename: String to the image you want to extract text from
+    /// * lang: The languagu you want tesseract to interpret the text as (Default should be eng)
     pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> {
         // make the call
         let _output = Command::new("tesseract.exe")
@@ -137,13 +149,14 @@ impl GameWindow {
             .arg("-l")
             .arg("eng")
             .output()
-            .expect("ls command failed to start");
+            .expect("Tesseract failed to read text from the file");
 
         // read the res.txt file's contents into a string and return it
+        // this is a bad way to do this (writing to disk and reading it) but, until I'm able to get OCR building on windows this will have to do.
         let contents: String = fs::read_to_string("res.txt")?;
         let default = 0;
         if contents.trim().len() > 0 {
-            let contents = contents.trim().parse().unwrap_or(default); //NOTE this will stop the crashing but.. it's not ideal.
+            let contents = contents.trim().parse().unwrap_or(default);
             return Ok(contents);
         } else {
             Ok(GameWindow::external_tesseract_call("res.txt".into(), lang)?)
@@ -151,8 +164,10 @@ impl GameWindow {
     }
 }
 
-/// NOTE: seems to require ABSOLUTE PATHS
-/// img2 is the template
+/// dssim_compare() is a helper function to compare two images using dssim
+/// it returns a float between 0 and 1, a LOW value i.e 0.0003 means the images are very similar
+/// a high value means that the images are very diffirent.
+/// returns Result<dssim::Val> which *does* implement display, so you will see it printed to stdout often at runtime
 pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
     let stopwatch = std::time::Instant::now();
 
@@ -161,6 +176,7 @@ pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
     let comp = dssim::load_image(&attr, &img2)?;
     let (diff, _) = attr.compare(&orig, &comp); //NOTE: You're throwing the error away :(
 
+    // DEBUG DO NOT REMOVE
     println!("Runtime  : {}ms", stopwatch.elapsed().as_millis());
     println!("Comparing:\n\t {} and {}", img1.display(), img2.display());
     println!("DIFF     : {}", diff);

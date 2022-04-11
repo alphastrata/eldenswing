@@ -111,33 +111,40 @@ impl PlayerController {
     }
 }
 
+// representaion of a game's menu
 pub struct GameMenus {}
 // methods for interacting with gamemenus
 impl GameMenus {
     pub fn new() -> GameMenus {
         GameMenus {}
     }
-    // pub fn exit_grace(&self, enigo: &mut Enigo, player: PlayerController) {
-    //     // to exit a grace
-    //     std::thread::sleep(Duration::from_millis(3000)); // ensure grace menu is loaded
-    //     println!("exit_grace");
-    //     self.rh_click_menu(enigo, player);
-    //     std::thread::sleep(Duration::from_millis(800));
-    // }
-    // pub fn rh_click_menu(&self, enigo: &mut Enigo, player: PlayerController) {
-    //     // in lieu of being able to use PS4 virtualisation, we'll just use the mouse
-    //     enigo.mouse_move_to(1280, 720); // should be centre of screen...
-    //     std::thread::sleep(Duration::from_millis(200));
-    //     enigo.mouse_down(MouseButton::Right);
-    //     std::thread::sleep(Duration::from_millis(200));
-    //     enigo.mouse_up(MouseButton::Right);
+    // assumes you're sitting at the grace
+    // TODO: can you use dssim on this?
+    #[allow(dead_code)]
+    pub fn exit_grace(&self, enigo: &mut Enigo, player: PlayerController) {
+        // to exit a grace
+        std::thread::sleep(Duration::from_millis(3000)); // ensure grace menu is loaded
+        println!("exit_grace");
+        self.rh_click_menu(enigo, player);
+        std::thread::sleep(Duration::from_millis(800));
+    }
+    // useful as most of this app sends VirtualKeys or VirtualMouse inputs, without a gamepad it can be hard to back outta menus (by one step, you can usually close them entirely with esc)
+    #[allow(dead_code)]
+    pub fn rh_click_menu(&self, enigo: &mut Enigo, player: PlayerController) {
+        // in lieu of being able to use PS4 virtualisation, we'll just use the mouse
+        enigo.mouse_move_to(1280, 720); // should be centre of screen...
+        std::thread::sleep(Duration::from_millis(200));
+        enigo.mouse_down(MouseButton::Right);
+        std::thread::sleep(Duration::from_millis(200));
+        enigo.mouse_up(MouseButton::Right);
 
-    //     enigo.mouse_move_relative(80, -10);
-    //     std::thread::sleep(Duration::from_millis(400));
-    //     player.interact(enigo, REFRESH_RATE);
-    //     std::thread::sleep(Duration::from_millis(200)); // interactions take time
-    // }
+        enigo.mouse_move_relative(80, -10);
+        std::thread::sleep(Duration::from_millis(400));
+        player.interact(enigo, REFRESH_RATE);
+        std::thread::sleep(Duration::from_millis(200)); // interactions take time
+    }
     // This quits from within the game, assumes no menus are already open..
+    // NOTE: HIGHLY UNSTABLE, have never been able to get the timmings perfect. Things that have completely broken this for me: restarting pc, having twitch stream running, having OBS running, streaming to YouTube, copying/backing up large numbers of files and just running an OBS capture.
     pub fn quit_from_game(&self, enigo: &mut Enigo) {
         enigo.key_click(Key::Escape);
         thread::sleep(Duration::from_millis(90)); // this menu takes a while
@@ -159,6 +166,12 @@ impl GameMenus {
     }
     //
     // TODO: this could probably be nicer than a 4 indent...
+    /// The app is not much use if the game isn't running, it has some relaunch capabilities.
+    /// Issues with this are: the non determineable nature of game startup time and the status of the previous exit the player/crash/app had.
+    /// FromSoftware loves gaslighting you with the ol "don't alt+F4 please" msgs even if the game crashed on its own.
+    /// If your default login is set to online/offline this will change the notice msgs that popup etc.
+    /// If your game is installed on an SSD and your default is set to login online this should be relatively stable.
+    /// It uses some dssim features to ascertain which menu it is looking at, which hopefully will make it more robust.
     pub fn enter_game_from_main_menu(&self, enigo: &mut Enigo) -> Result<()> {
         // check EAC splash is there...
         println!("Waiting for game to load");
@@ -196,7 +209,7 @@ impl GameMenus {
     }
 }
 
-// #[derive(Debug, Clone, Copy)]
+// A struct to hold all the required data and methods etc for a Mohgwyn run
 #[derive(Debug, Clone, Copy)]
 pub struct MogRun {
     pub current_run_end_utc: DateTime<Utc>,

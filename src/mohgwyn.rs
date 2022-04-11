@@ -1,5 +1,5 @@
 use crate::controller::{MogRun, PlayerController};
-use crate::cv_utils::GameWindow;
+use crate::cv_utils::{self, GameWindow};
 use crate::data_utils::{cleanup_tmp_png, write_to_csv, Data, PlayerHistory};
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
@@ -8,6 +8,15 @@ use enigo::*;
 use std::path::PathBuf;
 use std::time::Duration;
 
+/// All logic to facilitate a Mohgywn run. (single walk, single L2, no bird, no walk down the hill)
+/// Arguments:
+/// * enigo: &mut Enigo
+/// * player: &mut PlayerController
+/// * data: &mut Data
+/// * history: &mut PlayerHistory
+/// NOTE: This should be run from Mohgyn Palace for the teleportation to work.
+/// A single run can be triggered at runtime via keybindings (See README)
+/// the walk1 and walk2 from history: PlayerHistory can be updated at runtime via keybindings
 pub fn run(
     enigo: &mut Enigo,
     player: &PlayerController,
@@ -16,8 +25,6 @@ pub fn run(
     mogrun: &mut MogRun,
     history: &mut PlayerHistory,
 ) -> Result<()> {
-    // start at Mog
-    println!("App running.");
     mogrun.time_app_spartup_utc = Utc::now();
     data.session_start = mogrun.time_app_spartup_utc;
     std::thread::sleep(Duration::from_secs(5)); // needs to be long enough for initial read..
@@ -40,6 +47,9 @@ pub fn run(
     let _ = GameWindow::crop_souls_counter(PathBuf::from(r"starting_souls.png"))?;
 
     // check rh-weapon
+    if !GameWindow::check_rh_weapon()? {
+        return Err(anyhow!("RH weapon not equipped, aborting run"));
+    };
 
     let mut best = 0;
     let mut worst = 999999;
@@ -53,10 +63,6 @@ pub fn run(
     for n in 1..mogrun.run_count_total_absolute {
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
-
-        // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
-        // let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
-        // let history = *data.playerhistory.clone();
 
         // the actual run
         enigo.key_down(Key::Space);
@@ -75,16 +81,17 @@ pub fn run(
         let _ = cleanup_tmp_png(n);
         let delta = mogrun.souls_this_run - mogrun.souls_last_run;
 
+        // why are you sleeping here...?
         std::thread::sleep(Duration::from_millis(4500));
+
         if delta > best && delta < 99999 {
             best = delta;
         }
-
         if delta < worst {
             worst = delta;
         }
 
-        // STDOUT for user feedback...
+        // User feedback
         println!("--------------------------------------------------------------");
         println!("Starting Souls: {:^12}", mogrun.starting_souls);
         println!(
