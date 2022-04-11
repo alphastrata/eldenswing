@@ -5,6 +5,10 @@ use std::{collections::HashMap, path::PathBuf};
 
 use crate::controller::MogRun;
 
+
+/// PlayerHistory holds all the paramaters dictating how far the player walks or turns automatically during a MogRun.
+/// MogRuns could potentially expand in the future with more timed walks, more turns etc and of course: Bird Shots.
+/// walks one and two can be updated during runtime -- see the README.md for keybindings.
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
 #[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
@@ -38,13 +42,13 @@ impl PlayerHistory {
 // representing all data we wish to capture from the game and interact with/present
 #[derive(Debug, Clone)]
 pub struct Data {
-    pub session_start: DateTime<Utc>, // will actually be a timestamp
-    pub soulscount: u32,              // get this from Tesseract with OCR
-    pub timestamp: DateTime<Utc>, // representing the UPDATE time this data was last updated will actually be a Utc::Datetime
-    pub run_number: usize,        // count this even if infinite
-    pub playerhistory: PlayerHistory, // See comments above struct decleration
-    pub session_end: u32,         // will actually be a timestamp
-    pub prev_run_yeild: u32,      // soul yield previous run
+    pub session_start: DateTime<Utc>,
+    pub soulscount: u32,
+    pub timestamp: DateTime<Utc>,
+    pub run_number: usize,
+    pub playerhistory: PlayerHistory,
+    pub session_end: u32,
+    pub prev_run_yeild: u32,
 }
 impl Data {
     pub fn new(history: PlayerHistory) -> Data {
@@ -60,7 +64,11 @@ impl Data {
     }
 }
 
-// TODO: Move these somewhere else
+/// Move the .pngs taken during play to the screenshots folder
+/// Arguments:
+/// * run_number - the number of the run being moved -- these timestamps help for diagnosing issues etc later.
+/// For Example -- if you notice a death occured, these screenshots should help you find out how it is that your
+/// character fell off a ledge and where it was etc.
 pub fn cleanup_tmp_png(run_number: usize) -> Result<()> {
     // remove all png files in dir
     let path = PathBuf::from("./");
@@ -78,6 +86,7 @@ pub fn cleanup_tmp_png(run_number: usize) -> Result<()> {
     Ok(())
 }
 
+/// Row holds all the data we wish to capture from the game and write to csv.
 #[derive(Serialize)]
 pub(crate) struct Row {
     run_number: usize,
@@ -97,6 +106,13 @@ pub(crate) struct Row {
     avg_souls_per_second: f64,
 }
 
+/// Writes the data from the Row struct to a csv file
+/// Arguments:
+/// * MogRun the struct containing most of the data to be written
+/// * best: the best run
+/// * worst: the worst run
+/// * data: the data to write
+/// * run_number: the run number to write to
 pub fn write_to_csv(m: MogRun, best: i64, worst: i64, run_number: usize) -> Result<()> {
     let file = std::fs::OpenOptions::new()
         .create(true)

@@ -143,7 +143,16 @@ pub fn check_main_menu_options() -> Result<bool> {
     Ok(true)
 }
 
-// INPUT and UI capture stuff:
+/// The main app logic is contained here.
+/// Keybindings can be found in the README.
+/// Arguments:
+/// * receiver: &EventReceiver, to get Events from Windows such as: keys pressed, mouse clicks etc.
+/// * gamemenu: &GameMenus, to interact with ingame Menus
+/// * enigo: &mut Enigo, to send virteal events to the mouse and keyboard
+/// * player: &mut Player, to interact with the player
+/// * data: &mut Data, to capture data on gameplay (souls cout, earned from Mohgywn Runs etc)
+/// * morgun: &mut MogRun, to easily call everything needed/ to construct params to make a good Mohgwyn run on *your* system
+/// * history: &mut History, to keep track of the params you gave the controller so you can tweak better runs
 pub fn read_inputs_from_os(
     receiver: &EventReceiver,
     gamemenu: &GameMenus,
@@ -248,7 +257,7 @@ pub fn read_inputs_from_os(
             _ => (),
         }
         // clear console
-        print!("\x1B[2J\x1B[1;1H");
+        // print!("\x1B[2J\x1B[1;1H");
     }
 }
 
