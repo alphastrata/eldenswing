@@ -1,11 +1,6 @@
 use anyhow::Result;
 use chrono::prelude::*;
-// use image::GrayImage;
-// use image::Rgb;
-// use imageproc::map::map_colors;
-// use imageproc::rect::Rect;
 use std::fs;
-// use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -104,7 +99,6 @@ impl GameWindow {
     /// Mohgywn runs require a specific item, this uses dssim to compare the current RH weapon with assets/wave_sword.png
     /// if the sword is *not* equipped the run is aborted.
     pub fn check_rh_weapon() -> Result<bool> {
-    pub fn check_rh_weapon() -> Result<bool> {
         // get an item crop and validate it's the wave sword.
         let weapon_crop = GameWindow::crop_rh_weapon(PathBuf::from("starting_souls.png"))?;
 
@@ -155,14 +149,12 @@ impl GameWindow {
             .arg("eng")
             .output()
             .expect("Tesseract failed to read text from the file");
-            .expect("ls command failed to start");
 
         // read the res.txt file's contents into a string and return it
         // this is a bad way to do this (writing to disk and reading it) but, until I'm able to get OCR building on windows this will have to do.
         let contents: String = fs::read_to_string("res.txt")?;
         let default = 0;
         if contents.trim().len() > 0 {
-            let contents = contents.trim().parse().unwrap_or(default);
             let contents = contents.trim().parse().unwrap_or(default); //NOTE this will stop the crashing but.. it's not ideal.
             return Ok(contents);
         } else {

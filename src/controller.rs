@@ -191,7 +191,7 @@ impl GameMenus {
                 enigo.key_click(enigo::Key::Layout('e'));
 
                 // check multiplyer/main menu_continue is there
-                if os_reader::check_main_menu_multiplayer_dialouge()? {
+                if os_reader::check_main_menu_multiplayer_dialouge(enigo)? {
                     println!("2nd if");
                     enigo.mouse_click(MouseButton::Left);
                     enigo.key_click(enigo::Key::Layout('e'));

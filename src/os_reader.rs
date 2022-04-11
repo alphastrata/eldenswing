@@ -7,35 +7,73 @@ use chrono::prelude::*;
 use colored::*;
 use enigo::Enigo;
 use scrap::Display;
+use std::io::Read;
 use std::path::PathBuf;
 use std::process::Command;
 use std::time::Duration;
-use sysinfo::{ProcessExt, System, SystemExt};
+use sysinfo::{DiskExt, DiskType, ProcessExt, System, SystemExt};
+use walkdir::WalkDir;
 use winput::message_loop::EventReceiver;
 use winput::{message_loop::Event, Action, Vk};
 
 const REFRESH_RATE: u64 = 16;
+const ELDENRINGEXE: &str = r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe";
+
+fn try_to_locate_eldenring_exe() -> Result<String> {
+    // check path isn't on disk at gamepath.txt
+    let gamepath = PathBuf::from("./gamepath.txt");
+    if gamepath.exists() {
+        let mut file = std::fs::File::open(gamepath)?;
+        let mut contents = String::new();
+        file.read_to_string(&mut contents)?;
+        if contents.contains("eldenring.exe") {
+            return Ok(contents);
+        }
+    }
+
+    // if we didn't find it on disk, go search for it, on all disks that're SSDs and not marked as removeable
+    let s = System::new_all();
+    let disks = s.disks();
+
+    for disk in disks {
+        let stopwatch = std::time::Instant::now();
+        if disk.type_() == DiskType::SSD && !disk.is_removable() {
+            let mount_point = disk.mount_point();
+            println!("{}", mount_point.display());
+
+            for entry in WalkDir::new(mount_point).into_iter().filter_map(|e| e.ok()) {
+                if entry.path().to_str().unwrap().ends_with("eldenring.exe") {
+                    println!(
+                        "{}{}",
+                        "Found eldenring.exe".green(),
+                        entry.path().to_str().unwrap().blue().bold()
+                    );
+                    return Ok(entry.path().to_str().unwrap().to_string());
+                }
+            }
+        }
+        println!("runtime : {}", stopwatch.elapsed().as_millis());
+    }
+    Ok(ELDENRINGEXE.to_string())
+}
 
 // Elden Ring app running or not helpers
 pub fn check_elden_ring_is_running(enigo: &mut Enigo, gamemenu: &GameMenus) -> Result<bool> {
-    // Checks for something like this : 19064 eldenring.exe
     let s = System::new_all();
-    // for (pid, process) in s.processes() {
-    //     println!("{} {}", pid, process.name());
-    // }
     for (_, process) in s.processes() {
         if process.name().contains("eldenring.exe") {
             println!("{}", "Elden Ring is running".green());
             return Ok(true);
         }
     }
-    println!("Elden Ring is not running");
+    println!("{}", "Elden Ring is not running".red());
     launch_elden_ring(enigo, &gamemenu);
     Ok(false)
 }
 fn launch_elden_ring(enigo: &mut Enigo, game: &GameMenus) {
     println!("{}", "Launching eldenring.exe".green());
-    let _output = Command::new(r"E:\SteamLibrary\steamapps\common\ELDEN RING\Game\eldenring.exe") //TODO: Replace with const
+    let elden_ring_exe = try_to_locate_eldenring_exe().unwrap(); //NOTE: Ok to unwrap because we have a const to save us
+    let _output = Command::new(elden_ring_exe)
         .output()
         .expect("failed to run eldenring.exe");
     std::thread::sleep(Duration::from_secs(2));
@@ -81,7 +119,7 @@ pub fn check_eac_has_launched() -> Result<bool> {
     }
     Ok(true)
 }
-pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
+pub fn check_main_menu_multiplayer_dialouge(enigo: &mut Enigo) -> Result<bool> {
     std::thread::sleep(Duration::from_millis(REFRESH_RATE * 8));
     // take screengrab save it as eac_check.png
     let _ = GameWindow::screengrab("multiplayer_dialouge_check".into(), "png".into(), "".into())?;
@@ -94,8 +132,9 @@ pub fn check_main_menu_multiplayer_dialouge() -> Result<bool> {
     if dssim > 0.03 {
         println!("INFORMATION window has not opened... trying again...");
         println!("{}", dssim.to_string().cyan());
+
         let _ = std::fs::remove_file("multiplayer_dialouge_check.png");
-        let _ = check_main_menu_multiplayer_dialouge()?;
+        let _ = check_main_menu_multiplayer_dialouge(enigo)?;
     } else {
         println!("Closing this POS shitty window... ");
         println!("{}", dssim.to_string().cyan());
@@ -177,7 +216,7 @@ pub fn read_inputs_from_os(
                 if j_count == 3 {
                     println!("Speed quitting from game");
                     gamemenu.quit_from_game(enigo);
-                    println!("Completed at: {:?}", Utc::now().date().to_string().blue());
+                    println!("Completed at: {}", Utc::now().date().to_string().blue());
 
                     return Ok(false);
                 }
