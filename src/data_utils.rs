@@ -5,9 +5,11 @@ use std::{collections::HashMap, path::PathBuf};
 
 use crate::controller::MogRun;
 
+
 /// PlayerHistory holds all the paramaters dictating how far the player walks or turns automatically during a MogRun.
 /// MogRuns could potentially expand in the future with more timed walks, more turns etc and of course: Bird Shots.
 /// walks one and two can be updated during runtime -- see the README.md for keybindings.
+// Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
 #[derive(Debug, Clone, Copy)]
 pub struct PlayerHistory {
     pub walk1: usize, // value dictating the ammount of time/frames that the player walks from at spawn

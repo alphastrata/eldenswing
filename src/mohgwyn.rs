@@ -64,6 +64,9 @@ pub fn run(
         data.run_number = n as usize;
         mogrun.current_run_number = n as usize;
 
+        // this is being recreated here because I cannot work out how to solve a lifetime issue with the Copy thing...
+        // let history: PlayerHistory = PlayerHistory::new_from(77, 40, 90, 0.0, 0.0, 0);
+        // let history = *data.playerhistory.clone();
         // the actual run
         enigo.key_down(Key::Space);
         mogrun.run_count_total_thusfar += 1;

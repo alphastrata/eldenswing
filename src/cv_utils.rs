@@ -104,6 +104,8 @@ impl GameWindow {
     /// Mohgywn runs require a specific item, this uses dssim to compare the current RH weapon with assets/wave_sword.png
     /// if the sword is *not* equipped the run is aborted.
     pub fn check_rh_weapon() -> Result<bool> {
+    pub fn check_rh_weapon() -> Result<bool> {
+        // get an item crop and validate it's the wave sword.
         let weapon_crop = GameWindow::crop_rh_weapon(PathBuf::from("starting_souls.png"))?;
 
         // DEBUG for pathing>< DO NOT REMOVE
@@ -126,6 +128,8 @@ impl GameWindow {
     /// y - top rh corner in px on the y
     /// w - width in px (again, along the x axis)
     /// h - height in px (along the y)
+    // Make a box to cover the souls counter as a % of screen resolution (x and y)
+    // or.. other region of interest
     fn _make_roi_box(x: u32, y: u32) -> (i32, i32, i32, i32) {
         // let x = (x as f64 * 0.89).round() as i32;
         let x = (x as f64 * 0.98).round() as i32;
@@ -141,6 +145,7 @@ impl GameWindow {
     /// Arguments:
     /// * filename: String to the image you want to extract text from
     /// * lang: The languagu you want tesseract to interpret the text as (Default should be eng)
+    // uses the precompiled tesseract-ocr for windows to detect, write to a res.txt file which this will read and return
     pub fn external_tesseract_call(filename: String, lang: String) -> Result<usize> {
         // make the call
         let _output = Command::new("tesseract.exe")
@@ -150,6 +155,7 @@ impl GameWindow {
             .arg("eng")
             .output()
             .expect("Tesseract failed to read text from the file");
+            .expect("ls command failed to start");
 
         // read the res.txt file's contents into a string and return it
         // this is a bad way to do this (writing to disk and reading it) but, until I'm able to get OCR building on windows this will have to do.
@@ -157,6 +163,7 @@ impl GameWindow {
         let default = 0;
         if contents.trim().len() > 0 {
             let contents = contents.trim().parse().unwrap_or(default);
+            let contents = contents.trim().parse().unwrap_or(default); //NOTE this will stop the crashing but.. it's not ideal.
             return Ok(contents);
         } else {
             Ok(GameWindow::external_tesseract_call("res.txt".into(), lang)?)
@@ -168,6 +175,8 @@ impl GameWindow {
 /// it returns a float between 0 and 1, a LOW value i.e 0.0003 means the images are very similar
 /// a high value means that the images are very diffirent.
 /// returns Result<dssim::Val> which *does* implement display, so you will see it printed to stdout often at runtime
+/// NOTE: seems to require ABSOLUTE PATHS
+/// img2 is the template
 pub fn dssim_compare(img1: PathBuf, img2: PathBuf) -> Result<dssim::Val> {
     let stopwatch = std::time::Instant::now();
 
