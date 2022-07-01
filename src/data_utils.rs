@@ -1,10 +1,5 @@
-use crate::cv_utils::*; // Note: this feature is working in the OCR dir, but not building on windows.. investigate
 use chrono::prelude::*;
-use std::fs::File;
-use std::path::{Path, PathBuf};
-
-use prettytable::format;
-use prettytable::{Cell, Row, Table};
+use std::path::PathBuf;
 
 // Data specifically pretaining to the RUN, i.e what inputs did we feed the player.
 #[derive(Debug, Clone)]
@@ -17,7 +12,7 @@ pub struct PlayerHistory {
     pub player_lvl: u32, // unsure whether to capture this, maybe useful to make a runs for target level feature
 }
 impl PlayerHistory {
-    pub fn new() -> PlayerHistory {
+    pub fn _new() -> PlayerHistory {
         PlayerHistory {
             walk1: 0,
             turn_angle: 0,
@@ -77,59 +72,20 @@ impl Data {
     }
     // Helpers to get avg yield on runs
     // pass verbose as true to have them print to stdout
-    fn running_avg_by_run(verbose: bool, history: PlayerHistory, data: Data) -> u32 {
+    fn _running_avg_by_run(verbose: bool, history: PlayerHistory, data: Data) -> u32 {
         todo!()
     }
-    fn running_avg_by_h(verbose: bool) -> u32 {
+    fn _running_avg_by_h(verbose: bool) -> u32 {
         todo!()
     }
-    fn running_avg_by_m(verbose: bool) -> u32 {
+    fn _running_avg_by_m(verbose: bool) -> u32 {
         todo!()
     }
-    fn running_avg_by_s(verbose: bool) -> u32 {
+    fn _running_avg_by_s(verbose: bool) -> u32 {
         todo!()
     }
-    pub fn data_to_stdout() {
-        // lots of precanned convenience formats are available in consts....
-        // table.set_format(*format::consts::FORMAT_NO_BORDER_LINE_SEPARATOR);
-        // table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
-        // // Create the table
-        // let mut table = Table::new();
-
-        // // Add a row per time
-        // table.add_row(row!["ABC", "DEFG", "HIJKLMN"]);
-        // table.add_row(row!["foobar", "bar", "foo"]);
-        // // A more complicated way to add a row:
-        // table.add_row(Row::new(vec![
-        //     Cell::new("foobar2"),
-        //     Cell::new("bar2"),
-        //     Cell::new("foo2"),
-        // ]));
-
-        // Print the table to stdout
-        // table.printstd();
+    pub fn _data_to_stdout() {
         todo!();
-    }
-    // cleanup temporary files
-    // fn cleanup_tmp() -> Result<bool, std::io::Error> {
-    //     for entry in std::fs::read_dir("tmp")?.into_iter() {
-    //         let path = entry?.path();
-    //         if path.extension().expect("Unable to view file extension.") == "png" {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     for entry in std::fs::read_dir("completed")?.into_iter() {
-    //         let path = entry?.path();
-    //         if !path.to_str().unwrap().contains("fulldisc") {
-    //             std::fs::remove_file(path)?;
-    //         }
-    //     }
-    //     Ok(true)
-    // }
-    fn create_tmp_dir() -> Result<(), std::io::Error> {
-        // let tmpdir_contents = std::fs::read_dir(Path::new("tmp"))?;
-        // Ok();
-        todo!()
     }
 }
 

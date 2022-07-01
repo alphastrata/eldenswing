@@ -6,6 +6,8 @@ Elden Ring helper tools.
 
 _assuming you've cloned the repo and got all the above installed properly_
 
+NOTE: I use a colemak keyboard, and as such -- some of my keyboard bindings may differ from yours, unfortunately for you -- this app is hardcoded to mine, so--- get with the colemak program?...
+
 ```
 cd <wherever you put rustwari>
 cargo build --release
@@ -16,11 +18,11 @@ cargo build --release
 Keybindings:
 
 ```
-j -- hit 3 times to speedquit
-o -- hit once to speedrun Mog
-i -- hit once to walk a Mog run
-m -- hit once to stop EldenSwing
-x -- emergency quit
+j -- hit 3 times to speedquit //Disabled
+o -- hit once to speedrun Mog //Enabled
+i -- hit once to walk a Mog run //Enabled
+m -- hit once to stop EldenSwing //Disabled
+x -- emergency quit //Disabled
 ```
 
 - Whilst running it'll quit you out of the actual game into the main menu if you tripple tap 'j'.
@@ -42,7 +44,6 @@ x -- emergency quit
 - [x] Get monitor resolution, [-]make all magic consts relative to it
 - [] Error handling you scum
 - [] Get some logging going:
-
   - Startup time
   - Calls made with timestamps
   - Screengrabs taken, with locations etc.
@@ -50,9 +51,6 @@ x -- emergency quit
   - Errors
 
 - [x] Try ps4 remote read/injection with bevy (gilrs not working on windows) -> Not working :(
-- []
-- []
-- []
 
 # Feature Ideas:
 

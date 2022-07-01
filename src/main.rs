@@ -1,9 +1,8 @@
 mod controller;
 mod cv_utils;
 mod data_utils;
-// mod os_reader;
 
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use chrono::prelude::*;
 use controller::{CompassDegree, GameMenus, MogRun, PlayerController, LR};
 use cv_utils::{Confidence, GameWindow, Os};
@@ -11,13 +10,8 @@ use data_utils::Data;
 use data_utils::PlayerHistory;
 use enigo::*;
 use std::path::PathBuf;
-// use gamepad::*;
-// use gilrs::{Button, Event, Gilrs};
-// use std::thread::JoinHandle;
 use std::time::Duration;
-// use winput::Vk;
 
-// use winput::message_loop::{self, EventReceiver};
 const COMPASS_TIK: i32 = 381;
 const REFRESH_RATE: u64 = 20; // game should be more like 16ms, this means we're slower
 
@@ -27,7 +21,6 @@ fn main() -> Result<()> {
     // os_reader::check_monitors(); // TODO: not useful?
 
     // keyboard and event reader stuff
-    // let receiver = message_loop::start().expect("unable to read OS events...");
     let mut enigo = Enigo::new();
 
     // ingame constants
